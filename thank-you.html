@@ -1,0 +1,79 @@
+thank-you.html
+
+  Thank You — Uniquity Solutions
+
+        Uniquity Solutions
+
+        Home
+        Services
+        Partners
+        Careers
+
+            Get Started
+
+            Make a Payment
+            Create Account (Merchants)
+            FAQ
+            Pricing
+            Developers & API
+            Integrations
+            Compliance & Security
+            Status
+            Support Center
+
+        Contact
+
+      Home
+      Services
+      Partners
+      Careers
+      Make a Payment
+      Create Account (Merchants)
+      FAQ
+      Pricing
+      Developers & API
+      Integrations
+      Compliance & Security
+      Status
+      Support Center
+      Contact
+
+       Payments
+      Thank you — payment submitted
+
+        We’ve received your payment request. A confirmation will be emailed to you shortly.
+
+          Summary
+
+              If you just completed checkout, your processor may take a moment to confirm. You’ll receive an email receipt.
+
+            View system status
+            Back to home
+
+            If you have questions, contact support and include your invoice/order number.
+
+        Uniquity Solutions
+
+      © 2004–2025 Uniquity Solutions. All rights reserved.
+
+    // Show any query params returned by the payment provider
+    const params = new URLSearchParams(location.search);
+    const recognized = {
+      item_name: 'Item',
+      amount: 'Amount',
+      currency_code: 'Currency',
+      tx: 'Transaction ID',
+      payment_status: 'Status',
+      custom: 'Reference'
+    };
+    const lines = [];
+    Object.keys(recognized).forEach(k => {
+      const v = params.get(k);
+      if (v) lines.push(${recognized[k]}: ${decodeURIComponent(v)});
+    });
+    if (lines.length) {
+      document.getElementById('summaryContent').innerHTML = lines.join('');
+    }
+
+
+ 
