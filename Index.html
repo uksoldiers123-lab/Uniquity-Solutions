@@ -1,165 +1,346 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Centuury — Payments</title>
-<style>
-  :root{
-    --bg:#e9eef3;
-    --shell:#9aa6b2;      /* gray-blue masthead */
-    --panel:#ffffff;      /* white cards */
-    --text:#10212a;
-    --muted:#6c7b88;
-    --brand:#e24a4a;      /* red CTA */
-    --accent:#f4c430;     /* yellow 20 */
-    --shadow:0 10px 30px rgba(0,0,0,.12);
-    --radius:18px;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  body{
-    font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    color:var(--text);
-    background:var(--bg);
-  }
-  .container{max-width:1100px;margin-inline:auto;padding:20px}
-  .masthead{
-    background:var(--shell);
-    color:#fff;
-    border-radius:var(--radius);
-    padding:18px 18px 34px;
-    box-shadow:var(--shadow);
-  }
-  .topbar{
-    display:flex;align-items:center;gap:14px;justify-content:space-between;
-    padding:6px 10px;
-  }
-  .logo{font-weight:800;letter-spacing:.3px}
-  nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-  nav a{
-    color:#eef3f7;text-decoration:none;opacity:.9;font-weight:600
-  }
-  nav a:hover{opacity:1}
-  .pill{background:var(--brand);color:#fff;padding:.55rem .9rem;border-radius:999px}
-  .hero{
-    display:grid;grid-template-columns:1.2fr .8fr;gap:22px;
-    align-items:start;margin-top:24px;
-  }
-  .hero h1{
-    font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 .5rem
-  }
-  .hero h1 .accent{color:var(--accent)}
-  .sub{opacity:.9;margin:0 0 1rem;max-width:52ch}
-  .cta{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;
-       padding:.9rem 1.1rem;border-radius:12px;font-weight:700;box-shadow:0 6px 18px rgba(226,74,74,.35)}
-  .service-card{
-    background:var(--panel);color:var(--text);border-radius:14px;padding:14px;border:1px solid rgba(16,33,42,.06);
-    box-shadow:var(--shadow)
-  }
-  .service-card h3{margin:.2rem 0  .6rem;font-size:16px}
-  .service-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-  .service-item{
-    display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;border:1px solid rgba(16,33,42,.06);
-    background:#fff
-  }
-  .dot{width:10px;height:10px;border-radius:50%;background:#7aa2ff}
-  .panel{
-    background:var(--panel);border-radius:var(--radius);padding:22px;margin-top:18px;
-    border:1px solid rgba(16,33,42,.06);box-shadow:var(--shadow)
-  }
-  .grid{
-    display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start
-  }
-  h2{margin:.2rem 0 .6rem;font-size:clamp(22px,3.6vw,28px)}
-  .muted{color:var(--muted)}
-  .features{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
-  .feature{background:#fff;border:1px solid rgba(16,33,42,.06);border-radius:12px;padding:12px}
-  .feature h3{margin:.2rem 0 .3rem;font-size:16px}
-  .feature p{margin:0;color:var(--muted);font-size:14px}
-  .media{
-    position:relative;display:grid;gap:12px
-  }
-  .card-img{
-    width:100%;border-radius:14px;display:block;object-fit:cover;aspect-ratio:4/3;
-    border:1px solid rgba(16,33,42,.06);background:#f5f7fa
-  }
-  .badge{
-    position:absolute;left:12px;bottom:12px;background:#fff;border:1px solid rgba(16,33,42,.08);
-    border-radius:12px;padding:10px 12px;box-shadow:var(--shadow);max-width:70%
-  }
-  .badge strong{display:block}
-  /* Responsive */
-  @media (max-width:900px){
-    .hero{grid-template-columns:1fr}
-    .grid{grid-template-columns:1fr}
-    .features{grid-template-columns:1fr}
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#96A3B1;           /* grayish blue */
+      --text:#1f2937;         /* slate */
+      --muted:#4b5563;        /* muted text */
+      --card:#ffffff;
+      --primary:#e94b4b;      /* red highlight */
+      --primary-700:#d13f3f;
+      --accent:#fbbf24;       /* yellow highlight */
+      --ring:rgba(0,0,0,.08);
+      --shadow:0 10px 30px rgba(2,6,23,.15);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1120px, calc(100% - 32px)); margin-inline:auto;}
+    /* Navbar */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      background:linear-gradient(to bottom, rgba(150,163,177,0.9), rgba(150,163,177,0.6));
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.15);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; letter-spacing:.2px;
+    }
+    .brand-mark{
+      width:28px; height:28px; border-radius:8px;
+      background:
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,.8), rgba(255,255,255,0) 40%),
+        linear-gradient(135deg, var(--accent), var(--primary));
+      box-shadow:0 6px 14px rgba(233,75,75,.35);
+    }
+    .nav-links{display:flex; gap:26px; align-items:center}
+    .nav-links a{
+      color:#eef2f7; opacity:.9; font-weight:600; font-size:14.5px;
+    }
+    .nav-links a:hover{opacity:1}
+    .cta{
+      background:var(--primary); color:white; padding:10px 16px; border-radius:999px; font-weight:700; font-size:14px;
+      box-shadow:0 8px 18px rgba(233,75,75,.35);
+      border:1px solid rgba(0,0,0,.05);
+    }
+    .menu-btn{display:none; border:0; background:transparent; color:#fff}
+    /* Hero */
+    .hero{
+      background:var(--bg);
+      padding:64px 0 120px;
+      position:relative;
+      overflow:visible;
+    }
+    .hero-grid{
+      display:grid; grid-template-columns: 1.15fr .85fr; gap:32px; align-items:center;
+    }
+    h1{
+      font-size: clamp(32px, 4.2vw, 52px);
+      line-height:1.05; margin:12px 0 16px; color:#fff; letter-spacing:-.4px;
+    }
+    .highlight{
+      background:var(--accent); color:#111827; padding:.06em .35em; border-radius:10px; box-decoration-break:clone;
+    }
+    .lead{
+      color:#ecf1f8; opacity:.92; font-size: clamp(15.5px, 1.4vw, 18px);
+      line-height:1.6; max-width:52ch; margin:0 0 22px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 18px; border-radius:12px; font-weight:700; border:1px solid transparent; cursor:pointer;
+    }
+    .btn-primary{
+      background:var(--primary); color:#fff; box-shadow:0 12px 24px rgba(233,75,75,.35);
+    }
+    .btn-primary:hover{background:var(--primary-700)}
+    .btn-ghost{
+      background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.25)
+    }
+    .kpis{display:flex; gap:22px; margin-top:18px; color:#f0f5fa}
+    .kpi{display:flex; align-items:center; gap:10px; opacity:.9; font-weight:600; font-size:14px}
+    .kpi-dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(251,191,36,.25)}
+    /* Floating Services Card */
+    .service-card{
+      position:absolute; right: clamp(12px, 6vw, 56px); top: 132px;
+      width: min(92vw, 340px);
+      background:var(--card); border-radius:var(--radius);
+      box-shadow: var(--shadow); padding:18px; border:1px solid var(--ring);
+    }
+    .service-card h3{margin:0 0 10px; font-size:16px}
+    .svc-list{list-style:none; margin:0; padding:0; display:grid; gap:10px}
+    .svc-item{display:flex; align-items:center; gap:12px; padding:10px 8px; border-radius:12px; border:1px solid rgba(2,6,23,.06)}
+    .svc-ico{
+      width:30px; height:30px; border-radius:8px; display:grid; place-items:center; color:#111;
+      background:linear-gradient(135deg, #fff, #f5f7fb); border:1px solid rgba(2,6,23,.06);
+    }
+    .svc-item strong{font-size:14.5px}
+    .svc-note{font-size:12.5px; color:#6b7280}
+    /* Content Section */
+    .content-wrap{
+      margin-top:-64px;
+    }
+    .content{
+      background:#fff; border-radius:24px; box-shadow:var(--shadow); padding:28px;
+      border:1px solid var(--ring);
+    }
+    .content-grid{
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:28px; align-items:start;
+    }
+    .section-label{
+      display:inline-flex; align-items:center; gap:8px; font-weight:700; color:#374151;
+      background:#f8fafc; padding:6px 10px; border-radius:999px; border:1px solid #e5e7eb;
+    }
+    .section-label .dot{width:8px; height:8px; border-radius:50%; background:var(--primary)}
+    .content h2{margin:12px 0 10px; font-size: clamp(22px, 2.6vw, 28px)}
+    .content p{color:var(--muted); line-height:1.7; margin:0 0 14px}
+    .feature-list{display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px; margin-top:8px}
+    .feature{
+      border:1px solid #e5e7eb; border-radius:14px; padding:12px; display:flex; gap:10px; align-items:flex-start;
+      background:linear-gradient(180deg, #fff, #fbfdff);
+    }
+    .feat-ico{
+      width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:#fff8e1; color:#7c5b00; border:1px solid #f6e7b2;
+    }
+    .media{
+      background:#f3f6fb; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden; position:relative;
+      min-height:260px;
+    }
+    .media img{width:100%; height:100%; object-fit:cover; display:block}
+    .media-badge{
+      position:absolute; bottom:12px; right:12px; background:rgba(255,255,255,.9); border:1px solid #e5e7eb;
+      padding:8px 10px; border-radius:10px; font-size:12.5px; display:flex; align-items:center; gap:8px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+    }
+    .card-ico{width:18px; height:18px; border-radius:4px; background:linear-gradient(135deg, var(--primary), #ff8a68)}
+    /* Footer */
+    .footer{
+      color:#e7edf5; opacity:.9; padding:28px 0 44px;
+    }
+    .footer .container{display:flex; justify-content:space-between; gap:16px; align-items:center}
+    .footer small{opacity:.85}
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .service-card{position:static; width:100%; margin-top:16px}
+      .content-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 720px){
+      .nav-links{display:none}
+      .menu-btn{display:inline-flex}
+      .content{padding:20px}
+      .feature-list{grid-template-columns:1fr}
+    }
+    /* Simple mobile menu */
+    .mobile-menu{
+      display:none; background:rgba(255,255,255,.12); backdrop-filter: blur(6px); border-top:1px solid rgba(255,255,255,.2)
+    }
+    .mobile-menu a{
+      display:block; padding:12px 16px; color:#fff; border-bottom:1px solid rgba(255,255,255,.15)
+    }
+    .mobile-menu .cta{display:block; text-align:center; margin:12px 16px}
+    .mobile-menu.open{display:block}
+  </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Gray masthead with nav + hero -->
-    <section class="masthead">
-      <div class="topbar">
-        <div class="logo">Centuury</div>
-        <nav>
-          <a href="#">Home</a>
-          <a href="#">Services</a>
-          <a href="#">Partners</a>
-          <a href="#">Contacts</a>
-          <a class="pill" href="#">Project</a>
-        </nav>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a class="brand" href="#">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </a>
+      <div class="nav-links" aria-hidden="false">
+        <a href="#">Home</a>
+        <a href="#services">Services</a>
+        <a href="#partners">Partners</a>
+        <a href="#careers">Careers</a>
+        <a href="#contact" class="cta">Contact</a>
       </div>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+      <a href="#">Home</a>
+      <a href="#services">Services</a>
+      <a href="#partners">Partners</a>
+      <a href="#careers">Careers</a>
+      <a href="#contact" class="cta">Contact</a>
+    </div>
+  </nav>
 
-      <div class="hero">
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="section-label"><span class="dot"></span> Trusted payments partner</p>
+        <h1>Over <span class="highlight">20</span> years paid on time</h1>
+        <p class="lead">
+          20+ years helping businesses accept credit card, direct debit, and recurring payments with industry-grade uptime,
+          streamlined onboarding, and dedicated advisory support.
+        </p>
         <div>
-          <h1>Over <span class="accent">20</span> years paid</h1>
-          <p class="sub">Over 20-day payment cycles and credit lines you can rely on for recurring payouts.</p>
-          <a class="cta" href="#">Get in money</a>
+          <a class="btn btn-primary" href="#contact">
+            Get in touch
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="btn btn-ghost" href="#services">View services</a>
         </div>
-
-        <aside class="service-card">
-          <h3>Services</h3>
-          <ul class="service-list">
-            <li class="service-item"><span class="dot"></span> Applecard</li>
-            <li class="service-item"><span class="dot" style="background:#ffb84d"></span> Ashbank</li>
-            <li class="service-item"><span class="dot" style="background:#5bd38c"></span> CrestPay</li>
-          </ul>
-        </aside>
+        <div class="kpis">
+          <div class="kpi"><span class="kpi-dot"></span> PCI DSS compliant</div>
+          <div class="kpi"><span class="kpi-dot" style="background: #34d399; box-shadow:0 0 0 4px rgba(52,211,153,.25)"></span> 99.99% uptime</div>
+        </div>
       </div>
-    </section>
 
-    <!-- White content panel -->
-    <section class="panel">
-      <div class="grid">
-        <div>
-          <h2>Bun coefer tarrions</h2>
-          <p class="muted">Build trust with consistent payouts. Our tools let you monitor, reconcile, and optimize revenue.</p>
+      <!-- Floating services card (absolute on desktop, stacked on mobile) -->
+      <aside class="service-card" id="services" aria-label="Services overview">
+        <h3>Services</h3>
+        <ul class="svc-list">
+          <li class="svc-item">
+            <span class="svc-ico" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M3 7h18M7 7v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7" stroke="#111" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Acquiring & Gateways</strong>
+              <div class="svc-note">Cards, direct debit, recurring</div>
+            </div>
+          </li>
+          <li class="svc-item">
+            <span class="svc-ico" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 6v12M6 12h12" stroke="#111" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Advisory & Risk</strong>
+              <div class="svc-note">Compliance, chargebacks, KYC</div>
+            </div>
+          </li>
+          <li class="svc-item">
+            <span class="svc-ico" aria-hidden="true" style="background:#ffe9ea; border-color:#ffd3d5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 14l-3 3m3-3l3 3m-3-3V7" stroke="#b42318" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Support & Settlement</strong>
+              <div class="svc-note">Merchant onboarding, payouts</div>
+            </div>
+          </li>
+        </ul>
+      </aside>
+    </div>
 
-          <div class="features">
-            <article class="feature">
-              <h3>Services</h3>
-              <p>Manage connected accounts and payment methods.</p>
-            </article>
-            <article class="feature">
-              <h3>Tellcomal</h3>
-              <p>Get daily or periodic payout schedules that fit your cashflow.</p>
-            </article>
+    <!-- White content section that overlaps the hero -->
+    <div class="content-wrap">
+      <div class="container content">
+        <div class="content-grid">
+          <div>
+            <p class="section-label"><span class="dot"></span> Why Uniquity</p>
+            <h2>Business-ready solutions built for scale</h2>
+            <p>
+              Whether you’re launching subscriptions or processing high-volume one-off payments, our platform and team
+              help you reduce failed transactions, optimize fees, and stay compliant across regions.
+            </p>
+            <div class="feature-list">
+              <div class="feature">
+                <span class="feat-ico" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12l4 4L19 6" stroke="#7c5b00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Services</strong>
+                  <div class="svc-note">Onboarding, tokenization, retries</div>
+                </div>
+              </div>
+              <div class="feature">
+                <span class="feat-ico" aria-hidden="true" style="background:#e7f8ff; color:#00314d; border-color:#cdeefe">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7h16M7 7v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7" stroke="#00314d" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Technical</strong>
+                  <div class="svc-note">REST APIs, webhooks, SDKs</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media" aria-label="Illustrative media">
+            <img alt="Professional payment services illustration" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1400&auto=format&fit=crop" />
+            <div class="media-badge">
+              <span class="card-ico" aria-hidden="true"></span>
+              Secure credit & debit processing
+            </div>
           </div>
         </div>
-
-        <div class="media">
-          <!-- Replace these src URLs with your own images when ready -->
-          <img class="card-img" src="https://images.unsplash.com/photo-1542228262-3d663b306a56?q=80&w=1200&auto=format&fit=crop" alt="Person with credit card">
-          <img class="card-img" src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200&auto=format&fit=crop" alt="Payment terminal">
-          <div class="badge">
-            <strong>The agency deals credit cards</strong>
-            <small class="muted">On our clients</small>
-          </div>
-        </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </header>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script>
+    // Simple mobile menu toggle
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn?.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  </script>
 </body>
 </html>
