@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Integrations — Uniquity Solutions</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </a>
+
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#partners">Partners</a>
+        <a href="index.html#careers">Careers</a>
+
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
+            Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="make-payments.html">Make a Payment</a>
+            <a href="create-account.html">Create Account (Merchants)</a>
+            <a href="faq.html">FAQ</a>
+            <a href="pricing.html">Pricing</a>
+            <a href="developers.html">Developers & API</a>
+            <a href="integrations.html" aria-current="page">Integrations</a>
+            <a href="compliance.html">Compliance & Security</a>
+            <a href="status.html">Status</a>
+            <a href="support.html">Support Center</a>
+          </div>
+        </div>
+
+        <a href="index.html#contact" class="cta">Contact</a>
+      </div>
+
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile overlay menu OUTSIDE the nav -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+    <div class="menu-label">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#partners">Partners</a>
+    <a href="index.html#careers">Careers</a>
+    <a href="index.html#contact" class="cta">Contact</a>
+
+    <div class="menu-label">More pages</div>
+    <a href="make-payments.html">Make a Payment</a>
+    <a href="create-account.html">Create Account (Merchants)</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html" aria-current="page">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
+    <a href="status.html">Status</a>
+    <a href="support.html">Support Center</a>
+  </div>
+
+  <!-- Header -->
+  <header class="hero" style="padding:48px 0 72px">
+    <div class="container">
+      <p class="section-label"><span class="dot"></span> Connect your stack</p>
+      <h1 style="color:#fff; margin:10px 0 12px">Integrations</h1>
+      <p class="lead" style="max-width:70ch">
+        Plug into the tools you already use — commerce platforms, CRMs, accounting, and more. Use direct plugins, our REST API, or no‑code connectors.
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="content-wrap">
+      <div class="container content">
+        <!-- How we integrate -->
+        <div class="content-grid" style="margin-bottom:10px">
+          <div>
+            <h2 style="margin-top:0">Ways to integrate</h2>
+            <div class="feature-list">
+              <div class="feature">
+                <span class="feat-ico" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12l4 4L19 6" stroke="#7c5b00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Hosted links & checkout</strong>
+                  <div class="svc-note">Fastest way to accept payments — no code required.</div>
+                </div>
+              </div>
+              <div class="feature">
+                <span class="feat-ico" aria-hidden="true" style="background:#e7f8ff; color:#00314d; border-color:#cdeefe">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7h16M7 7v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7" stroke="#00314d" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>API & webhooks</strong>
+                  <div class="svc-note">Build fully custom flows. See Developers & API.</div>
+                </div>
+              </div>
+              <div class="feature">
+                <span class="feat-ico" aria-hidden="true" style="background:#ffe9ea; color:#b42318; border-color:#ffd3d5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 14l-3 3m3-3l3 3m-3-3V7" stroke="#b42318" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>No‑code connectors</strong>
+                  <div class="svc-note">Use Zapier/Make to connect payments to your apps.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media" aria-label="Integrations illustration">
+            <div style="display:grid; gap:10px; padding:12px">
+              <div class="svc-note">Popular methods</div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap">
+                <span class="logo" style="height:40px; padding:0 10px; display:inline-grid; place-items:center">Checkout Link</span>
+                <span class="logo" style="height:40px; padding:0 10px; display:inline-grid; place-items:center">Webhook</span>
+                <span class="logo" style="height:40px; padding:0 10px; display:inline-grid; place-items:center">Zapier</span>
+                <span class="logo" style="height:40px; padding:0 10px; display:inline-grid; place-items:center">API</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <h2 style="margin:6px 0 10px">Featured integrations</h2>
+
+        <div style="display:grid; gap:20px">
+          <!-- Commerce -->
+          <section aria-labelledby="commerce">
+            <div class="partners-head" style="margin:0 0 10px">
+              <span class="partners-title"><span class="dot"></span> Commerce</span>
+            </div>
+            <div class="logos">
+              <div class="logo" aria-label="Shopify">Shopify</div>
+              <div class="logo" aria-label="WooCommerce">Woo<span style="font-weight:600">Commerce</span></div>
+              <div class="logo" aria-label="Wix">Wix</div>
+              <div class="logo" aria-label="Squarespace">Squarespace</div>
+              <div class="logo" aria-label="BigCommerce">Big<span style="font-weight:600">Commerce</span></div>
+              <div class="logo" aria-label="Webflow">Webflow</div>
+            </div>
+          </section>
+
+          <!-- Billing & Accounting -->
+          <section aria-labelledby="billing">
+            <div class="partners-head" style="margin:8px 0 10px">
+              <span class="partners-title"><span class="dot"></span> Billing & Accounting</span>
+            </div>
+            <div class="logos">
+              <div class="logo" aria-label="QuickBooks">Quick<span style="font-weight:600">Books</span></div>
+              <div class="logo" aria-label="Xero">Xero</div>
+              <div class="logo" aria-label="FreshBooks">Fresh<span style="font-weight:600">Books</span></div>
+              <div class="logo" aria-label="Zoho Books">Zoho<span style="font-weight:600">Books</span></div>
+              <div class="logo" aria-label="Chargebee">Chargebee</div>
+              <div class="logo" aria-label="Recurly">Recurly</div>
+            </div>
+          </section>
+
+          <!-- CRM & Helpdesk -->
+          <section aria-labelledby="crm">
+            <div class="partners-head" style="margin:8px 0 10px">
+              <span class="partners-title"><span class="dot"></span> CRM & Helpdesk</span>
+            </div>
+            <div class="logos">
+              <div class="logo" aria-label="Salesforce">Salesforce</div>
+              <div class="logo" aria-label="HubSpot">HubSpot</div>
+              <div class="logo" aria-label="Zendesk">Zendesk</div>
+              <div class="logo" aria-label="Zoho CRM">Zoho<span style="font-weight:600">CRM</span></div>
+              <div class="logo" aria-label="Intercom">Intercom</div>
+              <div class="logo" aria-label="Pipedrive">Pipedrive</div>
+            </div>
+          </section>
+
+          <!-- Messaging & Automation -->
+          <section aria-labelledby="automation">
+            <div class="partners-head" style="margin:8px 0 10px">
+              <span class="partners-title"><span class="dot"></span> Messaging & Automation</span>
+            </div>
+            <div class="logos">
+              <div class="logo" aria-label="Slack">Slack</div>
+              <div class="logo" aria-label="Zapier">Zapier</div>
+              <div class="logo" aria-label="Make">Make</div>
+              <div class="logo" aria-label="Mailchimp">Mailchimp</div>
+              <div class="logo" aria-label="Klaviyo">Klaviyo</div>
+              <div class="logo" aria-label="Twilio">Twilio</div>
+            </div>
+          </section>
+
+          <!-- Payments & Platforms -->
+          <section aria-labelledby="platforms">
+            <div class="partners-head" style="margin:8px 0 10px">
+              <span class="partners-title"><span class="dot"></span> Payments & Platforms</span>
+            </div>
+            <div class="logos">
+              <div class="logo" aria-label="Stripe">Stripe</div>
+              <div class="logo" aria-label="PayPal">PayPal</div>
+              <div class="logo" aria-label="Square">Square</div>
+              <div class="logo" aria-label="Adyen">Adyen</div>
+              <div class="logo" aria-label="Plaid">Plaid</div>
+              <div class="logo" aria-label="NMI">NMI</div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Request an integration -->
+        <div style="margin-top:20px; display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; align-items:start">
+          <div>
+            <h2 style="margin:6px 0 8px">Need a specific integration?</h2>
+            <p class="svc-note" style="margin:0 0 8px">
+              Tell us what you need and our team will reach out with options. Many requests can be handled via Zapier/Make or a lightweight API connector.
+            </p>
+
+            <!-- Simple request form via Formspree (uses your existing Support endpoint) -->
+            <form action="https://formspree.io/f/movlypdv" method="POST" class="form" id="integrationForm">
+              <input type="hidden" name="_subject" value="Integration request — Uniquity Solutions">
+              <input type="hidden" name="_next" value="https://uksoldiers123-lab.github.io/Uniquely-solutions/thank-you.html">
+              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+              <div class="row">
+                <div class="field">
+                  <label class="label" for="fullName">Full name</label>
+                  <input class="input" id="fullName" name="name" type="text" placeholder="Jane Doe" required>
+                </div>
+                <div class="field">
+                  <label class="label" for="email">Email</label>
+                  <input class="input" id="email" name="email" type="email" placeholder="jane@example.com" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label class="label" for="company">Company</label>
+                  <input class="input" id="company" name="company" type="text" placeholder="Your Company">
+                </div>
+                <div class="field">
+                  <label class="label" for="platform">Platform to integrate</label>
+                  <input class="input" id="platform" name="platform" type="text" placeholder="e.g., Shopify, Xero, Zendesk" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label" for="usecase">Describe your use case</label>
+                <textarea class="textarea" id="usecase" name="usecase" rows="4" placeholder="What do you want the integration to do?" required></textarea>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label class="label" for="timeline">Timeline</label>
+                  <select class="select" id="timeline" name="timeline">
+                    <option value="">Select</option>
+                    <option value="asap">ASAP</option>
+                    <option value="this-quarter">This quarter</option>
+                    <option value="later">Later</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="label" for="priority">Priority</label>
+                  <select class="select" id="priority" name="priority">
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
+                    <option value="urgent">Urgent</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:12px; align-items:center; margin-top:6px">
+                <button class="btn btn-primary" type="submit">Submit request</button>
+                <a class="btn btn-ghost" href="developers.html">View API docs</a>
+              </div>
+            </form>
+          </div>
+
+          <!-- Tips panel -->
+          <aside style="border:1px solid #e5e7eb; border-radius:14px; padding:14px; background:#fff">
+            <h3 style="margin:0 0 8px">Integration tips</h3>
+            <ul style="margin:0; padding-left:18px">
+              <li class="svc-note">For storefronts, start with hosted checkout links.</li>
+              <li class="svc-note">Use webhooks to sync payment status into your CRM.</li>
+              <li class="svc-note">Zapier/Make can automate notifications and invoices.</li>
+              <li class="svc-note">For custom flows, use our REST API with idempotency keys.</li>
+            </ul>
+            <div class="svc-note" style="margin-top:10px">
+              Need help choosing the best approach? <a href="support.html">Contact Support</a>.
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script src="main.js?v=7" defer></script>
+</body>
+</html>
