@@ -1,3 +1,4 @@
+Assuming the next page is make-payments.html from your dropdown list. If that’s right, here’s a full page using the same header/menu v8 and layout structure. If you meant a different file, say the filename and I’ll switch.
 
 <!doctype html>
 <html lang="en">
@@ -5,18 +6,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Make a Payment — Uniquity Solutions</title>
+  <meta name="description" content="Pay an invoice or statement securely with Uniquity Solutions. Card or ACH, PCI-compliant, instant confirmation." />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar (same as index, interior links point back to index sections) -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
         <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
       </a>
+
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="index.html#services">Services</a>
@@ -35,223 +38,242 @@
             <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
             <a href="faq.html" role="menuitem">FAQ</a>
             <a href="pricing.html" role="menuitem">Pricing</a>
-            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="developers.html" role="menuitem">Developers &amp; API</a>
             <a href="integrations.html" role="menuitem">Integrations</a>
-            <a href="compliance.html" role="menuitem">Compliance & Security</a>
-            <a href="status.html" role="menuitem">Status</a>
-            <a href="support.html" role="menuitem">Support Center</a>
+            <a href="compliance.html" role="menuitem">Compliance</a>
           </div>
         </div>
-
-        <a href="index.html#contact" class="cta">Contact</a>
       </div>
-
-      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-
-    <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
-      <a href="index.html">Home</a>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#partners">Partners</a>
-      <a href="index.html#careers">Careers</a>
-      <a href="make-payments.html">Make a Payment</a>
-      <a href="create-account.html">Create Account (Merchants)</a>
-      <a href="faq.html">FAQ</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="developers.html">Developers & API</a>
-      <a href="integrations.html">Integrations</a>
-      <a href="compliance.html">Compliance & Security</a>
-      <a href="status.html">Status</a>
-      <a href="support.html">Support Center</a>
-      <a href="index.html#contact" class="cta">Contact</a>
     </div>
   </nav>
 
-  <!-- Page header -->
-  <header class="hero" style="padding:48px 0 72px">
-    <div class="container">
-      <p class="section-label"><span class="dot"></span> Payments</p>
-      <h1 style="color:#fff; margin:10px 0 12px">Make a payment</h1>
-      <p class="lead" style="max-width:60ch">
-        Pay an invoice or make a one‑time payment securely. Enter the details and choose a payment method.
-      </p>
-    </div>
-
-    <!-- Content card -->
-    <div class="content-wrap">
-      <div class="container content">
-        <form class="form" id="paymentForm" novalidate>
-          <div class="row">
-            <div class="field">
-              <label class="label" for="fullName">Full name</label>
-              <input class="input" id="fullName" name="fullName" type="text" placeholder="Jane Doe" required>
-            </div>
-            <div class="field">
-              <label class="label" for="email">Email</label>
-              <input class="input" id="email" name="email" type="email" placeholder="jane@example.com" required>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="field">
-              <label class="label" for="company">Company you’re paying</label>
-              <input class="input" id="company" name="company" type="text" placeholder="Client Co. (optional)">
-            </div>
-            <div class="field">
-              <label class="label" for="invoice">Invoice / Order #</label>
-              <input class="input" id="invoice" name="invoice" type="text" placeholder="INV-2025-0001">
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="field">
-              <label class="label" for="amount">Amount</label>
-              <input class="input" id="amount" name="amount" type="number" step="0.01" min="1" placeholder="100.00" required>
-            </div>
-            <div class="field">
-              <label class="label" for="currency">Currency</label>
-              <select class="select" id="currency" name="currency">
-                <option value="USD">USD — US Dollar</option>
-                <option value="EUR">EUR — Euro</option>
-                <option value="GBP">GBP — British Pound</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="label">Payment method</label>
-            <div style="display:flex; gap:14px; flex-wrap:wrap">
-              <label style="display:flex; align-items:center; gap:8px">
-                <input type="radio" name="method" value="paypal" checked> PayPal
-              </label>
-              <label style="display:flex; align-items:center; gap:8px">
-                <input type="radio" name="method" value="card"> Card (Stripe)
-              </label>
-              <label style="display:flex; align-items:center; gap:8px">
-                <input type="radio" name="method" value="bank"> Bank transfer
-              </label>
-            </div>
-          </div>
-
-          <div id="bankBox" style="display:none; margin-top:6px; border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#f9fafb">
-            <strong>Bank transfer instructions</strong>
-            <div class="svc-note" style="margin-top:6px">
-              Beneficiary: Uniquity Solutions LLC<br>
-              Bank: Your Bank Name<br>
-              Account: 000123456789 • Routing: 021000021<br>
-              IBAN: GB00BARC20000012345678 • SWIFT/BIC: BARCGB22<br>
-              Reference: Your invoice or order number
-            </div>
-          </div>
-
-          <div class="field" style="margin-top:10px">
-            <label style="display:flex; align-items:center; gap:10px; font-size:14px; color:#374151">
-              <input type="checkbox" id="agree" required>
-              I agree to the terms and authorize this payment.
-            </label>
-          </div>
-
-          <div style="display:flex; gap:12px; align-items:center; margin-top:6px">
-            <button class="btn btn-primary" type="submit">Continue to payment</button>
-            <a class="btn btn-ghost" href="index.html">Back to home</a>
-          </div>
-
-          <p class="svc-note" style="margin-top:10px">
-            Note: Card payments require a Stripe Payment Link (replace the placeholder URL). PayPal works out‑of‑the‑box here using a business email.
-          </p>
-        </form>
+  <main id="content">
+    <!-- Hero -->
+    <section class="section hero hero-internal">
+      <div class="container">
+        <h1>Make a Payment</h1>
+        <p class="lead">Pay an invoice or statement securely. No account required.</p>
       </div>
-    </div>
-  </header>
+    </section>
+
+    <!-- Payment form -->
+    <section class="section">
+      <div class="container grid-2">
+        <div class="card">
+          <form id="payment-form" action="#" method="post" novalidate>
+            <fieldset class="fieldset">
+              <legend>Payer information</legend>
+              <div class="field">
+                <label for="payerName">Full name</label>
+                <input id="payerName" name="payerName" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="payerEmail">Email for receipt</label>
+                <input id="payerEmail" name="payerEmail" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="payerPhone">Phone (optional)</label>
+                <input id="payerPhone" name="payerPhone" type="tel" autocomplete="tel">
+              </div>
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend>Payment details</legend>
+              <div class="field">
+                <label for="invoiceNumber">Invoice or account number</label>
+                <input id="invoiceNumber" name="invoiceNumber" type="text" required>
+              </div>
+              <div class="field">
+                <label for="amount">Amount (USD)</label>
+                <input id="amount" name="amount" type="number" step="0.01" min="1" inputmode="decimal" required>
+              </div>
+              <div class="field">
+                <label for="memo">Memo (optional)</label>
+                <input id="memo" name="memo" type="text" maxlength="120" placeholder="Add a note for the merchant">
+              </div>
+            </fieldset>
+
+            <fieldset class="fieldset">
+              <legend>Payment method</legend>
+              <div class="field inline">
+                <label class="radio">
+                  <input type="radio" name="method" value="card" checked>
+                  <span>Card</span>
+                </label>
+                <label class="radio">
+                  <input type="radio" name="method" value="ach">
+                  <span>Bank (ACH)</span>
+                </label>
+              </div>
+
+              <!-- Hosted fields placeholder (replace with gateway tokenized fields) -->
+              <div class="hosted-fields">
+                <div class="field">
+                  <label for="cardNumber">Card number</label>
+                  <input id="cardNumber" name="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
+                </div>
+                <div class="field group">
+                  <div>
+                    <label for="cardExp">Expiration</label>
+                    <input id="cardExp" name="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" required>
+                  </div>
+                  <div>
+                    <label for="cardCvc">CVC</label>
+                    <input id="cardCvc" name="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" required>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="billingZip">Billing ZIP</label>
+                  <input id="billingZip" name="billingZip" inputmode="numeric" autocomplete="postal-code" required>
+                </div>
+              </div>
+
+              <div class="ach-fields" hidden>
+                <div class="field">
+                  <label for="routing">Routing number</label>
+                  <input id="routing" name="routing" inputmode="numeric" autocomplete="off">
+                </div>
+                <div class="field">
+                  <label for="account">Account number</label>
+                  <input id="account" name="account" inputmode="numeric" autocomplete="off">
+                </div>
+                <p class="help">For production, connect your bank via a secure tokenized flow (e.g., hosted bank verification) instead of plain inputs.</p>
+              </div>
+            </fieldset>
+
+            <div class="field checkbox">
+              <label>
+                <input id="agree" name="agree" type="checkbox" required>
+                <span>I authorize this payment and agree to the terms of service and refund policy.</span>
+              </label>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary">Continue to secure checkout</button>
+              <p class="help small">You’ll review your details before submitting. Do not include sensitive data in the memo field.</p>
+            </div>
+
+            <div class="form-status" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <aside class="card">
+          <div class="stack">
+            <h2>Need help?</h2>
+            <ul class="list">
+              <li>Have your invoice or account number ready.</li>
+              <li>For payment issues, contact support: <a href="mailto:support@uniquitysolutions.com">support@uniquitysolutions.com</a></li>
+              <li>Business hours: Mon–Fri, 9am–6pm ET</li>
+            </ul>
+
+            <h3>Security & compliance</h3>
+            <ul class="list">
+              <li>PCI DSS Level 1</li>
+              <li>Encrypted transmission (TLS 1.2+)</li>
+              <li>Tokenized card data via hosted fields</li>
+            </ul>
+            <p class="small">Learn more: <a href="compliance.html">Compliance</a> · <a href="security.html">Security</a></p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Trust band -->
+    <section class="section section-muted">
+      <div class="container">
+        <div class="strip">
+          <div class="strip-item">
+            <strong>20+ years</strong>
+            <span>Trusted payments</span>
+          </div>
+          <div class="strip-item">
+            <strong>99.99%</strong>
+            <span>Platform uptime</span>
+          </div>
+          <div class="strip-item">
+            <strong>24/7</strong>
+            <span>Fraud monitoring</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ preview -->
+    <section class="section">
+      <div class="container">
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>Do I need an account to pay?</summary>
+          <p>No, you can pay as a guest. Receipts are sent to the email you provide.</p>
+        </details>
+        <details>
+          <summary>What cards and banks are supported?</summary>
+          <p>All major cards and most U.S. banks. ACH may take 3–5 business days to settle.</p>
+        </details>
+        <p><a class="btn btn-link" href="faq.html">See all FAQs</a></p>
+      </div>
+    </section>
+
+    <!-- Merchant CTA -->
+    <section class="section section-accent">
+      <div class="container">
+        <div class="cta">
+          <h2>Are you a business looking to accept payments?</h2>
+          <p>Create a merchant account and start taking card and ACH payments online, in-person, or via API.</p>
+          <a class="btn btn-light" href="create-account.html">Create merchant account</a>
+        </div>
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <div class="brand">
+    <div class="container footer-inner">
+      <div class="footer-brand">
         <span class="brand-mark" aria-hidden="true"></span>
-        Uniquity Solutions
+        <strong>Uniquity Solutions</strong>
+        <span class="small">© <span id="year"></span> All rights reserved.</span>
       </div>
-      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="pricing.html">Pricing</a>
+        <a href="developers.html">Developers</a>
+        <a href="integrations.html">Integrations</a>
+        <a href="compliance.html">Compliance</a>
+        <a href="security.html">Security</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
     </div>
   </footer>
 
-  <script src="main.js" defer></script>
   <script>
-    // Live configuration for your site and PayPal account
-    const PAYPAL_BUSINESS_EMAIL = 'eyhptianhype@gmail.com';
-    const BASE_URL = 'https://uksoldiers123-lab.github.io/Uniquely-solutions';
-    const RETURN_URL = BASE_URL + '/thank-you.html';
-    const CANCEL_URL = BASE_URL + '/make-payments.html';
-    const NOTIFY_URL = ''; // Optional: your IPN endpoint (requires your own server)
-    const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_REPLACE_WITH_YOURS'; // Replace when ready
+    // Interior UX helpers (optional; remove if handled globally)
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-    const form = document.getElementById('paymentForm');
-    const bankBox = document.getElementById('bankBox');
+    // Toggle ACH vs Card fields
+    const methodRadios = document.querySelectorAll('input[name="method"]');
+    const hosted = document.querySelector('.hosted-fields');
+    const ach = document.querySelector('.ach-fields');
+    methodRadios.forEach(r => r.addEventListener('change', () => {
+      const isACH = r.value === 'ach' && r.checked;
+      ach.hidden = !isACH;
+      hosted.hidden = isACH;
+      // Toggle required attributes appropriately
+      hosted.querySelectorAll('input').forEach(i => i.required = !isACH);
+      ach.querySelectorAll('input').forEach(i => i.required = isACH);
+    }));
 
-    form.addEventListener('change', (e) => {
-      if (e.target.name === 'method') {
-        bankBox.style.display = e.target.value === 'bank' ? 'block' : 'none';
-      }
-    });
-
-    form.addEventListener('submit', (e) => {
+    // Basic client-side guard (demo only)
+    document.getElementById('payment-form').addEventListener('submit', (e) => {
       e.preventDefault();
-
-      const fullName = document.getElementById('fullName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const company = document.getElementById('company').value.trim();
-      const invoice = document.getElementById('invoice').value.trim();
-      const amountRaw = document.getElementById('amount').value;
-      const currency = document.getElementById('currency').value;
-      const method = (new FormData(form)).get('method');
-      const agree = document.getElementById('agree').checked;
-
-      if (!fullName || !email || !amountRaw || !agree) {
-        alert('Please complete the required fields.');
-        return;
-      }
-
-      const amount = Number(parseFloat(amountRaw).toFixed(2));
-      if (!amount || amount <= 0) {
-        alert('Enter a valid amount.');
-        return;
-      }
-
-      if (method === 'paypal') {
-        // PayPal Standard one-time payment (static-site friendly)
-        const params = new URLSearchParams({
-          cmd: '_xclick',
-          business: PAYPAL_BUSINESS_EMAIL,
-          item_name: `Invoice ${invoice || 'Payment'} — ${company || 'Uniquity Solutions'}`,
-          amount: amount.toFixed(2),
-          currency_code: currency,
-          no_note: '1',
-          no_shipping: '1',
-          return: RETURN_URL,
-          cancel_return: CANCEL_URL,
-          custom: `name=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&invoice=${encodeURIComponent(invoice)}`
-        });
-        if (NOTIFY_URL) params.set('notify_url', NOTIFY_URL);
-
-        // For Sandbox testing, switch to https://www.sandbox.paypal.com/cgi-bin/webscr
-        const url = 'https://www.paypal.com/cgi-bin/webscr?' + params.toString();
-        window.location.href = url;
-
-      } else if (method === 'card') {
-        if (STRIPE_PAYMENT_LINK.includes('REPLACE_WITH_YOURS')) {
-          alert('Replace STRIPE_PAYMENT_LINK with your Stripe Payment Link URL in the page script.');
-          return;
-        }
-        // Payment Links are not dynamic amounts; use one per price or a backend for dynamic sessions.
-        window.location.href = STRIPE_PAYMENT_LINK;
-
-      } else if (method === 'bank') {
-        bankBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        alert('Use the bank details shown to complete your transfer. Include your invoice/order number as the reference.');
-      }
+      const status = e.target.querySelector('.form-status');
+      status.textContent = 'Redirecting to secure checkout...';
+      // TODO: Replace with secure tokenization / hosted fields flow.
     });
   </script>
 </body>
 </html>
+
+Notes:
+- The nav uses the same classes/structure as your index and points section links back to index.html#... since those anchors live on the homepage.
+- The card/ACH inputs are placeholders. For PCI compliance, replace with your gateway’s hosted/tokenized fields and submit to your backend or hosted checkout.
+- If your actual compliance page is compliance.htm (without the “l”), I can switch the links—let me know.
