@@ -1,0 +1,293 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Account (Merchants) — Uniquity Solutions</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=7">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </a>
+
+      <div class="nav-links">
+        <!-- On-page items (use index.html anchors from a subpage) -->
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#partners">Partners</a>
+        <a href="index.html#careers">Careers</a>
+
+        <!-- Desktop-only dropdown for separate pages -->
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
+            Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="make-payments.html" role="menuitem">Make a Payment</a>
+            <a href="create-account.html" role="menuitem" aria-current="page">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem">FAQ</a>
+            <a href="pricing.html" role="menuitem">Pricing</a>
+            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="integrations.html" role="menuitem">Integrations</a>
+            <a href="compliance.html" role="menuitem">Compliance & Security</a>
+            <a href="status.html" role="menuitem">Status</a>
+            <a href="support.html" role="menuitem">Support Center</a>
+          </div>
+        </div>
+
+        <a href="index.html#contact" class="cta">Contact</a>
+      </div>
+
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile overlay menu OUTSIDE the nav -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+    <div class="menu-label">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#partners">Partners</a>
+    <a href="index.html#careers">Careers</a>
+    <a href="index.html#contact" class="cta">Contact</a>
+
+    <div class="menu-label">More pages</div>
+    <a href="make-payments.html">Make a Payment</a>
+    <a href="create-account.html" aria-current="page">Create Account (Merchants)</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
+    <a href="status.html">Status</a>
+    <a href="support.html">Support Center</a>
+  </div>
+
+  <!-- Header -->
+  <header class="hero" style="padding:48px 0 72px">
+    <div class="container">
+      <p class="section-label"><span class="dot"></span> Merchants</p>
+      <h1 style="color:#fff; margin:10px 0 12px">Create your merchant account</h1>
+      <p class="lead" style="max-width:60ch">
+        Tell us about your business and payment needs. Our team will review and get you onboarded quickly.
+      </p>
+    </div>
+
+    <!-- Content card -->
+    <div class="content-wrap">
+      <div class="container content">
+        <form class="form" id="merchantForm" novalidate>
+          <!-- Company info -->
+          <div class="row">
+            <div class="field">
+              <label class="label" for="legalName">Legal company name</label>
+              <input class="input" id="legalName" name="legalName" type="text" placeholder="Uniquity Solutions LLC" required>
+            </div>
+            <div class="field">
+              <label class="label" for="tradingName">DBA / Trading name</label>
+              <input class="input" id="tradingName" name="tradingName" type="text" placeholder="Uniquity">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label class="label" for="website">Website</label>
+              <input class="input" id="website" name="website" type="url" placeholder="https://example.com">
+            </div>
+            <div class="field">
+              <label class="label" for="country">Country</label>
+              <select class="select" id="country" name="country" required>
+                <option value="">Select country</option>
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="EU">European Union</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Contact -->
+          <div class="row">
+            <div class="field">
+              <label class="label" for="contactName">Primary contact name</label>
+              <input class="input" id="contactName" name="contactName" type="text" placeholder="Jane Doe" required>
+            </div>
+            <div class="field">
+              <label class="label" for="contactEmail">Primary contact email</label>
+              <input class="input" id="contactEmail" name="contactEmail" type="email" placeholder="jane@example.com" required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label class="label" for="contactPhone">Phone</label>
+              <input class="input" id="contactPhone" name="contactPhone" type="tel" placeholder="+1 555 555 5555">
+            </div>
+            <div class="field">
+              <label class="label" for="businessType">Business type</label>
+              <select class="select" id="businessType" name="businessType">
+                <option value="">Select</option>
+                <option value="sole">Sole proprietorship</option>
+                <option value="llc">LLC</option>
+                <option value="corp">Corporation</option>
+                <option value="nonprofit">Non‑profit</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Processing profile -->
+          <div class="row">
+            <div class="field">
+              <label class="label" for="industry">Industry</label>
+              <select class="select" id="industry" name="industry">
+                <option value="">Select</option>
+                <option value="retail">Retail/eCommerce</option>
+                <option value="subscriptions">Subscriptions/SaaS</option>
+                <option value="services">Professional Services</option>
+                <option value="digital">Digital Goods</option>
+                <option value="events">Events/Tickets</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label" for="monthlyVolume">Monthly processing volume</label>
+              <select class="select" id="monthlyVolume" name="monthlyVolume">
+                <option value="">Select</option>
+                <option value="<10k">< $10,000</option>
+                <option value="10k-50k">$10,000 – $50,000</option>
+                <option value="50k-250k">$50,000 – $250,000</option>
+                <option value="250k-1m">$250,000 – $1M</option>
+                <option value=">1m">Over $1M</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label class="label" for="avgTicket">Average ticket size</label>
+              <select class="select" id="avgTicket" name="avgTicket">
+                <option value="">Select</option>
+                <option value="<25">< $25</option>
+                <option value="25-100">$25 – $100</option>
+                <option value="100-500">$100 – $500</option>
+                <option value=">500">Over $500</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label" for="maxTicket">Highest ticket (approx)</label>
+              <input class="input" id="maxTicket" name="maxTicket" type="number" step="1" min="1" placeholder="1000">
+            </div>
+          </div>
+
+          <!-- Preferences -->
+          <div class="row">
+            <div class="field">
+              <label class="label">Currencies</label>
+              <div style="display:flex; gap:14px; flex-wrap:wrap">
+                <label style="display:flex; align-items:center; gap:8px"><input type="checkbox" name="currencies" value="USD"> USD</label>
+                <label style="display:flex; align-items:center; gap:8px"><input type="checkbox" name="currencies" value="EUR"> EUR</label>
+                <label style="display:flex; align-items:center; gap:8px"><input type="checkbox" name="currencies" value="GBP"> GBP</label>
+                <label style="display:flex; align-items:center; gap:8px"><input type="checkbox" name="currencies" value="Other"> Other</label>
+              </div>
+            </div>
+            <div class="field">
+              <label class="label" for="integration">Integration preference</label>
+              <select class="select" id="integration" name="integration">
+                <option value="">Select</option>
+                <option value="links">Hosted links/checkout (fastest)</option>
+                <option value="api">Direct API integration</option>
+                <option value="nocode">No‑code/Invoice</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Compliance -->
+          <div class="field">
+            <label class="label" for="notes">Notes (optional)</label>
+            <textarea class="textarea" id="notes" name="notes" rows="3" placeholder="Anything else we should know?"></textarea>
+          </div>
+
+          <div class="field" style="margin-top:6px">
+            <label style="display:flex; align-items:center; gap:10px; font-size:14px; color:#374151">
+              <input type="checkbox" id="confirmAccurate" required>
+              I confirm the information provided is accurate to the best of my knowledge.
+            </label>
+            <label style="display:flex; align-items:center; gap:10px; font-size:14px; color:#374151">
+              <input type="checkbox" id="acceptTerms" required>
+              I agree to the terms and privacy policy.
+            </label>
+          </div>
+
+          <div style="display:flex; gap:12px; align-items:center; margin-top:6px">
+            <button class="btn btn-primary" type="submit">Submit application</button>
+            <a class="btn btn-ghost" href="index.html">Back to home</a>
+          </div>
+
+          <p class="svc-note" style="margin-top:10px">
+            Note: This is a demo form on a static site. We’ll show a confirmation on submit. If you want this to send to your email or CRM, I can wire it to Formspree or your backend.
+          </p>
+        </form>
+
+        <!-- Success message (hidden until submit) -->
+        <div id="successBox" style="display:none; border:1px solid #e5e7eb; border-radius:12px; padding:16px; background:#fbfdff">
+          <strong>Thank you! Your application has been submitted.</strong>
+          <p class="svc-note" style="margin-top:8px">
+            Our onboarding team will reach out at the email you provided, typically within 1–2 business days.
+          </p>
+          <div style="display:flex; gap:12px; margin-top:12px">
+            <a class="btn btn-primary" href="status.html">Check system status</a>
+            <a class="btn btn-ghost" href="index.html">Back to home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script src="main.js?v=7" defer></script>
+  <script>
+    // Simple client-side "submission"
+    const form = document.getElementById('merchantForm');
+    const success = document.getElementById('successBox');
+
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const requiredIds = ['legalName','contactName','contactEmail','country','confirmAccurate','acceptTerms'];
+      for (const id of requiredIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if ((el.type === 'checkbox' && !el.checked) || (el.value && el.value.trim() === '') || (!el.value && el.hasAttribute('required'))) {
+          alert('Please complete required fields.');
+          return;
+        }
+      }
+      form.style.display = 'none';
+      success.style.display = 'block';
+      window.scrollTo({ top: form.closest('.content').offsetTop - 80, behavior: 'smooth' });
+    });
+
+    
