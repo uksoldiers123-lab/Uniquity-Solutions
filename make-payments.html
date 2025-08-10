@@ -1,99 +1,191 @@
 
-
-  Make a Payment — Uniquity Solutions
-
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Make a Payment — Uniquity Solutions</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#partners">Partners</a>
+        <a href="index.html#careers">Careers</a>
 
-        Home
-        Services
-        Partners
-        Careers
-
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
             Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="make-payments.html" role="menuitem" aria-current="page">Make a Payment</a>
+            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem">FAQ</a>
+            <a href="pricing.html" role="menuitem">Pricing</a>
+            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="integrations.html" role="menuitem">Integrations</a>
+            <a href="compliance.html" role="menuitem">Compliance & Security</a>
+            <a href="status.html" role="menuitem">Status</a>
+            <a href="support.html" role="menuitem">Support Center</a>
+          </div>
+        </div>
 
-            Make a Payment
-            Create Account (Merchants)
-            FAQ
-            Pricing
-            Developers & API
-            Integrations
-            Compliance & Security
-            Status
-            Support Center
+        <a href="index.html#contact" class="cta">Contact</a>
+      </div>
 
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
 
-        Contact
+    <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+      <a href="index.html">Home</a>
+      <a href="index.html#services">Services</a>
+      <a href="index.html#partners">Partners</a>
+      <a href="index.html#careers">Careers</a>
+      <a href="make-payments.html">Make a Payment</a>
+      <a href="create-account.html">Create Account (Merchants)</a>
+      <a href="faq.html">FAQ</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="developers.html">Developers & API</a>
+      <a href="integrations.html">Integrations</a>
+      <a href="compliance.html">Compliance & Security</a>
+      <a href="status.html">Status</a>
+      <a href="support.html">Support Center</a>
+      <a href="index.html#contact" class="cta">Contact</a>
+    </div>
+  </nav>
 
-      Home
-      Services
-      Partners
-      Careers
-      Make a Payment
-      Create Account (Merchants)
-      FAQ
-      Pricing
-      Developers & API
-      Integrations
-      Compliance & Security
-      Status
-      Support Center
-      Contact
-
-       Payments
-      Make a payment
-
+  <!-- Page header -->
+  <header class="hero" style="padding:48px 0 72px">
+    <div class="container">
+      <p class="section-label"><span class="dot"></span> Payments</p>
+      <h1 style="color:#fff; margin:10px 0 12px">Make a payment</h1>
+      <p class="lead" style="max-width:60ch">
         Pay an invoice or make a one‑time payment securely. Enter the details and choose a payment method.
+      </p>
+    </div>
 
-              Full name
+    <!-- Content card -->
+    <div class="content-wrap">
+      <div class="container content">
+        <form class="form" id="paymentForm" novalidate>
+          <div class="row">
+            <div class="field">
+              <label class="label" for="fullName">Full name</label>
+              <input class="input" id="fullName" name="fullName" type="text" placeholder="Jane Doe" required>
+            </div>
+            <div class="field">
+              <label class="label" for="email">Email</label>
+              <input class="input" id="email" name="email" type="email" placeholder="jane@example.com" required>
+            </div>
+          </div>
 
-              Email
+          <div class="row">
+            <div class="field">
+              <label class="label" for="company">Company you’re paying</label>
+              <input class="input" id="company" name="company" type="text" placeholder="Client Co. (optional)">
+            </div>
+            <div class="field">
+              <label class="label" for="invoice">Invoice / Order #</label>
+              <input class="input" id="invoice" name="invoice" type="text" placeholder="INV-2025-0001">
+            </div>
+          </div>
 
-              Company you’re paying
+          <div class="row">
+            <div class="field">
+              <label class="label" for="amount">Amount</label>
+              <input class="input" id="amount" name="amount" type="number" step="0.01" min="1" placeholder="100.00" required>
+            </div>
+            <div class="field">
+              <label class="label" for="currency">Currency</label>
+              <select class="select" id="currency" name="currency">
+                <option value="USD">USD — US Dollar</option>
+                <option value="EUR">EUR — Euro</option>
+                <option value="GBP">GBP — British Pound</option>
+              </select>
+            </div>
+          </div>
 
-              Invoice / Order
+          <div class="field">
+            <label class="label">Payment method</label>
+            <div style="display:flex; gap:14px; flex-wrap:wrap">
+              <label style="display:flex; align-items:center; gap:8px">
+                <input type="radio" name="method" value="paypal" checked> PayPal
+              </label>
+              <label style="display:flex; align-items:center; gap:8px">
+                <input type="radio" name="method" value="card"> Card (Stripe)
+              </label>
+              <label style="display:flex; align-items:center; gap:8px">
+                <input type="radio" name="method" value="bank"> Bank transfer
+              </label>
+            </div>
+          </div>
 
-              Amount
-
-              Currency
-
-                USD — US Dollar
-                EUR — Euro
-                GBP — British Pound
-
-            Payment method
-
-                 PayPal
-
-                 Card (Stripe)
-
-                 Bank transfer
-
-            Bank transfer instructions
-
-              Beneficiary: Uniquity Solutions LLC
-              Bank: Your Bank Name
-              Account: 000123456789 • Routing: 021000021
-              IBAN: GB00BARC20000012345678 • SWIFT/BIC: BARCGB22
+          <div id="bankBox" style="display:none; margin-top:6px; border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#f9fafb">
+            <strong>Bank transfer instructions</strong>
+            <div class="svc-note" style="margin-top:6px">
+              Beneficiary: Uniquity Solutions LLC<br>
+              Bank: Your Bank Name<br>
+              Account: 000123456789 • Routing: 021000021<br>
+              IBAN: GB00BARC20000012345678 • SWIFT/BIC: BARCGB22<br>
               Reference: Your invoice or order number
+            </div>
+          </div>
 
+          <div class="field" style="margin-top:10px">
+            <label style="display:flex; align-items:center; gap:10px; font-size:14px; color:#374151">
+              <input type="checkbox" id="agree" required>
               I agree to the terms and authorize this payment.
+            </label>
+          </div>
 
-            Continue to payment
-            Back to home
+          <div style="display:flex; gap:12px; align-items:center; margin-top:6px">
+            <button class="btn btn-primary" type="submit">Continue to payment</button>
+            <a class="btn btn-ghost" href="index.html">Back to home</a>
+          </div>
 
+          <p class="svc-note" style="margin-top:10px">
             Note: Card payments require a Stripe Payment Link (replace the placeholder URL). PayPal works out‑of‑the‑box here using a business email.
+          </p>
+        </form>
+      </div>
+    </div>
+  </header>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
 
-      © 2004–2025 Uniquity Solutions. All rights reserved.
-
-    // Replace these with your real values
-    const PAYPAL_BUSINESS_EMAIL = 'payments@example.com'; // Your PayPal business email
-    const BASE_URL = 'https://YOUR-USERNAME.github.io/REPO-NAME'; // Your GitHub Pages base URL
+  <script src="main.js" defer></script>
+  <script>
+    // Live configuration for your site and PayPal account
+    const PAYPAL_BUSINESS_EMAIL = 'eyhptianhype@gmail.com';
+    const BASE_URL = 'https://uksoldiers123-lab.github.io/Uniquely-solutions';
     const RETURN_URL = BASE_URL + '/thank-you.html';
     const CANCEL_URL = BASE_URL + '/make-payments.html';
-    const NOTIFY_URL = ''; // Optional: PayPal IPN endpoint (requires your own server)
-    const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_REPLACE_WITH_YOURS'; // Your Stripe Payment Link
+    const NOTIFY_URL = ''; // Optional: your IPN endpoint (requires your own server)
+    const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_REPLACE_WITH_YOURS'; // Replace when ready
 
     const form = document.getElementById('paymentForm');
     const bankBox = document.getElementById('bankBox');
@@ -122,4 +214,44 @@
       }
 
       const amount = Number(parseFloat(amountRaw).toFixed(2));
-      if (!amount || amount
+      if (!amount || amount <= 0) {
+        alert('Enter a valid amount.');
+        return;
+      }
+
+      if (method === 'paypal') {
+        // PayPal Standard one-time payment (static-site friendly)
+        const params = new URLSearchParams({
+          cmd: '_xclick',
+          business: PAYPAL_BUSINESS_EMAIL,
+          item_name: `Invoice ${invoice || 'Payment'} — ${company || 'Uniquity Solutions'}`,
+          amount: amount.toFixed(2),
+          currency_code: currency,
+          no_note: '1',
+          no_shipping: '1',
+          return: RETURN_URL,
+          cancel_return: CANCEL_URL,
+          custom: `name=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&invoice=${encodeURIComponent(invoice)}`
+        });
+        if (NOTIFY_URL) params.set('notify_url', NOTIFY_URL);
+
+        // For Sandbox testing, switch to https://www.sandbox.paypal.com/cgi-bin/webscr
+        const url = 'https://www.paypal.com/cgi-bin/webscr?' + params.toString();
+        window.location.href = url;
+
+      } else if (method === 'card') {
+        if (STRIPE_PAYMENT_LINK.includes('REPLACE_WITH_YOURS')) {
+          alert('Replace STRIPE_PAYMENT_LINK with your Stripe Payment Link URL in the page script.');
+          return;
+        }
+        // Payment Links are not dynamic amounts; use one per price or a backend for dynamic sessions.
+        window.location.href = STRIPE_PAYMENT_LINK;
+
+      } else if (method === 'bank') {
+        bankBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        alert('Use the bank details shown to complete your transfer. Include your invoice/order number as the reference.');
+      }
+    });
+  </script>
+</body>
+</html>
