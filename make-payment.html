@@ -1,0 +1,125 @@
+
+
+  Make a Payment — Uniquity Solutions
+
+        Uniquity Solutions
+
+        Home
+        Services
+        Partners
+        Careers
+
+            Get Started
+
+            Make a Payment
+            Create Account (Merchants)
+            FAQ
+            Pricing
+            Developers & API
+            Integrations
+            Compliance & Security
+            Status
+            Support Center
+
+
+        Contact
+
+      Home
+      Services
+      Partners
+      Careers
+      Make a Payment
+      Create Account (Merchants)
+      FAQ
+      Pricing
+      Developers & API
+      Integrations
+      Compliance & Security
+      Status
+      Support Center
+      Contact
+
+       Payments
+      Make a payment
+
+        Pay an invoice or make a one‑time payment securely. Enter the details and choose a payment method.
+
+              Full name
+
+              Email
+
+              Company you’re paying
+
+              Invoice / Order
+
+              Amount
+
+              Currency
+
+                USD — US Dollar
+                EUR — Euro
+                GBP — British Pound
+
+            Payment method
+
+                 PayPal
+
+                 Card (Stripe)
+
+                 Bank transfer
+
+            Bank transfer instructions
+
+              Beneficiary: Uniquity Solutions LLC
+              Bank: Your Bank Name
+              Account: 000123456789 • Routing: 021000021
+              IBAN: GB00BARC20000012345678 • SWIFT/BIC: BARCGB22
+              Reference: Your invoice or order number
+
+              I agree to the terms and authorize this payment.
+
+            Continue to payment
+            Back to home
+
+            Note: Card payments require a Stripe Payment Link (replace the placeholder URL). PayPal works out‑of‑the‑box here using a business email.
+
+        Uniquity Solutions
+
+      © 2004–2025 Uniquity Solutions. All rights reserved.
+
+    // Replace these with your real values
+    const PAYPAL_BUSINESS_EMAIL = 'payments@example.com'; // Your PayPal business email
+    const BASE_URL = 'https://YOUR-USERNAME.github.io/REPO-NAME'; // Your GitHub Pages base URL
+    const RETURN_URL = BASE_URL + '/thank-you.html';
+    const CANCEL_URL = BASE_URL + '/make-payments.html';
+    const NOTIFY_URL = ''; // Optional: PayPal IPN endpoint (requires your own server)
+    const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/test_REPLACE_WITH_YOURS'; // Your Stripe Payment Link
+
+    const form = document.getElementById('paymentForm');
+    const bankBox = document.getElementById('bankBox');
+
+    form.addEventListener('change', (e) => {
+      if (e.target.name === 'method') {
+        bankBox.style.display = e.target.value === 'bank' ? 'block' : 'none';
+      }
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const company = document.getElementById('company').value.trim();
+      const invoice = document.getElementById('invoice').value.trim();
+      const amountRaw = document.getElementById('amount').value;
+      const currency = document.getElementById('currency').value;
+      const method = (new FormData(form)).get('method');
+      const agree = document.getElementById('agree').checked;
+
+      if (!fullName || !email || !amountRaw || !agree) {
+        alert('Please complete the required fields.');
+        return;
+      }
+
+      const amount = Number(parseFloat(amountRaw).toFixed(2));
+      if (!amount || amount
