@@ -7,8 +7,33 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=7">
+  <style>
+    /* Local fixes for Pricing page */
+    body.pricing .content-wrap{ margin-top:-48px; } /* reduce overlap from hero */
+    .billing-switch{
+      display:inline-flex; align-items:center; gap:10px; font-weight:700; color:#374151;
+      user-select:none; cursor:pointer;
+    }
+    .billing-switch input{
+      position:absolute; opacity:0; width:0; height:0; pointer-events:none;
+    }
+    .billing-switch .slider{
+      width:44px; height:26px; border-radius:999px; background:#e5e7eb;
+      border:1px solid #d1d5db; position:relative; display:inline-block; flex:0 0 auto;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .billing-switch .slider::after{
+      content:""; position:absolute; top:2px; left:2px; width:20px; height:20px;
+      background:#fff; border-radius:999px; box-shadow:0 1px 2px rgba(0,0,0,.15);
+      transition:left .2s ease;
+    }
+    .billing-switch input:checked + .slider{
+      background:#e94b4b; border-color:#d13f3f;
+    }
+    .billing-switch input:checked + .slider::after{ left:22px; }
+  </style>
 </head>
-<body>
+<body class="pricing">
   <!-- Navbar -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
@@ -86,12 +111,13 @@
     <!-- Pricing content -->
     <div class="content-wrap">
       <div class="container content">
-        <!-- Billing toggle -->
+        <!-- Billing toggle (fixed) -->
         <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px">
           <div class="svc-note">Choose monthly or annual billing</div>
-          <label style="display:inline-flex; align-items:center; gap:10px; font-weight:700; color:#374151;">
+          <label class="billing-switch">
             <span>Monthly</span>
-            <input id="billingToggle" type="checkbox" style="appearance:none; width:44px; height:26px; border-radius:999px; background:#e5e7eb; position:relative; outline:none; cursor:pointer; border:1px solid #d1d5db">
+            <input id="billingToggle" type="checkbox" />
+            <span class="slider" aria-hidden="true"></span>
             <span>Annual</span>
           </label>
         </div>
@@ -198,7 +224,7 @@
               </li>
               <li class="svc-note" style="display:flex; gap:8px; align-items:center">
                 <span style="width:18px; height:18px; border-radius:4px; background:#e7f8ff; display:grid; place-items:center;">
-                  <svg width="12" height="12" viewBox="0 0 24 24  " fill="none"><path d="M5 12l4 4L19 6" stroke="#00314d" stroke-width="2" stroke-linecap="round"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#00314d" stroke-width="2" stroke-linecap="round"/></svg>
                 </span>
                 Custom routing & risk rules
               </li>
@@ -250,7 +276,7 @@
 
   <script src="main.js?v=7" defer></script>
   <script>
-    // Simple monthly/annual toggle for prices
+    // Simple monthly/annual toggle (no absolute knob, fully CSS switch)
     const toggle = document.getElementById('billingToggle');
     const priceEls = document.querySelectorAll('[data-price]');
     const growthNote = document.getElementById('growthNote');
@@ -258,49 +284,24 @@
     const bizNote = document.getElementById('bizNote');
     const bizSuffix = document.getElementById('bizSuffix');
 
-    // Style the switch knob (minimal inline styling)
-    if (toggle) {
-      const knob = document.createElement('span');
-      knob.style.cssText = 'position:absolute; top:2px; left:2px; width:20px; height:20px; background:#fff; border-radius:999px; box-shadow:0 1px 2px rgba(0,0,0,.15); transition:left .2s ease';
-      toggle.parentElement.style.userSelect = 'none';
-      toggle.parentElement.style.cursor = 'pointer';
-      toggle.insertAdjacentElement('afterend', knob);
-
-      const setAnnual = (annual) => {
-        priceEls.forEach(el => {
-          const m = el.getAttribute('data-month');
-          const y = el.getAttribute('data-year');
-          el.textContent = annual && y ? y : m || '';
-        });
-        // Notes/suffix changes for plans with billing
-        if (growthNote && growthSuffix) {
-          growthSuffix.textContent = annual ? '/yr' : '/mo';
-          growthNote.textContent = annual ? 'Billed annually — save ~17%' : 'Billed monthly';
-        }
-        if (bizNote && bizSuffix) {
-          bizSuffix.textContent = annual ? '/yr' : '/mo';
-          bizNote.textContent = annual ? 'Billed annually — save ~17%' : 'Billed monthly';
-        }
-        // Move knob
-        knob.style.left = annual ? '22px' : '2px';
-        // Color the switch
-        toggle.style.background = annual ? '#e94b4b' : '#e5e7eb';
-        toggle.style.borderColor = annual ? '#d13f3f' : '#d1d5db';
-      };
-
-      // Initialize
-      setAnnual(false);
-
-      // Click anywhere on the label to toggle
-      toggle.parentElement.addEventListener('click', () => {
-        toggle.checked = !toggle.checked;
-        setAnnual(toggle.checked);
+    function setAnnual(annual){
+      priceEls.forEach(el => {
+        const m = el.getAttribute('data-month');
+        const y = el.getAttribute('data-year');
+        el.textContent = annual && y ? y : (m || '');
       });
-
-      // Keyboard support on the input
-      toggle.addEventListener('change', () => setAnnual(toggle.checked));
+      if (growthNote && growthSuffix) {
+        growthSuffix.textContent = annual ? '/yr' : '/mo';
+        growthNote.textContent = annual ? 'Billed annually — save ~17%' : 'Billed monthly';
+      }
+      if (bizNote && bizSuffix) {
+        bizSuffix.textContent = annual ? '/yr' : '/mo';
+        bizNote.textContent = annual ? 'Billed annually — save ~17%' : 'Billed monthly';
+      }
     }
+
+    setAnnual(false);
+    toggle?.addEventListener('change', () => setAnnual(toggle.checked));
   </script>
 </body>
 </html>
-
