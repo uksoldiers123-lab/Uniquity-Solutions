@@ -3,13 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FAQ — Uniquity Solutions</title>
-  <meta name="description" content="Answers to common questions about making payments, creating a merchant account, pricing, integrations, security, and compliance." />
+  <title>Pricing — Uniquity Solutions</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="stylesheet" href="styles.css?v=7">
+  <style>
+    /* Local fixes for Pricing page */
+    body.pricing .content-wrap{ margin-top:-48px; } /* reduce overlap from hero */
+    .billing-switch{
+      display:inline-flex; align-items:center; gap:10px; font-weight:700; color:#374151;
+      user-select:none; cursor:pointer;
+    }
+    .billing-switch input{
+      position:absolute; opacity:0; width:0; height:0; pointer-events:none;
+    }
+    .billing-switch .slider{
+      width:44px; height:26px; border-radius:999px; background:#e5e7eb;
+      border:1px solid #d1d5db; position:relative; display:inline-block; flex:0 0 auto;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .billing-switch .slider::after{
+      content:""; position:absolute; top:2px; left:2px; width:20px; height:20px;
+      background:#fff; border-radius:999px; box-shadow:0 1px 2px rgba(0,0,0,.15);
+      transition:left .2s ease;
+    }
+    .billing-switch input:checked + .slider{
+      background:#e94b4b; border-color:#d13f3f;
+    }
+    .billing-switch input:checked + .slider::after{ left:22px; }
+  </style>
 </head>
-<body>
+<body class="pricing">
   <!-- Navbar -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
@@ -32,358 +56,252 @@
             </svg>
           </button>
           <div class="drop-menu" data-menu role="menu">
-            <a href="make-payments.html" role="menuitem">Make a Payment</a>
-            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
-            <a href="faq.html" role="menuitem" aria-current="page">FAQ</a>
-            <a href="pricing.html" role="menuitem">Pricing</a>
-            <a href="developers.html" role="menuitem">Developers &amp; API</a>
-            <a href="integrations.html" role="menuitem">Integrations</a>
-            <a href="compliance.html" role="menuitem">Compliance</a>
+            <a href="make-payments.html">Make a Payment</a>
+            <a href="create-account.html">Create Account (Merchants)</a>
+            <a href="faq.html">FAQ</a>
+            <a href="pricing.html" aria-current="page">Pricing</a>
+            <a href="developers.html">Developers & API</a>
+            <a href="integrations.html">Integrations</a>
+            <a href="compliance.html">Compliance & Security</a>
+            <a href="status.html">Status</a>
+            <a href="support.html">Support Center</a>
           </div>
         </div>
+
+        <a href="index.html#contact" class="cta">Contact</a>
       </div>
+
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
     </div>
   </nav>
 
-  <main id="content">
-    <!-- Hero -->
-    <section class="section hero hero-internal">
-      <div class="container">
-        <h1>Frequently asked questions</h1>
-        <p class="lead">Quick answers for payers, merchants, and developers.</p>
-      </div>
-    </section>
+  <!-- Mobile overlay menu OUTSIDE the nav -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+    <div class="menu-label">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#partners">Partners</a>
+    <a href="index.html#careers">Careers</a>
+    <a href="index.html#contact" class="cta">Contact</a>
 
-    <!-- FAQ controls -->
-    <section class="section">
-      <div class="container">
-        <div class="card">
-          <form id="faq-search" class="faq-search" role="search" aria-label="FAQ search" onsubmit="return false;">
-            <label for="q" class="sr-only">Search FAQs</label>
-            <input id="q" name="q" type="search" placeholder="Search questions (e.g., ACH timing, refunds, API keys)" autocomplete="off">
-            <div class="actions">
-              <button type="button" class="btn" id="openAll">Open all</button>
-              <button type="button" class="btn" id="closeAll">Collapse all</button>
+    <div class="menu-label">More pages</div>
+    <a href="make-payments.html">Make a Payment</a>
+    <a href="create-account.html">Create Account (Merchants)</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html" aria-current="page">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
+    <a href="status.html">Status</a>
+    <a href="support.html">Support Center</a>
+  </div>
+
+  <!-- Header -->
+  <header class="hero" style="padding:48px 0 72px">
+    <div class="container">
+      <p class="section-label"><span class="dot"></span> Plans & pricing</p>
+      <h1 style="color:#fff; margin:10px 0 12px">Simple, transparent pricing</h1>
+      <p class="lead" style="max-width:60ch">
+        Start with essentials and scale as you grow. No hidden fees — just clear rates and enterprise options when you need them.
+      </p>
+    </div>
+
+    <!-- Pricing content -->
+    <div class="content-wrap">
+      <div class="container content">
+        <!-- Billing toggle (fixed) -->
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px">
+          <div class="svc-note">Choose monthly or annual billing</div>
+          <label class="billing-switch">
+            <span>Monthly</span>
+            <input id="billingToggle" type="checkbox" />
+            <span class="slider" aria-hidden="true"></span>
+            <span>Annual</span>
+          </label>
+        </div>
+
+        <!-- Plan grid -->
+        <div class="plans" style="display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:18px">
+          <!-- Starter -->
+          <div style="border:1px solid #e5e7eb; border-radius:16px; padding:18px; background:linear-gradient(180deg, #fff, #fbfdff)">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+              <strong>Starter</strong>
+              <span class="svc-note">Best for trying</span>
             </div>
-            <div id="searchStatus" class="small" aria-live="polite"></div>
-          </form>
+            <div style="display:flex; align-items:baseline; gap:6px; margin:8px 0 10px">
+              <span style="font-size:28px; font-weight:800" data-price data-month="$0" data-year="$0">$0</span>
+              <span class="svc-note">/mo</span>
+            </div>
+            <ul style="list-style:none; padding:0; margin:0; display:grid; gap:8px">
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#fff8e1; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#7c5b00" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                No monthly fee
+              </li>
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#e7f8ff; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#00314d" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                Standard processing rates
+              </li>
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#ffe9ea; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 14l-3 3m3-3l3 3m-3-3V7" stroke="#b42318" stroke-width="2"/></svg>
+                </span>
+                Email support
+              </li>
+            </ul>
+            <div style="margin-top:12px; display:flex; gap:10px">
+              <a class="btn btn-primary" href="create-account.html">Get started</a>
+              <a class="btn btn-ghost" href="faq.html">Learn more</a>
+            </div>
+          </div>
+
+          <!-- Growth (Most popular) -->
+          <div style="border:2px solid #ffd166; border-radius:16px; padding:18px; background:#fffbea; position:relative">
+            <span style="position:absolute; top:-12px; right:12px; background:#fbbf24; color:#111; font-weight:800; font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid #e5a411">Most popular</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+              <strong>Growth</strong>
+              <span class="svc-note">For scaling teams</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin:8px 0 10px">
+              <span style="font-size:32px; font-weight:800" data-price data-month="$29" data-year="$290">$29</span>
+              <span class="svc-note" id="growthSuffix">/mo</span>
+            </div>
+            <div class="svc-note" id="growthNote" style="margin:-6px 0 8px; color:#7c5b00">Billed monthly</div>
+            <ul style="list-style:none; padding:0; margin:0; display:grid; gap:8px">
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#fff8e1; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#7c5b00" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                Reduced processing rates
+              </li>
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#e7f8ff; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#00314d" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                Advanced retries & tokenization
+              </li>
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#e7f8ff; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#00314d" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                Priority support
+              </li>
+            </ul>
+            <div style="margin-top:12px; display:flex; gap:10px">
+              <a class="btn btn-primary" href="create-account.html">Start Growth</a>
+              <a class="btn btn-ghost" href="faq.html">Compare plans</a>
+            </div>
+          </div>
+
+          <!-- Business -->
+          <div style="border:1px solid #e5e7eb; border-radius:16px; padding:18px; background:linear-gradient(180deg, #fff, #fbfdff)">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px">
+              <strong>Business</strong>
+              <span class="svc-note">High volume</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:6px; margin:8px 0 10px">
+              <span style="font-size:28px; font-weight:800" data-price data-month="$99" data-year="$990">$99</span>
+              <span class="svc-note" id="bizSuffix">/mo</span>
+            </div>
+            <div class="svc-note" id="bizNote" style="margin:-6px 0 8px; color:#4b5563">Billed monthly</div>
+            <ul style="list-style:none; padding:0; margin:0; display:grid; gap:8px">
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#fff8e1; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#7c5b00" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                Best processing rates
+              </li>
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#e7f8ff; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#00314d" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                Dedicated account manager
+              </li>
+              <li class="svc-note" style="display:flex; gap:8px; align-items:center">
+                <span style="width:18px; height:18px; border-radius:4px; background:#e7f8ff; display:grid; place-items:center;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4L19 6" stroke="#00314d" stroke-width="2" stroke-linecap="round"/></svg>
+                </span>
+                Custom routing & risk rules
+              </li>
+            </ul>
+            <div style="margin-top:12px; display:flex; gap:10px">
+              <a class="btn btn-primary" href="create-account.html">Start Business</a>
+              <a class="btn btn-ghost" href="index.html#contact">Talk to sales</a>
+            </div>
+          </div>
         </div>
 
-        <!-- Category quick links -->
-        <nav class="subnav" aria-label="FAQ categories">
-          <a href="#payers">Payers</a>
-          <a href="#merchants">Merchants</a>
-          <a href="#pricing">Pricing & billing</a>
-          <a href="#developers">Developers</a>
-          <a href="#security">Security & compliance</a>
-          <a href="#other">Other</a>
-        </nav>
-      </div>
-    </section>
+        <!-- Enterprise row -->
+        <div style="display:grid; grid-template-columns: 1fr; gap:18px; margin-top:18px">
+          <div style="border:1px solid #e5e7eb; border-radius:16px; padding:18px; background:#fff">
+            <div style="display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between">
+              <div>
+                <strong style="font-size:18px">Enterprise</strong>
+                <div class="svc-note" style="margin-top:6px">
+                  Custom pricing, SLAs, and tailored compliance for large or specialized operations.
+                </div>
+              </div>
+              <div style="display:flex; gap:10px">
+                <a class="btn btn-primary" href="index.html#contact">Contact sales</a>
+                <a class="btn btn-ghost" href="developers.html">View API</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <!-- Payers -->
-    <section class="section" id="payers">
-      <div class="container">
-        <h2>Payers</h2>
-        <div class="faq-list">
-          <details>
-            <summary>Do I need an account to make a payment?</summary>
-            <p>No. You can pay as a guest on the Make a Payment page. We’ll email a receipt to the address you provide.</p>
-            <p><a href="make-payments.html" class="btn btn-link">Make a payment</a></p>
-          </details>
-          <details>
-            <summary>Which payment methods are accepted?</summary>
-            <p>All major credit and debit cards. Many merchants also accept bank payments (ACH). Availability may vary by merchant.</p>
-          </details>
-          <details>
-            <summary>How long do ACH payments take?</summary>
-            <p>ACH typically takes 3–5 business days to clear. Your bank may show a pending debit before final settlement.</p>
-          </details>
-          <details>
-            <summary>Will I be charged a fee to pay?</summary>
-            <p>Most payments do not include a payer fee. If a merchant applies a convenience or surcharge where permitted by law, it will be clearly shown before you submit.</p>
-          </details>
-          <details>
-            <summary>How do refunds work?</summary>
-            <p>Refunds are issued by the merchant. Card refunds typically post in 5–10 business days. ACH refunds can take 3–5 business days after approval.</p>
-          </details>
-          <details>
-            <summary>I didn’t get a receipt. What should I do?</summary>
-            <p>Check your spam folder and verify the email you entered. If you still can’t find it, contact the merchant or reach out to support at <a href="mailto:support@uniquitysolutions.com">support@uniquitysolutions.com</a>.</p>
-          </details>
-          <details>
-            <summary>My payment was declined. Why?</summary>
-            <p>Common reasons include incorrect card details, insufficient funds, bank security checks, or AVS ZIP mismatch. Try again or contact your bank. If issues persist, contact support.</p>
-          </details>
+        <!-- Notes -->
+        <div style="margin-top:16px; display:grid; gap:8px">
+          <div class="svc-note">All plans include PCI-aware best practices and access to our Support Center.</div>
+          <div class="svc-note">Processing rates vary by method, volume, and risk profile. Final pricing confirmed at onboarding.</div>
         </div>
       </div>
-    </section>
-
-    <!-- Merchants -->
-    <section class="section" id="merchants">
-      <div class="container">
-        <h2>Merchants</h2>
-        <div class="faq-list">
-          <details>
-            <summary>How do I open a merchant account?</summary>
-            <p>Complete our short application. A specialist will review and follow up if additional information is required.</p>
-            <p><a href="create-account.html" class="btn btn-link">Create merchant account</a></p>
-          </details>
-          <details>
-            <summary>How fast can I start accepting payments?</summary>
-            <p>Many businesses are provisionally approved the same day. Production gateway credentials are issued after underwriting is complete.</p>
-          </details>
-          <details>
-            <summary>Do you support in‑person payments?</summary>
-            <p>Yes. We offer compatible terminals and POS integrations. See Integrations or contact Sales for hardware options.</p>
-          </details>
-          <details>
-            <summary>Can I set up subscriptions or recurring billing?</summary>
-            <p>Yes. Recurring billing is supported via dashboard and API with automatic retries and dunning options.</p>
-          </details>
-          <details>
-            <summary>How are chargebacks handled?</summary>
-            <p>We notify you of disputes, provide evidence submission tools, and track outcomes. Best‑practice guides are available to reduce dispute rates.</p>
-          </details>
-          <details>
-            <summary>What settlement schedules do you offer?</summary>
-            <p>Standard card settlement is T+2 business days in the U.S. ACH funding typically arrives T+2 to T+3. Options may vary by risk profile and region.</p>
-          </details>
-          <details>
-            <summary>Which countries and currencies are supported?</summary>
-            <p>Primary operations are U.S. and Canada with USD and CAD settlement. Contact Sales for cross‑border options.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pricing & Billing -->
-    <section class="section" id="pricing">
-      <div class="container">
-        <h2>Pricing &amp; billing</h2>
-        <div class="faq-list">
-          <details>
-            <summary>How is pricing structured?</summary>
-            <p>Simple, transparent processing rates with optional add‑ons for recurring billing, advanced fraud tools, and in‑person hardware. See our pricing page for details.</p>
-            <p><a href="pricing.html" class="btn btn-link">View pricing</a></p>
-          </details>
-          <details>
-            <summary>Are there setup or monthly fees?</summary>
-            <p>No setup fees. Monthly fees may apply for premium features or terminals if selected.</p>
-          </details>
-          <details>
-            <summary>How do I access statements and reports?</summary>
-            <p>Statements and deposits are available in your dashboard. You can export settlements, fees, and payouts in CSV format.</p>
-          </details>
-          <details>
-            <summary>Do you issue 1099‑K forms?</summary>
-            <p>Yes, when required by law. Forms are delivered electronically in the dashboard and via email notifications.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- Developers -->
-    <section class="section" id="developers">
-      <div class="container">
-        <h2>Developers</h2>
-        <div class="faq-list">
-          <details>
-            <summary>How do I get API keys?</summary>
-            <p>After your merchant account is created, you can generate test and live API keys in the dashboard. Keep live keys secure and do not embed them in client‑side code.</p>
-          </details>
-          <details>
-            <summary>Do you have a sandbox?</summary>
-            <p>Yes. Use test API keys and sample cards/ACH tokens to simulate transactions without real charges.</p>
-          </details>
-          <details>
-            <summary>How do webhooks work?</summary>
-            <p>Register a webhook endpoint in the dashboard. We sign events; verify signatures and return 2xx to acknowledge. Retry with exponential backoff is supported.</p>
-          </details>
-          <details>
-            <summary>Are SDKs available?</summary>
-            <p>Server SDKs for Node, Python, Ruby, and PHP. Client libraries are available for tokenized elements and hosted fields.</p>
-            <p><a href="developers.html" class="btn btn-link">Developers &amp; API</a></p>
-          </details>
-          <details>
-            <summary>What are the rate limits?</summary>
-            <p>Reasonable per‑key rate limits apply to protect service integrity. Contact Support if you anticipate sustained high throughput.</p>
-          </details>
-          <details>
-            <summary>How do you handle API versioning?</summary>
-            <p>We use dated versions with backward‑compatible changes where possible. Pin a version via request header. Deprecations include advance notice.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- Security & compliance -->
-    <section class="section" id="security">
-      <div class="container">
-        <h2>Security &amp; compliance</h2>
-        <div class="faq-list">
-          <details>
-            <summary>Are you PCI compliant?</summary>
-            <p>Yes. We maintain PCI DSS Level 1 compliance. Use hosted fields / tokenization to minimize your PCI scope.</p>
-            <p><a href="compliance.html" class="btn btn-link">Compliance</a></p>
-          </details>
-          <details>
-            <summary>Do you store card or bank numbers?</summary>
-            <p>We tokenize sensitive data and transmit over encrypted channels (TLS 1.2+). Raw PANs and bank numbers are not stored in a way accessible to merchants.</p>
-          </details>
-          <details>
-            <summary>How do I report a security issue?</summary>
-            <p>Email our security team at <a href="mailto:security@uniquitysolutions.com">security@uniquitysolutions.com</a>. Include steps to reproduce and affected systems if possible.</p>
-          </details>
-          <details>
-            <summary>Where can I find your privacy and terms?</summary>
-            <p>See our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms of Service</a>.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- Other -->
-    <section class="section" id="other">
-      <div class="container">
-        <h2>Other</h2>
-        <div class="faq-list">
-          <details>
-            <summary>How do I contact support?</summary>
-            <p>Email <a href="mailto:support@uniquitysolutions.com">support@uniquitysolutions.com</a>. Business hours: Mon–Fri, 9am–6pm ET. For urgent incidents, include “URGENT” in the subject.</p>
-          </details>
-          <details>
-            <summary>Do you offer custom enterprise solutions?</summary>
-            <p>Yes. Contact Sales for volume pricing, dedicated support, and advanced controls.</p>
-            <p><a href="mailto:sales@uniquitysolutions.com" class="btn btn-link">Contact Sales</a></p>
-          </details>
-          <details>
-            <summary>Accessibility</summary>
-            <p>We aim to meet WCAG 2.1 AA standards across our web experiences. If you encounter an issue, please let us know at <a href="mailto:accessibility@uniquitysolutions.com">accessibility@uniquitysolutions.com</a>.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact CTA -->
-    <section class="section section-accent">
-      <div class="container">
-        <div class="cta">
-          <h2>Still need help?</h2>
-          <p>Our team is here to help with payments, onboarding, and technical questions.</p>
-          <a class="btn btn-light" href="mailto:support@uniquitysolutions.com">Email Support</a>
-        </div>
-      </div>
-    </section>
-  </main>
+    </div>
+  </header>
 
   <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
+  <footer class="footer" id="contact">
+    <div class="container">
+      <div class="brand">
         <span class="brand-mark" aria-hidden="true"></span>
-        <strong>Uniquity Solutions</strong>
-        <span class="small">© <span id="year"></span> All rights reserved.</span>
+        Uniquity Solutions
       </div>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="pricing.html">Pricing</a>
-        <a href="developers.html">Developers</a>
-        <a href="integrations.html">Integrations</a>
-        <a href="compliance.html">Compliance</a>
-        <a href="security.html">Security</a>
-        <a href="faq.html" aria-current="page">FAQ</a>
-      </nav>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
     </div>
   </footer>
 
+  <script src="main.js?v=7" defer></script>
   <script>
-    // Footer year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Simple monthly/annual toggle (no absolute knob, fully CSS switch)
+    const toggle = document.getElementById('billingToggle');
+    const priceEls = document.querySelectorAll('[data-price]');
+    const growthNote = document.getElementById('growthNote');
+    const growthSuffix = document.getElementById('growthSuffix');
+    const bizNote = document.getElementById('bizNote');
+    const bizSuffix = document.getElementById('bizSuffix');
 
-    // FAQ search/filter
-    const q = document.getElementById('q');
-    const status = document.getElementById('searchStatus');
-    const allDetails = Array.from(document.querySelectorAll('.faq-list details'));
-
-    function normalize(s) { return s.toLowerCase().trim(); }
-
-    function updateFilter() {
-      const term = normalize(q.value);
-      let visible = 0;
-      allDetails.forEach(d => {
-        const text = normalize(d.textContent || '');
-        const match = term === '' || text.includes(term);
-        d.style.display = match ? '' : 'none';
-        if (match) visible++;
+    function setAnnual(annual){
+      priceEls.forEach(el => {
+        const m = el.getAttribute('data-month');
+        const y = el.getAttribute('data-year');
+        el.textContent = annual && y ? y : (m || '');
       });
-      if (term) {
-        status.textContent = visible + ' matching question' + (visible === 1 ? '' : 's');
-      } else {
-        status.textContent = '';
+      if (growthNote && growthSuffix) {
+        growthSuffix.textContent = annual ? '/yr' : '/mo';
+        growthNote.textContent = annual ? 'Billed annually — save ~17%' : 'Billed monthly';
+      }
+      if (bizNote && bizSuffix) {
+        bizSuffix.textContent = annual ? '/yr' : '/mo';
+        bizNote.textContent = annual ? 'Billed annually — save ~17%' : 'Billed monthly';
       }
     }
-    q.addEventListener('input', updateFilter);
 
-    // Open/close all
-    document.getElementById('openAll').addEventListener('click', () => {
-      allDetails.forEach(d => d.open = true);
-    });
-    document.getElementById('closeAll').addEventListener('click', () => {
-      allDetails.forEach(d => d.open = false);
-    });
-
-    // Initialize (no filter)
-    updateFilter();
-  </script>
-
-  <!-- Optional: Basic structured data for key FAQs -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Do I need an account to make a payment?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. You can pay as a guest on the Make a Payment page. We will email a receipt to the address you provide."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How long do ACH payments take?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "ACH typically takes 3–5 business days to clear. Your bank may show a pending debit before final settlement."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I open a merchant account?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Complete our short application. A specialist will review and follow up if additional information is required."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How is pricing structured?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Simple, transparent processing rates with optional add-ons for recurring billing, advanced fraud tools, and in-person hardware."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Are you PCI compliant?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. We maintain PCI DSS Level 1 compliance. Use hosted fields and tokenization to minimize your PCI scope."
-        }
-      }
-    ]
-  }
+    setAnnual(false);
+    toggle?.addEventListener('change', () => setAnnual(toggle.checked));
   </script>
 </body>
 </html>
