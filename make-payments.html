@@ -268,10 +268,55 @@
       // TODO: Replace with secure tokenization / hosted fields flow.
     });
   </script>
+<script>
+(function () {
+  const API_BASE = 'https://uniquity-api-1.onrender.com';
+  const API_KEY  = 'upk_live_M9-ra4zAU_UShrRCW6ZCmMoTnozeTb4g';
+
+  const form = document.getElementById('payment-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      amount: form.amount?.value,
+      invoiceNumber: form.invoiceNumber?.value
+    };
+
+    const statusEl = form.querySelector('.form-status') || (() => {
+      const d = document.createElement('div');
+      d.className = 'form-status';
+      form.appendChild(d);
+      return d;
+    })();
+
+    const btn = form.querySelector('button[type="submit"]');
+    if (btn) btn.disabled = true;
+    statusEl.textContent = 'Submitting (mock)...';
+
+    try {
+      const res = await fetch(API_BASE + '/api/dev/mock-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': API_KEY
+        },
+        body: JSON.stringify(payload)
+      });
+      const out = await res.json().catch(() => ({}));
+      if (res.ok && out.ok) {
+        statusEl.textContent = 'Recorded (mock). Check Supabase tables: payments and transfers.';
+      } else {
+        statusEl.textContent = (out && out.error) ? out.error : 'Request failed';
+        if (btn) btn.disabled = false;
+      }
+    } catch (err) {
+      statusEl.textContent = 'Network error. Please try again.';
+      if (btn) btn.disabled = false;
+    }
+  });
+})();
+</script>
 </body>
 </html>
-
-Notes:
-- The nav uses the same classes/structure as your index and points section links back to index.html#... since those anchors live on the homepage.
-- The card/ACH inputs are placeholders. For PCI compliance, replace with your gateway’s hosted/tokenized fields and submit to your backend or hosted checkout.
-- If your actual compliance page is compliance.htm (without the “l”), I can switch the links—let me know.
