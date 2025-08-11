@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mock Payment Test</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif; padding: 16px; }
+    .field { margin-bottom: 12px; }
+    label { display:block; font-weight:600; margin-bottom:6px; }
+    input { width:100%; padding:10px; font-size:16px; }
+    button { padding:12px 16px; font-size:16px; }
+    .status { margin-top:12px; font-size:14px; }
+  </style>
+</head>
+<body>
+  <h1>Mock Payment Test</h1>
+  <p>This does NOT charge a card. It just writes a test payment to your database.</p>
+
+  <div class="field">
+    <label for="amount">Amount (USD)</label>
+    <input id="amount" type="number" step="0.01" min="1" value="25">
+  </div>
+
+  <div class="field">
+    <label for="invoice">Invoice number</label>
+    <input id="invoice" type="text" value="acme-1001">
+  </div>
+
+  <button id="send">Send mock payment</button>
+  <div id="status" class="status"></div>
+
+  <script>
+    const API_BASE = 'https://uniquity-api-1.onrender.com';
+    const API_KEY  = 'upk_live_M9-ra4zAU_UShrRCW6ZCmMoTnozeTb4g';
+
+    const btn = document.getElementById('send');
+    const statusEl = document.getElementById('status');
+
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      statusEl.textContent = 'Submitting…';
+      try {
+        const body = {
+          amount: Number(document.getElementById('amount').value),
+          invoiceNumber: document.getElementById('invoice').value
+        };
+        const res = await fetch(API_BASE + '/api/dev/mock-payment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': API_KEY
+          },
+          body: JSON.stringify(body)
+        });
+        const out = await res.json().catch(() => ({}));
+        if (res.ok && out.ok) {
+          statusEl.textContent = 'Recorded (mock). Check Supabase: public.payments and public.transfers.';
+        } else {
+          statusEl.textContent = (out && out.error) ? out.error : 'Request failed';
+          btn.disabled = false;
+        }
+      } catch (e) {
+        statusEl.textContent = 'Network error. Try again.';
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
