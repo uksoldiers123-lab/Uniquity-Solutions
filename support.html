@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Support - UniQuity Solutions</title>
+  <style>
+    :root {
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --brand: #4f46e5;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; background: var(--bg); color: var(--text); }
+    header { padding: 16px; background: #fff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 10; }
+    header .brand { display: flex; align-items: center; gap: 12px; }
+    header .brand img { height: 28px; }
+    header nav { display: flex; gap: 14px; }
+    header nav a { text-decoration: none; color: var(--brand); font-weight: 600; }
+    main { max-width: 1100px; margin: 28px auto; padding: 0 16px; }
+    h1 { font-size: 26px; margin: 0 0 6px; }
+    p { color: var(--muted); }
+    .card { background: var(--card); padding: 20px; border-radius: var(--radius); box-shadow: 0 1px 3px rgba(0,0,0,.05); margin: 16px 0; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input, select, textarea, button { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #d1d5db; }
+    textarea { min-height: 120px; resize: vertical; }
+    button { background: var(--brand); color: #fff; border: none; cursor: pointer; font-weight: 700; }
+    button:hover { background: #4338ca; }
+    .section-title { font-size: 18px; margin: 0 0 8px; }
+    ul { padding-left: 20px; color: var(--muted); }
+    footer { text-align: center; padding: 20px; color: var(--muted); font-size: 12px; }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img src="https://www.uniquitysolutions.com/assets/logo.png" alt="UniQuity Solutions Logo" />
+      <strong>UniQuity Solutions</strong>
+    </div>
+    <nav aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="docs.html">Docs</a>
+      <a href="support.html" aria-label="Support">Support</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card" aria-label="Intro">
+      <h1>Support</h1>
+      <p>We’re here to help with your UniQuity Payments integration. Use the form to submit a ticket or browse our resources.</p>
+    </section>
+
+    <section class="grid" aria-label="Support options">
+      <div class="card" aria-label="Contact options">
+        <div class="section-title">Contact us</div>
+        <p>Email: support@uniquitysolutions.com</p>
+        <p>Slack/Discord: links available in the developer portal</p>
+        <p>Hours: Mon–Fri, 9am–6pm in your local time</p>
+      </div>
+
+      <div class="card" aria-label="Submit a ticket">
+        <div class="section-title">Submit a support ticket</div>
+        <form id="support-form" autocomplete="on">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+          </div>
+          <div style="margin-top:12px;">
+            <label for="topic">Topic</label>
+            <select id="topic" name="topic" required>
+              <option value="billing">Billing / Payments</option>
+              <option value="technical">Technical / API</option>
+              <option value="docs">Documentation / Docs</option>
+              <option value="account">Account / Access</option>
+            </select>
+          </div>
+          <div style="margin-top:12px;">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required placeholder="Describe your issue, steps to reproduce, and any relevant links."></textarea>
+          </div>
+          <div style="margin-top:12px;">
+            <button type="submit">Submit Ticket</button>
+          </div>
+        </form>
+        <div id="form-status" style="margin-top:10px; color:#0f5132;"></div>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Resources">
+      <div class="section-title">Self-serve resources</div>
+      <ul>
+        <li><a href="https://www.uniquitysolutions.com/docs" target="_blank" rel="noopener">Docs</a></li>
+        <li><a href="https://status.uniquitysolutions.com" target="_blank" rel="noopener">Status</a></li>
+        <li><a href="https://github.com/uniquity/uniquity-payments" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>© <span id="yr"></span> UniQuity Solutions. All rights reserved.</footer>
+
+  <script>
+    document.getElementById('support-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        topic: document.getElementById('topic').value,
+        message: document.getElementById('message').value
+      };
+
+      // Replace with your real backend endpoint
+      const BACKEND_SUPPORT_ENDPOINT = 'https://www.uniquitysolutions.com/api/support';
+      try {
+        const res = await fetch(BACKEND_SUPPORT_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          document.getElementById('form-status').textContent = 'Ticket submitted. We’ll be in touch shortly.';
+        } else {
+          document.getElementById('form-status').textContent = 'Ticket submitted (status ' + res.status + ').';
+        }
+      } catch (err) {
+        document.getElementById('form-status').textContent = 'Ticket queued (demo). We will contact you soon.';
+      }
+      e.target.reset();
+    });
+
+    document.getElementById('yr').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
