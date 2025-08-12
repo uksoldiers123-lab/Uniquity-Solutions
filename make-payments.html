@@ -94,7 +94,7 @@
   <script src="https://js.stripe.com/v3/"></script>
   <script>
     // TODO: Replace with your actual publishable key
-    const PUBLISHABLE_KEY = "YOUR_PUBLISHABLE_KEY";
+    const PUBLISHABLE_KEY = "pk_test_51Rv1XcJ8rYAVrZVt8iJlItcVIk0sOmnKiveDQUx1TVpr79thl3akjWJWVmvTa5QdWgMzk9ZBaXEAnelyZzI7yLkF00Ejbx8thQ";
 
     // Initialize Stripe
     const stripe = Stripe(PUBLISHABLE_KEY);
@@ -183,64 +183,3 @@
 </body>
 </html>
 
-2) Backend: Node/Express to create the PaymentIntent (copy-paste)
-
-Create a file server.js (or add to your existing server)
-
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const Stripe = require("stripe");
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // set in env
-
-app.use(bodyParser.json());
-app.use(express.static("public")); // serves the front-end if you put it in public
-
-// Create a PaymentIntent
-app.post("/create-payment-intent", async (req, res) => {
-  try {
-    const { amount, currency = "usd", invoice, receipt_email } = req.body;
-
-    // You can attach metadata as needed
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
-      metadata: { invoice },
-      receipt_email
-    });
-
-    res.json({ clientSecret: paymentIntent.client_secret });
-  } catch (err) {
-    console.error("Error creating PaymentIntent:", err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Webhooks (optional but recommended)
-app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
-  const sig = req.headers["stripe-signature"];
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  } catch (err) {
-    console.log("Webhook signature verification failed.");
-    return res.sendStatus(400);
-  }
-
-  // Handle the event
-  switch (event.type) {
-    case "payment_intent.succeeded":
-      // fulfill order
-      break;
-    // handle other events as needed
-    default:
-  }
-
-  res.json({ received: true });
-});
-
-const port = process.env.PORT || 4242;
-app.listen(port, () => console.log(`Server running on port ${port}`));
