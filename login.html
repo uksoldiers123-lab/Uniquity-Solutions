@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Uniquity Solutions</title>
+  <style>
+    :root{
+      --bg:#96A3B1;           /* grayish blue */
+      --text:#1f2937;         /* slate */
+      --muted:#4b5563;        /* muted text */
+      --card:#ffffff;
+      --primary:#e94b4b;      /* red highlight */
+      --primary-700:#d13f3f;
+      --accent:#fbbf24;       /* yellow highlight */
+      --ring:rgba(0,0,0,.08);
+      --shadow:0 10px 30px rgba(2,6,23,.15);
+      --radius:18px;
+      --nav-h:56px;           /* default nav height (updated via JS) */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1120px, calc(100% - 32px)); margin-inline:auto;}
+    /* Navbar */
+    .nav{
+      position:sticky; top:0; z-index:1100;
+      background:linear-gradient(to bottom, rgba(150,163,177,0.9), rgba(150,163,177,0.6));
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.15);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; letter-spacing:.2px;
+    }
+    .brand-logo{
+      width:34px; height:34px; border-radius:8px;
+      display:inline-grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      box-shadow: 0 6px 14px rgba(0,0,0,.15);
+      color:white; font-weight:800; font-size:12px;
+      text-transform:uppercase;
+      line-height:1;
+      text-decoration:none;
+    }
+    .brand-name{ user-select:none; }
+    .nav-links{display:flex; gap:26px; align-items:center}
+    .nav-links a{ color:#eef2f7; opacity:.9; font-weight:600; font-size:14.5px; }
+    .cta{
+      background:var(--primary); color:white; padding:10px 16px; border-radius:999px; font-weight:700; font-size:14px;
+      box-shadow:0 8px 18px rgba(233,75,75,.35);
+      border:1px solid rgba(0,0,0,.05);
+    }
+    .menu-btn{display:none; border:0; background:transparent; color:#fff}
+    /* Hero (optional subtle header area) */
+    .hero{ padding:0; display:none; } /* hide if you want a clean login page; remove to show a hero */
+    /* Card layout for login */
+    .login-wrap{
+      display:flex; align-items:center; justify-content:center; min-height:calc(100vh - 56px);
+      padding:48px 16px;
+    }
+    .card{
+      width:min(520px, 92vw);
+      background:var(--card); border-radius:var(--radius);
+      box-shadow:var(--shadow); border:1px solid var(--ring);
+      padding:28px;
+    }
+    .card-header{
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;
+    }
+    .logo-tiny{
+      width:28px; height:28px; border-radius:6px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      color:#fff; font-weight:800; font-size:12px;
+    }
+    .title{ font-size:20px; font-weight:800; color:var(--text); }
+    .subtitle{ font-size:12.5px; color:var(--muted); margin-left:8px; }
+    .form{ display:grid; gap:14px; margin-top:6px; }
+    .row{ display:grid; gap:14px; grid-template-columns:1fr 1fr; }
+    @media (max-width: 720px){
+      .row{ grid-template-columns:1fr; }
+    }
+    .field{ display:grid; gap:6px; }
+    .label{ font-weight:600; color:#374151; font-size:14px }
+    .input, .select, .textarea{
+      width:100%; padding:12px 12px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; font:inherit;
+    }
+    .input:focus, .select:focus, .textarea:focus{
+      outline:2px solid transparent; border-color:#cbd5e1; box-shadow:0 0 0 3px rgba(233,75,75,.15);
+    }
+    .actions{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:6px; }
+    .btn{ display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:12px; font-weight:700; border:1px solid transparent; cursor:pointer; }
+    .btn-primary{ background:var(--primary); color:#fff; box-shadow:0 12px 24px rgba(233,75,75,.35); }
+    .btn-ghost{ background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.25) }
+    .remember{ display:flex; align-items:center; gap:8px; }
+    .status{ text-align:center; margin-top:8px; color:var(--muted); min-height:1.2em; }
+    .error{ color:#b91c1c; font-size:12.5px; display:none; }
+    .pwd-wrap{ position:relative; }
+    .pwd-toggle{
+      position:absolute; right:8px; top:8px; border:0; background:transparent; cursor:pointer;
+      font-size:14px; color:var(--muted);
+    }
+    /* Footer (optional) */
+    footer{ text-align:center; padding:20px 0; color:var(--muted); font-size:12px; }
+    /* Small helpers */
+    .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar with top-left logo (links to index.html) -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner" style="align-items:center;">
+      <!-- Logo linking to home (index.html) -->
+      <a class="brand" href="index.html" aria-label="Go to Home">
+        <span class="brand-logo" aria-hidden="true" style="display:inline-grid; place-items:center; width:34px; height:34px;">
+          <!-- Simple text logo; replace with an image if you prefer -->
+          UU
+        </span>
+        <span class="brand-name" style="font-weight:800; color:#fff;">Uniquity Solutions</span>
+      </a>
+
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="#services">Services</a>
+        <a href="#partners">Partners</a>
+        <a href="#careers">Careers</a>
+
+        <div class="dropdown" data-dropdown style="position:relative">
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false" style="background:transparent; border:0; color:#fff; font-weight:700; cursor:pointer;">
+            Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu" style="position:absolute; right:0; top:calc(100% + 10px); min-width:220px; display:none; background:#fff; border:1px solid var(--ring); border-radius:12px; box-shadow:var(--shadow); padding:8px;">
+            <a href="make-payments.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Make a Payment</a>
+            <a href="create-account.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">FAQ</a>
+            <a href="pricing.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Pricing</a>
+            <a href="developers.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Developers & API</a>
+            <a href="integrations.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Integrations</a>
+            <a href="compliance.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Compliance & Security</a>
+            <a href="login.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Login Portal</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- LOGIN PANEL -->
+  <main class="login-wrap" id="main" role="main" aria-label="Login">
+    <section class="card" aria-labelledby="loginTitle">
+      <div class="card-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="logo-tiny" aria-hidden="true">U</div>
+          <div class="title" id="loginTitle">Sign in to your account</div>
+        </div>
+        <div class="subtitle" aria-hidden="true" style="opacity:.7">Welcome back</div>
+      </div>
+
+      <form id="loginForm" class="form" novalidate style="margin-top:8px;">
+        <div class="row" style="align-items:flex-end;">
+          <div class="field">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="username" aria-describedby="emailError" />
+            <span id="emailError" class="error" role="alert" aria-live="assertive">Please enter a valid email.</span>
+          </div>
+
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <div class="pwd-wrap">
+              <input class="input" type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password" aria-describedby="pwdError" />
+              <button type="button" id="togglePwd" class="pwd-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+            <span id="pwdError" class="error" role="alert" aria-live="assertive">Password is required.</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <label class="remember" style="cursor:default;">
+            <input type="checkbox" id="remember" name="remember" />
+            <span>Remember me</span>
+          </label>
+          <a href="forgot-password.html" aria-label="Forgot password?">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+          Sign In
+        </button>
+
+        <div class="status" id="loginStatus" aria-live="polite" style="margin-top:6px;">
+          <!-- live messages appear here -->
+        </div>
+
+        <div style="text-align:center; margin-top:6px;">
+          <span style="color:var(--muted); font-size:13px;">New here?</span>
+          <a href="create-account.html" class="cta" style="margin-left:6px; padding:8px 14px;">Create an account</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer aria-label="Footer">
+    <div class="container" style="justify-content:center;">
+      <small>&copy; 2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <script>
+    // Desktop dropdown toggle (basic, to mirror your existing behavior)
+    (function () {
+      const dropdown = document.querySelector('[data-dropdown]');
+      if (!dropdown) return;
+      const toggle = dropdown.querySelector('[data-toggle]');
+      const menu = dropdown.querySelector('[data-menu]');
+
+      function open(){ dropdown.classList.add('open'); toggle.setAttribute('aria-expanded','true'); }
+      function close(){ dropdown.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); }
+      function toggleMenu(){ const isOpen = dropdown.classList.contains('open'); isOpen ? close() : open(); }
+
+      if (toggle) toggle.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+
+      document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target)) close();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+      });
+    })();
+
+    // Login form UX
+    (function(){
+      const form = document.getElementById('loginForm');
+      const emailEl = document.getElementById('email');
+      const passwordEl = document.getElementById('password');
+      const emailError = document.getElementById('emailError');
+      const pwdError = document.getElementById('pwdError');
+      const status = document.getElementById('loginStatus');
+      const togglePwd = document.getElementById('togglePwd');
+
+      // Password visibility toggle
+      if (togglePwd && passwordEl) {
+        togglePwd.addEventListener('click', function(){
+          const isHidden = passwordEl.type === 'password';
+          passwordEl.type = isHidden ? 'text' : 'password';
+          togglePwd.textContent = isHidden ? 'Hide' : 'Show';
+          togglePwd.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+          togglePwd.setAttribute('aria-pressed', String(isHidden));
+        });
+      }
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        let valid = true;
+
+        // Email
+        if (!emailEl.value || !emailEl.validity.valid) {
+          emailError.style.display = 'inline';
+          emailEl.setAttribute('aria-invalid','true');
+          valid = false;
+        } else {
+          emailError.style.display = 'none';
+          emailEl.setAttribute('aria-invalid','false');
+        }
+
+        // Password
+        if (!passwordEl.value || passwordEl.value.trim().length === 0) {
+          pwdError.style.display = 'inline';
+          passwordEl.setAttribute('aria-invalid','true');
+          valid = false;
+        } else {
+          pwdError.style.display = 'none';
+          passwordEl.setAttribute('aria-invalid','false');
+        }
+
+        if (!valid) {
+          status.textContent = 'Please fix the errors above.';
+          status.style.color = 'var(--muted)';
+          return;
+        }
+
+        // Simulated login (replace with real API call)
+        status.textContent = 'Logging in...';
+        status.style.color = 'var(--muted)';
+        setTimeout(function(){
+          status.textContent = 'Welcome back!';
+          status.style.color = 'var(--text)';
+          // Example redirect:
+          // window.location.href = 'dashboard.html';
+        }, 600);
+      });
+
+      // Focus the first input on load for accessibility
+      window.addEventListener('DOMContentLoaded', () => {
+        emailEl.focus();
+      });
+    })();
+  </script>
+</body>
+</html>
