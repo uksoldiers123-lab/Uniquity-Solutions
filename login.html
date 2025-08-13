@@ -119,47 +119,81 @@
   </style>
 </head>
 <body>
-
-  <!-- Navbar with top-left logo (links to index.html) -->
+<!-- index.html (updated header/menu v8 and layout) -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=8">
+</head>
+<body>
+  <!-- Navbar -->
   <nav class="nav" aria-label="Primary">
-    <div class="container nav-inner" style="align-items:center;">
-      <!-- Logo linking to home (index.html) -->
-      <a class="brand" href="index.html" aria-label="Go to Home">
-        <span class="brand-logo" aria-hidden="true" style="display:inline-grid; place-items:center; width:34px; height:34px;">
-          <!-- Simple text logo; replace with an image if you prefer -->
-          UU
-        </span>
-        <span class="brand-name" style="font-weight:800; color:#fff;">Uniquity Solutions</span>
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
       </a>
 
-      <div class="nav-links" aria-label="Primary navigation">
+      <div class="nav-links">
+        <!-- On-page items -->
         <a href="index.html">Home</a>
         <a href="#services">Services</a>
         <a href="#partners">Partners</a>
         <a href="#careers">Careers</a>
 
-        <div class="dropdown" data-dropdown style="position:relative">
-          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false" style="background:transparent; border:0; color:#fff; font-weight:700; cursor:pointer;">
+        <!-- Desktop-only dropdown for separate pages -->
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
             Get Started
             <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="drop-menu" data-menu role="menu" style="position:absolute; right:0; top:calc(100% + 10px); min-width:220px; display:none; background:#fff; border:1px solid var(--ring); border-radius:12px; box-shadow:var(--shadow); padding:8px;">
-            <a href="make-payments.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Make a Payment</a>
-            <a href="create-account.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Create Account (Merchants)</a>
-            <a href="faq.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">FAQ</a>
-            <a href="pricing.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Pricing</a>
-            <a href="developers.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Developers & API</a>
-            <a href="integrations.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Integrations</a>
-            <a href="compliance.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Compliance & Security</a>
-            <a href="login.html" role="menuitem" style="display:flex; align-items:center; gap:8px; padding:10px 10px;">Login Portal</a>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="make-payments.html" role="menuitem">Make a Payment</a>
+            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem">FAQ</a>
+            <a href="pricing.html" role="menuitem">Pricing</a>
+            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="integrations.html" role="menuitem">Integrations</a>
+            <a href="compliance.html" role="menuitem">Compliance & Security</a>
+            <a href="login.html" role="menuitem">Login Portal</a>
           </div>
         </div>
+
+        <a href="#contact" class="cta">Contact</a>
       </div>
+
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
     </div>
   </nav>
 
+  <!-- Mobile overlay menu OUTSIDE the nav -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+    <div class="menu-label">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="#services">Services</a>
+    <a href="#partners">Partners</a>
+    <a href="#careers">Careers</a>
+    <a href="#contact" class="cta">Contact</a>
+
+    <div class="menu-label">More pages</div>
+    <a href="make-payments.html">Make a Payment</a>
+    <a href="create-account.html">Create Account (Merchants)</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
+    <a href="login.html">Login Portal</a>
+  </div>
   <!-- LOGIN PANEL -->
   <main class="login-wrap" id="main" role="main" aria-label="Login">
     <section class="card" aria-labelledby="loginTitle">
