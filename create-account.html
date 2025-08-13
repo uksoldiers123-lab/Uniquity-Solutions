@@ -3,362 +3,180 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Create Merchant Account — Uniquity Solutions</title>
-  <meta name="description" content="Open a Uniquity Solutions merchant account to accept cards and ACH online, in‑person, or via API. Quick application and fast approvals." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <title>Create Account</title>
+  <!-- Link to your main stylesheet to keep exact styling -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Supabase JS client -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
-        <div class="nav-links">
-        <!-- On-page items -->
-        <a href="index.html">Home</a>
-        <a href="#services">Services</a>
-        <a href="#partners">Partners</a>
-        <a href="#careers">Careers</a>
+  <!-- Top bar (logo + menu) - keep exactly as in your site -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Logo (top-left) - replace with your actual logo element or image -->
+      <a href="/" class="logo" aria-label="Home">
+        <!-- If your site uses an SVG or image, swap accordingly -->
+        <img src="logo.png" alt="Site Logo" />
+      </a>
 
-        <!-- Desktop-only dropdown for separate pages -->
-        <div class="dropdown" data-dropdown>
-          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
-            Get Started
-            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="drop-menu" data-menu role="menu">
-            <a href="make-payments.html" role="menuitem">Make a Payment</a>
-            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
-            <a href="faq.html" role="menuitem">FAQ</a>
-            <a href="pricing.html" role="menuitem">Pricing</a>
-            <a href="developers.html" role="menuitem">Developers & API</a>
-            <a href="integrations.html" role="menuitem">Integrations</a>
-            <a href="compliance.html" role="menuitem">Compliance & Security</a>
-            <a href="login.html" role="menuitem">Login Portal</a>
-          </div>
-        </div>
-
-
-        <a href="index.html#contact" class="cta">Contact</a>
-      </div>
-
-      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
+      <!-- Main navigation/menu - keep your existing structure/classes -->
+      <nav class="main-nav" aria-label="Main Navigation">
+        <ul class="nav-list">
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/account" class="active">Account</a></li>
+          <li><a href="/support">Support</a></li>
+        </ul>
+      </nav>
     </div>
-  </nav>
+  </header>
 
-  <!-- Mobile overlay menu OUTSIDE the nav -->
-  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
-    <div class="menu-label">On this page</div>
-    <a href="index.html">Home</a>
-    <a href="index.html#services">Services</a>
-    <a href="index.html#partners">Partners</a>
-    <a href="index.html#careers">Careers</a>
-    <a href="index.html#contact" class="cta">Contact</a>
+  <!-- Main content area -->
+  <main id="content" class="container" role="main" aria-label="Create Account">
+    <section class="card" aria-labelledby="create-account-title">
+      <header class="card-header">
+        <h1 id="create-account-title" class="card-title">Create Account</h1>
+        <p class="card-subtitle">Sign up to get started</p>
+      </header>
 
-    <div class="menu-label">More pages</div>
-    <a href="make-payments.html">Make a Payment</a>
-    <a href="create-account.html">Create Account (Merchants)</a>
-    <a href="faq.html">FAQ</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="developers.html">Developers & API</a>
-    <a href="integrations.html">Integrations</a>
-    <a href="compliance.html" aria-current="page">Compliance & Security</a>
-    <a href="login.html">Login Portal </a>
-  </div>
-
-  </nav>
-
-  <main id="content">
-    <!-- Hero -->
-    <section class="section hero hero-internal">
-      <div class="container">
-        <h1>Create your merchant account</h1>
-        <p class="lead">Start accepting card and ACH payments online, in‑person, and via API. Application takes ~5 minutes.</p>
-      </div>
-    </section>
-
-    <!-- Application form -->
-    <section class="section">
-      <div class="container grid-2">
-        <div class="card">
-          <form id="merchant-app" action="#" method="post" novalidate>
-            <fieldset class="fieldset">
-              <legend>Business information</legend>
-              <div class="field">
-                <label for="legalName">Legal business name</label>
-                <input id="legalName" name="legalName" type="text" autocomplete="organization" required>
-              </div>
-              <div class="field">
-                <label for="dba">Doing business as (DBA) — optional</label>
-                <input id="dba" name="dba" type="text" autocomplete="organization">
-              </div>
-              <div class="field">
-                <label for="website">Website</label>
-                <input id="website" name="website" type="url" inputmode="url" placeholder="https://example.com" required>
-              </div>
-              <div class="field group">
-                <div>
-                  <label for="businessType">Business type</label>
-                  <select id="businessType" name="businessType" required>
-                    <option value="" hidden>Select</option>
-                    <option>LLC</option>
-                    <option>Corporation</option>
-                    <option>Sole Proprietorship</option>
-                    <option>Partnership</option>
-                    <option>Nonprofit</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label for="industry">Industry</label>
-                  <select id="industry" name="industry" required>
-                    <option value="" hidden>Select</option>
-                    <option>Retail</option>
-                    <option>Professional Services</option>
-                    <option>Healthcare</option>
-                    <option>Hospitality</option>
-                    <option>Software / SaaS</option>
-                    <option>Ecommerce</option>
-                    <option>Education</option>
-                    <option>Nonprofit</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-              </div>
-              <div class="field" id="industryOtherWrap" hidden>
-                <label for="industryOther">Describe your industry</label>
-                <input id="industryOther" name="industryOther" type="text" maxlength="80">
-              </div>
-              <div class="field">
-                <label for="ein">EIN / Tax ID — optional</label>
-                <input id="ein" name="ein" type="text" inputmode="numeric" placeholder="12-3456789">
-              </div>
-            </fieldset>
-
-            <fieldset class="fieldset">
-              <legend>Primary contact</legend>
-              <div class="field group">
-                <div>
-                  <label for="firstName">First name</label>
-                  <input id="firstName" name="firstName" type="text" autocomplete="given-name" required>
-                </div>
-                <div>
-                  <label for="lastName">Last name</label>
-                  <input id="lastName" name="lastName" type="text" autocomplete="family-name" required>
-                </div>
-              </div>
-              <div class="field">
-                <label for="email">Work email</label>
-                <input id="email" name="email" type="email" autocomplete="email" required>
-              </div>
-              <div class="field">
-                <label for="phone">Phone</label>
-                <input id="phone" name="phone" type="tel" autocomplete="tel" required>
-              </div>
-              <div class="field">
-                <label for="role">Role — optional</label>
-                <input id="role" name="role" type="text" autocomplete="organization-title" placeholder="Owner, CFO, Operations, etc.">
-              </div>
-            </fieldset>
-
-            <fieldset class="fieldset">
-              <legend>Business address</legend>
-              <div class="field">
-                <label for="street">Street address</label>
-                <input id="street" name="street" type="text" autocomplete="address-line1" required>
-              </div>
-              <div class="field">
-                <label for="street2">Address line 2 — optional</label>
-                <input id="street2" name="street2" type="text" autocomplete="address-line2">
-              </div>
-              <div class="field group">
-                <div>
-                  <label for="city">City</label>
-                  <input id="city" name="city" type="text" autocomplete="address-level2" required>
-                </div>
-                <div>
-                  <label for="state">State/Province</label>
-                  <input id="state" name="state" type="text" autocomplete="address-level1" required>
-                </div>
-                <div>
-                  <label for="zip">Postal code</label>
-                  <input id="zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" required>
-                </div>
-              </div>
-              <div class="field">
-                <label for="country">Country</label>
-                <select id="country" name="country" autocomplete="country-name" required>
-                  <option>United States</option>
-                  <option>Canada</option>
-                </select>
-              </div>
-            </fieldset>
-
-            <fieldset class="fieldset">
-              <legend>Payments setup</legend>
-              <div class="field group">
-                <div>
-                  <label for="monthlyVolume">Estimated monthly volume (USD)</label>
-                  <select id="monthlyVolume" name="monthlyVolume" required>
-                    <option value="" hidden>Select</option>
-                    <option>Under $10,000</option>
-                    <option>$10,000 – $50,000</option>
-                    <option>$50,000 – $250,000</option>
-                    <option>$250,000 – $1,000,000</option>
-                    <option>Over $1,000,000</option>
-                  </select>
-                </div>
-                <div>
-                  <label for="avgTicket">Average ticket size</label>
-                  <select id="avgTicket" name="avgTicket" required>
-                    <option value="" hidden>Select</option>
-                    <option>Under $25</option>
-                    <option>$25 – $100</option>
-                    <option>$100 – $500</option>
-                    <option>$500 – $2,500</option>
-                    <option>Over $2,500</option>
-                  </select>
-                </div>
-              </div>
-              <div class="field checkbox">
-                <span class="label">Payment methods and features</span>
-                <label><input type="checkbox" name="features" value="card" checked> Accept credit/debit cards</label>
-                <label><input type="checkbox" name="features" value="ach"> Bank payments (ACH)</label>
-                <label><input type="checkbox" name="features" value="pos"> In‑person (POS/terminal)</label>
-                <label><input type="checkbox" name="features" value="recurring"> Subscriptions/recurring billing</label>
-                <label><input type="checkbox" name="features" value="invoicing"> Invoicing</label>
-              </div>
-            </fieldset>
-
-            <div class="field checkbox">
-              <label>
-                <input id="agree" name="agree" type="checkbox" required>
-                <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>, and authorize Uniquity Solutions to contact me about this application.</span>
-              </label>
+      <div class="card-body">
+        <!-- Sign-up form -->
+        <form id="signup-form" class="form" autocomplete="off" novalidate>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="Your full name" required />
+              <span class="error" id="error-name" aria-live="polite"></span>
             </div>
 
-            <div class="actions">
-              <button type="submit" class="btn btn-primary">Submit application</button>
-              <p class="help small">You’ll receive a confirmation email. A risk specialist may reach out if additional information is required.</p>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" required />
+              <span class="error" id="error-email" aria-live="polite"></span>
             </div>
 
-            <div class="form-status" aria-live="polite"></div>
-          </form>
-        </div>
+            <div class="form-field">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" placeholder="Password" required />
+              <span class="helper" id="password-hint">Use at least 8 characters.</span>
+              <span class="error" id="error-password" aria-live="polite"></span>
+            </div>
 
-        <aside class="card">
-          <div class="stack">
-            <h2>What you’ll need</h2>
-            <ul class="list">
-              <li>Legal business name and website</li>
-              <li>Owner or authorized contact information</li>
-              <li>Estimated processing volume and average ticket</li>
-            </ul>
-
-            <h3>Timeline</h3>
-            <ul class="list">
-              <li>Apply in ~5 minutes</li>
-              <li>Provisional approval often same day</li>
-              <li>Payout bank connection happens securely after approval</li>
-            </ul>
-
-            <h3>Questions?</h3>
-            <p>Email sales: <a href="mailto:sales@uniquitysolutions.com">sales@uniquitysolutions.com</a></p>
-
-            <h3>Security & compliance</h3>
-            <ul class="list">
-              <li>PCI DSS Level 1</li>
-              <li>Encrypted transmission (TLS 1.2+)</li>
-              <li>Bank details collected via tokenized flow</li>
-            </ul>
-            <p class="small">Learn more: <a href="compliance.html">Compliance</a> · <a href="security.html">Security</a></p>
+            <div class="form-field">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password" required />
+              <span class="error" id="error-confirm" aria-live="polite"></span>
+            </div>
           </div>
-        </aside>
-      </div>
-    </section>
 
-    <!-- Trust band -->
-    <section class="section section-muted">
-      <div class="container">
-        <div class="strip">
-          <div class="strip-item">
-            <strong>20+ years</strong>
-            <span>Trusted payments</span>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="signup-button">Create Account</button>
+            <span class="form-hint" id="form-hint" aria-live="polite"></span>
           </div>
-          <div class="strip-item">
-            <strong>99.99%</strong>
-            <span>Platform uptime</span>
-          </div>
-          <div class="strip-item">
-            <strong>24/7</strong>
-            <span>Fraud monitoring</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Developers CTA -->
-    <section class="section section-accent">
-      <div class="container">
-        <div class="cta">
-          <h2>Developers: build on our API</h2>
-          <p>Modern REST and webhooks for payments, subscriptions, invoicing, and reporting.</p>
-          <a class="btn btn-light" href="developers.html">Explore the API</a>
-        </div>
+        </form>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <strong>Uniquity Solutions</strong>
-        <span class="small">© <span id="year"></span> All rights reserved.</span>
-      </div>
-      <nav class="footer-links" aria-label="Footer">
-        <a href="pricing.html">Pricing</a>
-        <a href="developers.html">Developers</a>
-        <a href="integrations.html">Integrations</a>
-        <a href="compliance.html">Compliance</a>
-        <a href="security.html">Security</a>
-        <a href="faq.html">FAQ</a>
-      </nav>
-    </div>
+  <footer class="site-footer" aria-label="Footer">
+    <!-- Optional footer content -->
   </footer>
 
   <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Initialize Supabase client
+    // Replace the placeholders with your actual values
+    const SUPABASE_URL = 'https://YOUR_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Show an "Other industry" text field if selected
-    const industry = document.getElementById('industry');
-    const otherWrap = document.getElementById('industryOtherWrap');
-    const otherInput = document.getElementById('industryOther');
-    function toggleOther() {
-      const isOther = industry.value === 'Other';
-      otherWrap.hidden = !isOther;
-      otherInput.required = isOther;
-      if (!isOther) otherInput.value = '';
+    // Simple client-side validation
+    function validateForm(data) {
+      let ok = true;
+
+      // Reset errors
+      ['name','email','password','confirm-password'].forEach(id => {
+        const el = document.getElementById('error-' + (id === 'confirm-password' ? 'confirm' : id));
+        if (el) el.textContent = '';
+      });
+
+      if (!data.name.trim()) {
+        document.getElementById('error-name').textContent = 'Please enter your full name.';
+        ok = false;
+      }
+
+      if (!data.email.trim()) {
+        document.getElementById('error-email').textContent = 'Please enter an email address.';
+        ok = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+        document.getElementById('error-email').textContent = 'Please enter a valid email.';
+        ok = false;
+      }
+
+      if (!data.password) {
+        document.getElementById('error-password').textContent = 'Please enter a password.';
+        ok = false;
+      } else if (data.password.length < 8) {
+        document.getElementById('error-password').textContent = 'Password must be at least 8 characters.';
+        ok = false;
+      }
+
+      if (data.password !== data.confirmPassword) {
+        document.getElementById('error-confirm').textContent = 'Passwords do not match.';
+        ok = false;
+      }
+
+      return ok;
     }
-    industry.addEventListener('change', toggleOther);
-    toggleOther();
 
-    // Basic client-side submission stub
-    document.getElementById('merchant-app').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const status = e.target.querySelector('.form-status');
-      status.textContent = 'Submitting your application...';
-      // TODO: Post to your backend endpoint and handle success/error states.
-      setTimeout(() => {
-        status.textContent = 'Thanks! Your application has been received. Check your email for next steps.';
-      }, 800);
+    // Hook for your render system to render this page (optional)
+    function renderCreateAccount() {
+      // If you use a global render helper, call it here.
+      // e.g., window.renderPage('createAccount');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCreateAccount();
+      const form = document.getElementById('signup-form');
+      const hint = document.getElementById('form-hint');
+      const button = document.getElementById('signup-button');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+          name: document.getElementById('name').value,
+          email: document.getElementById('email').value,
+          password: document.getElementById('password').value,
+          confirmPassword: document.getElementById('confirm-password').value
+        };
+
+        // Client-side validation
+        if (!validateForm(data)) return;
+
+        hint.textContent = 'Creating your account...';
+        button.disabled = true;
+
+        // Supabase sign up
+        const { user, session, error } = await supabase.auth.signUp({
+          email: data.email,
+          password: data.password
+        }, {
+          data: {
+            full_name: data.name
+          }
+        });
+
+        if (error) {
+          hint.textContent = 'Error: ' + error.message;
+          button.disabled = false;
+          return;
+        }
+
+        // Success flow: you may want to show a confirmation step or redirect
+        hint.textContent = 'Account created. Please check your email to confirm your address.';
+        // Optional: auto-redirect after a short delay
+        // setTimeout(() => window.location.href = '/dashboard', 1500);
+      });
     });
   </script>
 </body>
 </html>
-
-Notes:
-- Links assume .html extensions (Compliance, Terms, Privacy). If you’re using .htm for Compliance or different slugs, say the word and I’ll switch.
