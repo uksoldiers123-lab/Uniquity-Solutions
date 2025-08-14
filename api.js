@@ -1,4 +1,4 @@
-/*
+
 Usage:
   const api = createBackendApi({
     baseUrl: 'https://dashboard.uniquitysolutions.com, // e.g. https://uniquity-api-1.onrender.com
