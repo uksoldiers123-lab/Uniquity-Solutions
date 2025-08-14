@@ -1,13 +1,14 @@
-<!-- index.html (updated header/menu v8 and layout) -->
-<!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
+  <title>Uniquity Solutions — Create Account</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=8">
+  <!-- Include Supabase client library -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Navbar -->
@@ -19,13 +20,11 @@
       </a>
 
       <div class="nav-links">
-        <!-- On-page items -->
         <a href="index.html">Home</a>
         <a href="#services">Services</a>
         <a href="#partners">Partners</a>
         <a href="#careers">Careers</a>
 
-        <!-- Desktop-only dropdown for separate pages -->
         <div class="dropdown" data-dropdown>
           <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
             Get Started
@@ -54,7 +53,7 @@
     </div>
   </nav>
 
-  <!-- Mobile overlay menu OUTSIDE the nav -->
+  <!-- Mobile overlay menu -->
   <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
     <div class="menu-label">On this page</div>
     <a href="index.html">Home</a>
@@ -129,17 +128,16 @@
 
   <script>
     // Initialize Supabase client
-    // Replace the placeholders with your actual values
-    const SUPABASE_URL = 'https://YOUR_SUPABASE_URL';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = 'https://YOUR_SUPABASE_URL.supabase.co'; // Replace with your Supabase URL
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your Supabase anon/public key
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Simple client-side validation
+    // Form validation
     function validateForm(data) {
       let ok = true;
 
       // Reset errors
-      ['name','email','password','confirm'].forEach(id => {
+      ['name', 'email', 'password', 'confirm'].forEach(id => {
         const el = document.getElementById('error-' + (id === 'confirm' ? 'confirm' : id));
         if (el) el.textContent = '';
       });
@@ -173,53 +171,44 @@
       return ok;
     }
 
-    // Optional render hook
-    function renderCreateAccount() {
-      // e.g., window.renderPage('createAccount');
-    }
+    // Handle form submission
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    document.addEventListener('DOMContentLoaded', () => {
-      renderCreateAccount();
-      const form = document.getElementById('signup-form');
-      const hint = document.getElementById('form-hint');
-      const button = document.getElementById('signup-button');
+      const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        confirmPassword: document.getElementById('confirm-password').value
+      };
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const data = {
-          name: document.getElementById('name').value,
-          email: document.getElementById('email').value,
-          password: document.getElementById('password').value,
-          confirmPassword: document.getElementById('confirm-password').value
-        };
+      // Validate form
+      if (!validateForm(data)) return;
 
-        // Client-side validation
-        if (!validateForm(data)) return;
+      // Disable button and show loading message
+      document.getElementById('signup-button').disabled = true;
+      document.getElementById('form-hint').textContent = 'Creating your account...';
 
-        hint.textContent = 'Creating your account...';
-        button.disabled = true;
-
-        // Supabase sign up
-        const { user, session, error } = await supabase.auth.signUp({
-          email: data.email,
-          password: data.password
-        }, {
-          data: {
-            full_name: data.name
-          }
-        });
-
-        if (error) {
-          hint.textContent = 'Error: ' + error.message;
-          button.disabled = false;
-          return;
+      // Sign up with Supabase
+      const { user, error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password
+      }, {
+        data: {
+          full_name: data.name
         }
-
-        // Success flow
-        hint.textContent = 'Account created. Please check your email to confirm your address.';
-        // Optional: auto-redirect after a short delay
-        // setTimeout(() => window.location.href = '/dashboard', 1500);
       });
+
+      if (error) {
+        document.getElementById('form-hint').textContent = 'Error: ' + error.message;
+        document.getElementById('signup-button').disabled = false;
+        return;
+      }
+
+      // Success
+      document.getElementById('form-hint').textContent = 'Account created. Please check your email to confirm your address.';
+      // Redirect after a delay
+      setTimeout(() => window.location.href = '/dashboard', 3000);
     });
   </script>
 </body>
