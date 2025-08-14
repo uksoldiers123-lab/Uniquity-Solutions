@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Test Create Account</title>
+</head>
+<body>
+  <h3>Test /api/create-account</h3>
+  <div>
+    <label>Business name: <input id="businessName" /></label><br/>
+    <label>Owner name: <input id="ownerName" /></label><br/>
+    <label>Email: <input id="email" type="email" /></label><br/>
+    <label>Country: <input id="country" value="US" /></label><br/>
+    <button id="sendBtn">Send</button>
+  </div>
+  <pre id="response" style="background:#f4f4f4;padding:10px;"></pre>
+
+  <script>
+    document.getElementById('sendBtn').addEventListener('click', async () => {
+      const payload = {
+        businessName: document.getElementById('businessName').value,
+        ownerName: document.getElementById('ownerName').value,
+        email: document.getElementById('email').value,
+        country: document.getElementById('country').value,
+        // add more fields if you need (taxId, address, etc.)
+      };
+
+      try {
+        const res = await fetch('https://dashboard.uniquitysolutions.com/api/create-account', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          // include credentials if your backend uses cookies/same-origin auth
+          // credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+        if (data.ok) {
+          window.location.href = data.redirectUrl || '/dashboard';
+        }
+      } catch (e) {
+        document.getElementById('response').textContent = 'Network error: ' + e;
+      }
+    });
+  </script>
+</body>
+</html>
