@@ -1,4 +1,4 @@
-<!doctype html>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -8,13 +8,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=8">
+  <!-- Include Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
   <!-- Navbar and content as in your file... (omitted here for brevity) -->
 
-  <!-- Make a Payment form (existing markup retained) -->
+  <!-- Make a Payment form -->
   <form id="payment-form" action="#" method="post" novalidate>
-    <!-- existing payer info fields -->
+    <!-- Payer information fields -->
     <fieldset class="fieldset">
       <legend>Payer information</legend>
       <div class="field">
@@ -31,6 +33,7 @@
       </div>
     </fieldset>
 
+    <!-- Payment details fields -->
     <fieldset class="fieldset">
       <legend>Payment details</legend>
       <div class="field">
@@ -47,6 +50,7 @@
       </div>
     </fieldset>
 
+    <!-- Stripe PaymentElement for card details -->
     <fieldset class="fieldset">
       <legend>Payment method</legend>
       <div class="field inline">
@@ -60,42 +64,11 @@
         </label>
       </div>
 
-      <!-- Hosted fields placeholder / real integration would mount here -->
-      <div class="hosted-fields" id="hosted-fields" aria-hidden="false">
-        <!-- Card fields would be mounted by Stripe.js or your gateway -->
-        <div class="field">
-          <label for="cardNumber">Card number</label>
-          <input id="cardNumber" name="cardNumber" inputmode="numeric" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
-        </div>
-        <div class="field group">
-          <div>
-            <label for="cardExp">Expiration</label>
-            <input id="cardExp" name="cardExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" required>
-          </div>
-          <div>
-            <label for="cardCvc">CVC</label>
-            <input id="cardCvc" name="cardCvc" inputmode="numeric" autocomplete="cc-csc" placeholder="CVC" required>
-          </div>
-        </div>
-        <div class="field">
-          <label for="billingZip">Billing ZIP</label>
-          <input id="billingZip" name="billingZip" inputmode="numeric" autocomplete="postal-code" required>
-        </div>
-      </div>
-
-      <div class="ach-fields" id="ach-fields" hidden>
-        <div class="field">
-          <label for="routing">Routing number</label>
-          <input id="routing" name="routing" inputmode="numeric" autocomplete="off">
-        </div>
-        <div class="field">
-          <label for="account">Account number</label>
-          <input id="account" name="account" inputmode="numeric" autocomplete="off">
-        </div>
-        <p class="help">For production, use tokenized flows instead of plain inputs.</p>
-      </div>
+      <!-- Stripe PaymentElement container -->
+      <div id="payment-element" class="hosted-fields" aria-hidden="false"></div>
     </fieldset>
 
+    <!-- Terms and conditions -->
     <div class="field checkbox">
       <label>
         <input id="agree" name="agree" type="checkbox" required>
@@ -103,52 +76,77 @@
       </label>
     </div>
 
+    <!-- Submit button -->
     <div class="actions">
       <button type="submit" class="btn btn-primary" id="payButton">Continue to secure checkout</button>
       <p class="help small">You’ll review your details before submitting. Do not include sensitive data in the memo field.</p>
     </div>
 
-    <div class="form-status" aria-live="polite"></div>
+    <!-- Payment status messages -->
+    <div id="payment-status" class="form-status" aria-live="polite"></div>
   </form>
 
-  <!-- Include frontend config and API helpers -->
-  <script src="assets/js/config.js"></script>
-  <script src="assets/js/api.js"></script>
-
   <script>
-    (async function initPaymentFlow() {
-      try {
-        // Build payload as your backend expects (amount, currency, invoice, etc.)
-        const payload = {
-          amount: document.getElementById('amount').value || 0,
-          currency: 'usd',
-          invoiceNumber: document.getElementById('invoiceNumber').value || ''
-        };
+    // Initialize Stripe with your publishable key
+    const stripe = Stripe(pk_test_51Rv1XcJ8rYAVrZVt8iJlItcVIk0sOmnKiveDQUx1TVpr79thl3akjWJWVmvTa5QdWgMzk9ZBaXEAnelyZzI7yLkF00Ejbx8thQ'); // Replace with your actual key
 
-        const resp = await fetch(window.UNIQUITY_CONFIG.baseUrl + '/create-payment-intent', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            // Include apiKey only if you publicly require it
-            'x-api-key': window.UNIQUITY_CONFIG.apiKey || ''
-          },
-          body: JSON.stringify(payload)
-        });
+    // Fetch payment intent from your backend
+    async function initializePayment() {
+      const invoiceNumber = document.getElementById('invoiceNumber').value;
+      const amount = document.getElementById('amount').value;
 
-        const data = await resp.json();
-        // data.clientSecret should be provided by backend
-        // Initialize Stripe Elements or hosted fields with data.clientSecret as needed
-        // Example (pseudo):
-        // const stripe = Stripe(window.UNIQUITY_CONFIG.stripePublishableKey);
-        // const elements = stripe.elements();
-        // const card = elements.create('card');
-        // card.mount('#card-element');
-        // Save clientSecret for confirmCardPayment on form submit
+      const response = await fetch('/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invoiceNumber, amount }),
+      });
 
-      } catch (err) {
-        console.error('Failed to initialize payment', err);
+      const { clientSecret } = await response.json();
+      return clientSecret;
+    }
+
+    // Set up Stripe Elements
+    async function setupStripe() {
+      const clientSecret = await initializePayment();
+
+      const elements = stripe.elements({ clientSecret });
+      const paymentElement = elements.create('payment');
+      paymentElement.mount('#payment-element');
+
+      return { elements, paymentElement, clientSecret };
+    }
+
+    // Handle form submission
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Disable the submit button
+      const submitButton = document.getElementById('payButton');
+      submitButton.disabled = true;
+
+      // Set up Stripe if not already initialized
+      const { elements, clientSecret } = await setupStripe();
+
+      // Confirm the payment
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret,
+        confirmParams: {
+          return_url: 'https://uniquitysolutions.com/thank-you', // Replace with your thank-you page
+          receipt_email: document.getElementById('payerEmail').value,
+        },
+      });
+
+      if (error) {
+        // Show error to user
+        document.getElementById('payment-status').textContent = error.message;
+        submitButton.disabled = false;
+      } else {
+        // Payment successful
+        document.getElementById('payment-status').textContent = 'Payment successful! Redirecting...';
       }
-    })();
+    });
   </script>
 </body>
 </html>
