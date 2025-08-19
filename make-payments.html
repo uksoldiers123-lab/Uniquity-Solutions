@@ -26,10 +26,10 @@
     async function initialize() {
       // Fetch the client secret from your backend
       const response = await fetch('/api/create-payment-intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: 1000, currency: 'usd' }), // Example: $10.00
-      });
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ amount: 1000, currency: 'usd' }), // Example: $10.00
+});
       const { clientSecret } = await response.json();
 
       // Initialize Stripe Elements
