@@ -1,213 +1,65 @@
-
-<<!-- index.html (updated header/menu v8 and layout) -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Make a Payment - Uniquity Solutions</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="nav" aria-label="Primary">
-    <div class="container nav-inner">
-      <a class="brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true"></span>
-        Uniquity Solutions
-      </a>
-
-      <div class="nav-links">
-        <!-- On-page items -->
-        <a href="index.html">Home</a>
-        <a href="#services">Services</a>
-        <a href="#partners">Partners</a>
-        <a href="#careers">Careers</a>
-
-        <!-- Desktop-only dropdown for separate pages -->
-        <div class="dropdown" data-dropdown>
-          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
-            Get Started
-            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="drop-menu" data-menu role="menu">
-            <a href="make-payments.html" role="menuitem">Make a Payment</a>
-            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
-            <a href="faq.html" role="menuitem">FAQ</a>
-            <a href="pricing.html" role="menuitem">Pricing</a>
-            <a href="developers.html" role="menuitem">Developers & API</a>
-            <a href="integrations.html" role="menuitem">Integrations</a>
-            <a href="compliance.html" role="menuitem">Compliance & Security</a>
-            <a href="login.html" role="menuitem">Login Portal</a>
-          </div>
-        </div>
-
-        <a href="#contact" class="cta">Contact</a>
-      </div>
-
-      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Mobile overlay menu OUTSIDE the nav -->
-  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
-    <div class="menu-label">On this page</div>
-    <a href="index.html">Home</a>
-    <a href="#services">Services</a>
-    <a href="#partners">Partners</a>
-    <a href="#careers">Careers</a>
-    <a href="#contact" class="cta">Contact</a>
-
-    <div class="menu-label">More pages</div>
-    <a href="make-payments.html">Make a Payment</a>
-    <a href="create-account.html">Create Account (Merchants)</a>
-    <a href="faq.html">FAQ</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="developers.html">Developers & API</a>
-    <a href="integrations.html">Integrations</a>
-    <a href="compliance.html">Compliance & Security</a>
-    <a href="login.html">Login Portal</a>
+  <div class="container">
+    <h1>Make a Payment</h1>
+    <form id="payment-form">
+      <div id="payment-element"></div>
+      <button id="submit" class="btn btn-primary">Pay Now</button>
+      <div id="error-message" role="alert"></div>
+    </form>
   </div>
 
-  <!-- Make a Payment form -->
-  <form id="payment-form" action="#" method="post" novalidate>
-    <!-- Payer information fields -->
-    <fieldset class="fieldset">
-      <legend>Payer information</legend>
-      <div class="field">
-        <label for="payerName">Full name</label>
-        <input id="payerName" name="payerName" type="text" autocomplete="name" required>
-      </div>
-      <div class="field">
-        <label for="payerEmail">Email for receipt</label>
-        <input id="payerEmail" name="payerEmail" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="payerPhone">Phone (optional)</label>
-        <input id="payerPhone" name="payerPhone" type="tel" autocomplete="tel">
-      </div>
-    </fieldset>
-
-    <!-- Payment details fields -->
-    <fieldset class="fieldset">
-      <legend>Payment details</legend>
-      <div class="field">
-        <label for="invoiceNumber">Invoice or account number</label>
-        <input id="invoiceNumber" name="invoiceNumber" type="text" required>
-      </div>
-      <div class="field">
-        <label for="amount">Amount (USD)</label>
-        <input id="amount" name="amount" type="number" step="0.01" min="1" inputmode="decimal" required>
-      </div>
-      <div class="field">
-        <label for="memo">Memo (optional)</label>
-        <input id="memo" name="memo" type="text" maxlength="120" placeholder="Add a note for the merchant">
-      </div>
-    </fieldset>
-
-    <!-- Stripe PaymentElement for card details -->
-    <fieldset class="fieldset">
-      <legend>Payment method</legend>
-      <div class="field inline">
-        <label class="radio">
-          <input type="radio" name="method" value="card" checked>
-          <span>Card</span>
-        </label>
-        <label class="radio">
-          <input type="radio" name="method" value="ach">
-          <span>Bank (ACH)</span>
-        </label>
-      </div>
-
-      <!-- Stripe PaymentElement container -->
-      <div id="payment-element" class="hosted-fields" aria-hidden="false"></div>
-    </fieldset>
-
-    <!-- Terms and conditions -->
-    <div class="field checkbox">
-      <label>
-        <input id="agree" name="agree" type="checkbox" required>
-        <span>I authorize this payment and agree to the terms of service and refund policy.</span>
-      </label>
-    </div>
-
-    <!-- Submit button -->
-    <div class="actions">
-      <button type="submit" class="btn btn-primary" id="payButton">Continue to secure checkout</button>
-      <p class="help small">You’ll review your details before submitting. Do not include sensitive data in the memo field.</p>
-    </div>
-
-    <!-- Payment status messages -->
-    <div id="payment-status" class="form-status" aria-live="polite"></div>
-  </form>
-
   <script>
-    // Initialize Stripe with your publishable key
-    const stripe = Stripe(pk_test_51Rv1XcJ8rYAVrZVt8iJlItcVIk0sOmnKiveDQUx1TVpr79thl3akjWJWVmvTa5QdWgMzk9ZBaXEAnelyZzI7yLkF00Ejbx8thQ'); // Replace with your actual key
+    const stripe = Stripe('your-stripe-publishable-key'); // Replace with your Stripe Publishable Key
 
-    // Fetch payment intent from your backend
-    async function initializePayment() {
-      const invoiceNumber = document.getElementById('invoiceNumber').value;
-      const amount = document.getElementById('amount').value;
+    // Initialize Stripe Payment Element
+    let elements;
 
-      const response = await fetch('/create-payment-intent', {
+    async function initialize() {
+      // Fetch the client secret from your backend
+      const response = await fetch('/api/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ invoiceNumber, amount }),
+        body: JSON.stringify({ amount: 1000, currency: 'usd' }), // Example: $10.00
       });
-
       const { clientSecret } = await response.json();
-      return clientSecret;
-    }
 
-    // Set up Stripe Elements
-    async function setupStripe() {
-      const clientSecret = await initializePayment();
+      // Initialize Stripe Elements
+      elements = stripe.elements({ clientSecret });
 
-      const elements = stripe.elements({ clientSecret });
+      // Create and mount the Payment Element
       const paymentElement = elements.create('payment');
       paymentElement.mount('#payment-element');
-
-      return { elements, paymentElement, clientSecret };
     }
 
     // Handle form submission
     const form = document.getElementById('payment-form');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
 
-      // Disable the submit button
-      const submitButton = document.getElementById('payButton');
-      submitButton.disabled = true;
-
-      // Set up Stripe if not already initialized
-      const { elements, clientSecret } = await setupStripe();
-
-      // Confirm the payment
       const { error } = await stripe.confirmPayment({
         elements,
-        clientSecret,
         confirmParams: {
-          return_url: 'https://uniquitysolutions.com/thank-you', // Replace with your thank-you page
-          receipt_email: document.getElementById('payerEmail').value,
+          return_url: 'https://your-website.com/success', // Redirect URL after payment
         },
       });
 
       if (error) {
-        // Show error to user
-        document.getElementById('payment-status').textContent = error.message;
-        submitButton.disabled = false;
-      } else {
-        // Payment successful
-        document.getElementById('payment-status').textContent = 'Payment successful! Redirecting...';
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.textContent = error.message;
       }
     });
+
+    // Initialize the payment form
+    initialize();
   </script>
 </body>
 </html>
