@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=8">
+  <script src="https://js.stripe.com/v3/"></script> <!-- Add Stripe.js -->
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </a>
+
+      <div class="nav-links">
+        <!-- On-page items -->
+        <a href="index.html">Home</a>
+        <a href="#services">Services</a>
+        <a href="#partners">Partners</a>
+        <a href="#careers">Careers</a>
+
+        <!-- Desktop-only dropdown for separate pages -->
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
+            Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="make-payments.html" role="menuitem">Make a Payment</a>
+            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem">FAQ</a>
+            <a href="pricing.html" role="menuitem">Pricing</a>
+            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="integrations.html" role="menuitem">Integrations</a>
+            <a href="compliance.html" role="menuitem">Compliance</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Payment Section -->
+  <section class="payment-section">
+    <div class="container">
+      <h2>Make a Payment</h2>
+      <form id="payment-form">
+        <div id="payment-element"></div>
+        <button id="submit" class="btn btn-primary">Pay Now</button>
+        <div id="error-message" role="alert"></div>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Initialize Stripe
+    const stripe = Stripe('pk_test_51Rv1XcJ8rYAVrZVt8iJlItcVIk0sOmnKiveDQUx1TVpr79thl3akjWJWVmvTa5QdWgMzk9ZBaXEAnelyZzI7yLkF00Ejbx8thQ'); // Replace with your Stripe Publishable Key
+
+    let elements;
+
+    async function initialize() {
+      // Fetch the client secret from your backend
+      const response = await fetch('https://uniquity-api.onrender.com/api/create-payment-intent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: 1000, currency: 'usd' }), // Example: $10.00
+      });
+
+      const { clientSecret } = await response.json();
+
+      // Initialize Stripe Elements
+      elements = stripe.elements({ clientSecret });
+
+      // Create and mount the Payment Element
+      const paymentElement = elements.create('payment');
+      paymentElement.mount('#payment-element');
+    }
+
+    // Handle form submission
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: 'https://uniquitysolutions.com/success', // Redirect URL after payment
+        },
+      });
+
+      if (error) {
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.textContent = error.message;
+      }
+    });
+
+    // Initialize the payment form
+    initialize();
+  </script>
+</body>
+</html>
