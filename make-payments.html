@@ -6,9 +6,8 @@
   <title>Make a Payment — Uniquity Solutions</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=9">
+  <link rel="stylesheet" href="styles.css?v=11">
   <style>
-    /* Minimal helpers in case styles.css isn’t loaded */
     body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; color:#111; }
     .container { max-width: 880px; margin: 0 auto; padding: 16px; }
     h2 { margin: 16px 0 12px; }
@@ -18,16 +17,18 @@
     .row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
     @media (max-width:640px){ .row { grid-template-columns: 1fr; } }
     .btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; background:#ff5a5f; color:#fff; border:none; border-radius:10px; font-weight:700; font-size:16px; cursor:pointer; }
-    .btn[disabled] { opacity: .6; cursor: not-allowed; }
+    .btn[disabled] { opacity:.6; cursor:not-allowed; }
     .note { color:#475467; font-size:13px; }
-    .error { color:#c00; font-size:14px; }
+    .error { color:#c00; font-size:14px; min-height:1.2em; }
     .success { color:#067647; font-size:14px; }
     .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; }
     .nav { border-bottom:1px solid #eee; }
     .nav-inner { display:flex; align-items:center; justify-content:space-between; }
     .nav a { color:#111; text-decoration:none; margin-right:16px; }
     .brand { font-weight:700; }
+    #payment-element { padding:10px; border:1px solid #d0d5dd; border-radius:8px; background:#fff; }
   </style>
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
   <!-- Navbar -->
@@ -48,10 +49,10 @@
   <section class="payment-section">
     <div class="container">
       <h2>Make a Payment</h2>
-      <p class="note">Enter your amount and details, then tap Pay Now to be redirected to our secure Stripe Checkout.</p>
+      <p class="note">Enter your details and card info below. Your payment is processed securely by Stripe.</p>
 
       <div class="card">
-        <form id="pay-form" novalidate>
+        <form id="payment-form" novalidate>
           <div class="row">
             <div>
               <label for="amount">Amount (USD)</label>
@@ -75,94 +76,135 @@
             </div>
           </div>
 
+          <div>
+            <label>Card details</label>
+            <div id="payment-element"></div>
+          </div>
+
           <button id="pay-btn" class="btn" type="submit">Pay Now</button>
           <div id="msg" class="error" aria-live="polite"></div>
         </form>
       </div>
 
       <p class="note" style="margin-top:12px">
-        Having trouble on mobile? You can also use this direct link:
+        Having trouble? Try the direct link:
         <a id="fallback-link" href="#" rel="noopener">Open secure checkout</a>
       </p>
     </div>
   </section>
 
   <script>
-    // Backend base (Render custom domain)
-    const API_BASE = 'https://dashboard.uniquitysolutions.com';
+    // Publishable key (Elements requires this)
+    const stripe = Stripe('pk_live_51Rv1X3By3HHUeuve2mwl2HJqUYgFuSa2xWM6AwjbcM10Ts6jqdsrtT5RZ9DkK754BEHQ68jqKZ0w0N32zQHLT9Xr007tOweb2G');
 
-    const form = document.getElementById('pay-form');
-    const btn = document.getElementById('pay-btn');
+    // Backend base and return URL
+    const API_BASE = 'https://dashboard.uniquitysolutions.com';
+    const SUCCESS_URL = 'https://uniquitysolutions.com/success';
+
+    // Form refs
+    const form = document.getElementById('payment-form');
+    const payBtn = document.getElementById('pay-btn');
     const msg = document.getElementById('msg');
     const amountEl = document.getElementById('amount');
     const descEl = document.getElementById('description');
     const nameEl = document.getElementById('name');
     const emailEl = document.getElementById('email');
     const fallbackLink = document.getElementById('fallback-link');
+    const peContainer = document.getElementById('payment-element');
 
-    function setLoading(loading) {
-      btn.disabled = loading;
-      btn.textContent = loading ? 'Processing…' : 'Pay Now';
-    }
+    let elements = null;
+    let clientSecret = null;
+    let creating = false;
 
-    function validAmount(value) {
-      const n = Number(value);
-      return Number.isFinite(n) && n >= 0.5;
-    }
+    const debounce = (fn, ms) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; };
+    function setLoading(b){ payBtn.disabled=b; payBtn.textContent=b?'Processing…':'Pay Now'; }
+    function validAmount(v){ const n = Number(v); return Number.isFinite(n) && n>=0.5; }
 
-    // Keep fallback link in sync with inputs (no-JS redirect option)
-    function updateFallback() {
-      const amount = amountEl.value || '49.99';
-      const desc = descEl.value ? encodeURIComponent(descEl.value) : 'Uniquity%20Payment';
-      fallbackLink.href = API_BASE + '/pay?amount=' + encodeURIComponent(amount) + '&description=' + desc;
-    }
-    ['input','change'].forEach(ev => {
-      amountEl.addEventListener(ev, updateFallback);
-      descEl.addEventListener(ev, updateFallback);
-    });
-    updateFallback();
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      msg.textContent = '';
-
-      const amount = amountEl.value.trim();
-      const description = descEl.value.trim() || 'Uniquity Payment';
-
-      if (!validAmount(amount)) {
+    // Create or refresh a PaymentIntent and mount Elements
+    async function createOrRefreshPI() {
+      if (!validAmount(amountEl.value)) {
         msg.textContent = 'Enter a valid amount (minimum $0.50).';
         return;
       }
+      if (creating) return;
+      creating = true; msg.textContent = '';
 
-      setLoading(true);
       try {
-        const res = await fetch(API_BASE + '/api/create-checkout-session', {
+        const res = await fetch(API_BASE + '/api/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            amount: parseFloat(amount),
-            description,
-            // include optional metadata for reconciliation
+            amount: parseFloat(amountEl.value),
+            currency: 'usd',
             metadata: {
+              description: descEl.value || '',
               name: nameEl.value || '',
               email: emailEl.value || ''
             }
           })
         });
+        const data = await res.json();
+        if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Could not initialize payment.');
 
-        const data = await res.json().catch(() => ({}));
-        if (!res.ok || !data.url) {
-          throw new Error(data.error || 'Could not start checkout.');
-        }
+        clientSecret = data.clientSecret;
 
-        // Redirect to Stripe-hosted Checkout
-        window.location.href = data.url;
-      } catch (err) {
-        console.error(err);
-        msg.textContent = 'Unable to start payment. Please try again.';
-        setLoading(false);
+        // Rebuild Elements when clientSecret changes
+        peContainer.innerHTML = '';
+        elements = stripe.elements({ clientSecret });
+        const paymentElement = elements.create('payment', { layout: 'tabs' });
+        paymentElement.mount('#payment-element');
+      } catch (e) {
+        console.error(e);
+        msg.textContent = e.message || 'Unable to load payment form.';
+      } finally {
+        creating = false;
       }
+    }
+
+    // Keep fallback link (hosted Checkout) in sync
+    function updateFallback() {
+      const amount = validAmount(amountEl.value) ? amountEl.value : '10.00';
+      const desc = descEl.value ? encodeURIComponent(descEl.value) : 'Uniquity%20Payment';
+      fallbackLink.href = API_BASE + '/pay?amount=' + encodeURIComponent(amount) + '&description=' + desc;
+    }
+
+    const refreshPI = debounce(createOrRefreshPI, 500);
+    ['input','change'].forEach(ev => {
+      amountEl.addEventListener(ev, () => { updateFallback(); refreshPI(); });
+      descEl.addEventListener(ev, updateFallback);
+      nameEl.addEventListener(ev, updateFallback);
+      emailEl.addEventListener(ev, updateFallback);
     });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msg.textContent = '';
+
+      if (!validAmount(amountEl.value)) {
+        msg.textContent = 'Enter a valid amount (minimum $0.50).';
+        return;
+      }
+      if (!elements || !clientSecret) {
+        await createOrRefreshPI();
+        if (!elements) return;
+      }
+
+      setLoading(true);
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: { return_url: SUCCESS_URL }
+      });
+      setLoading(false);
+
+      if (error) {
+        msg.textContent = error.message || 'Payment failed. Please try again.';
+      }
+      // On success, Stripe redirects to SUCCESS_URL
+    });
+
+    // Initial setup
+    updateFallback();
+    createOrRefreshPI();
   </script>
 </body>
 </html>
