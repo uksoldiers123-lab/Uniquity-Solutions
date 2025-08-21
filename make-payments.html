@@ -6,205 +6,290 @@
   <title>Make a Payment — Uniquity Solutions</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=11">
-  <style>
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; color:#111; }
-    .container { max-width: 880px; margin: 0 auto; padding: 16px; }
-    h2 { margin: 16px 0 12px; }
-    form { display: grid; gap: 12px; }
-    label { font-weight: 600; font-size: 14px; }
-    input, textarea, select { width: 100%; padding: 12px; border: 1px solid #d0d5dd; border-radius: 8px; font-size: 16px; }
-    .row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
-    @media (max-width:640px){ .row { grid-template-columns: 1fr; } }
-    .btn { display:inline-flex; align-items:center; justify-content:center; padding:12px 16px; background:#ff5a5f; color:#fff; border:none; border-radius:10px; font-weight:700; font-size:16px; cursor:pointer; }
-    .btn[disabled] { opacity:.6; cursor:not-allowed; }
-    .note { color:#475467; font-size:13px; }
-    .error { color:#c00; font-size:14px; min-height:1.2em; }
-    .success { color:#067647; font-size:14px; }
-    .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; }
-    .nav { border-bottom:1px solid #eee; }
-    .nav-inner { display:flex; align-items:center; justify-content:space-between; }
-    .nav a { color:#111; text-decoration:none; margin-right:16px; }
-    .brand { font-weight:700; }
-    #payment-element { padding:10px; border:1px solid #d0d5dd; border-radius:8px; background:#fff; }
-  </style>
+  <link rel="stylesheet" href="styles.css?v=8">
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar (same as index) -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
-      <a class="brand" href="index.html">Uniquity Solutions</a>
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </a>
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="#services">Services</a>
         <a href="#partners">Partners</a>
         <a href="#careers">Careers</a>
-        <a href="make-payments.html" aria-current="page"><strong>Make a Payment</strong></a>
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
+            Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="make-payments.html" role="menuitem">Make a Payment</a>
+            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem">FAQ</a>
+            <a href="pricing.html" role="menuitem">Pricing</a>
+            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="integrations.html" role="menuitem">Integrations</a>
+            <a href="compliance.html" role="menuitem">Compliance & Security</a>
+            <a href="login.html" role="menuitem">Login Portal</a>
+          </div>
+        </div>
+        <a href="#contact" class="cta">Contact</a>
       </div>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
     </div>
   </nav>
 
-  <!-- Payment Section -->
-  <section class="payment-section">
-    <div class="container">
-      <h2>Make a Payment</h2>
-      <p class="note">Enter your details and card info below. Your payment is processed securely by Stripe.</p>
+  <!-- Mobile overlay menu -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+    <div class="menu-label">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="#contact" class="cta">Contact</a>
+    <div class="menu-label">More pages</div>
+    <a href="make-payments.html">Make a Payment</a>
+    <a href="create-account.html">Create Account (Merchants)</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
+    <a href="login.html">Login Portal</a>
+  </div>
 
-      <div class="card">
-        <form id="payment-form" novalidate>
-          <div class="row">
-            <div>
-              <label for="amount">Amount (USD)</label>
-              <input id="amount" name="amount" type="number" inputmode="decimal" step="0.01" min="0.50" placeholder="49.99" required>
-              <div class="note">Minimum $0.50</div>
-            </div>
-            <div>
-              <label for="description">Description</label>
-              <input id="description" name="description" type="text" maxlength="100" placeholder="Invoice, service, or reference">
-            </div>
-          </div>
-
-          <div class="row">
-            <div>
-              <label for="name">Name (optional)</label>
-              <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name">
-            </div>
-            <div>
-              <label for="email">Email (optional)</label>
-              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
-            </div>
-          </div>
-
-          <div>
-            <label>Card details</label>
-            <div id="payment-element"></div>
-          </div>
-
-          <button id="pay-btn" class="btn" type="submit">Pay Now</button>
-          <div id="msg" class="error" aria-live="polite"></div>
-        </form>
+  <!-- Hero header to match site -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="section-label"><span class="dot"></span> Make a Payment</p>
+        <h1>Secure checkout with Stripe Elements</h1>
+        <p class="lead">
+          Enter your amount and details below. We support cards and Link for faster checkout. All payments are processed securely by Stripe.
+        </p>
       </div>
+    </div>
 
-      <p class="note" style="margin-top:12px">
-        Having trouble? Try the direct link:
-        <a id="fallback-link" href="#" rel="noopener">Open secure checkout</a>
-      </p>
+    <!-- White content section overlapping the hero (same pattern as index) -->
+    <div class="content-wrap">
+      <div class="container content">
+        <div class="content-grid">
+          <!-- Left: form -->
+          <div>
+            <form id="payment-form" class="form" novalidate>
+              <div class="row">
+                <div class="field">
+                  <label class="label" for="amount">Amount (USD)</label>
+                  <input class="input" id="amount" type="number" inputmode="decimal" step="0.01" min="0.50" placeholder="49.99" value="10.00" required>
+                  <small class="svc-note">Minimum $0.50</small>
+                </div>
+                <div class="field">
+                  <label class="label" for="description">Description</label>
+                  <input class="input" id="description" type="text" maxlength="100" placeholder="Invoice, service, or reference" value="Invoice">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="field">
+                  <label class="label" for="name">Name (optional)</label>
+                  <input class="input" id="name" type="text" autocomplete="name" placeholder="Your name">
+                </div>
+                <div class="field">
+                  <label class="label">Email (for receipt & Link)</label>
+                  <!-- Link Authentication Element mounts here -->
+                  <div id="link-auth" class="input" style="padding:0"></div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Payment method</label>
+                <!-- Payment Element mounts here -->
+                <div id="payment-element" class="input" style="padding:0"></div>
+              </div>
+
+              <div class="row">
+                <button id="pay-btn" class="btn btn-primary" type="submit">
+                  <span id="btn-text">Pay $10.00</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h14M13 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div style="align-self:center; font-weight:700" id="total-text">$10.00</div>
+              </div>
+
+              <div id="msg" class="svc-note" role="alert" style="color:#b42318"></div>
+              <div class="svc-note">PCI DSS compliant • 256‑bit TLS</div>
+            </form>
+          </div>
+
+          <!-- Right: simple summary card to match style -->
+          <aside class="media" aria-label="Payment summary" style="padding:16px; display:grid; align-content:start">
+            <div class="partners-title" style="margin-bottom:10px"><span class="dot"></span> Summary</div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+              <span class="svc-note">Item</span><strong id="sum-desc">Invoice</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between">
+              <span class="svc-note">Amount</span><strong id="sum-amt">$10.00</strong>
+            </div>
+            <hr style="border:0; border-top:1px solid #e5e7eb; margin:12px 0">
+            <div style="display:flex; justify-content:space-between; font-weight:800">
+              <span>Total</span><span id="sum-total">$10.00</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Partners strip kept for style continuity (optional) -->
+  <section class="partners" aria-label="Secure checkout">
+    <div class="container partners-card">
+      <div class="partners-head">
+        <span class="partners-title"><span class="dot"></span> Powered by</span>
+      </div>
+      <div class="logos" role="list">
+        <div class="logo" role="listitem">Stripe</div>
+        <div class="logo" role="listitem">Visa</div>
+        <div class="logo" role="listitem">Mastercard</div>
+        <div class="logo" role="listitem">Amex</div>
+        <div class="logo" role="listitem">Discover</div>
+        <div class="logo" role="listitem">Link</div>
+      </div>
     </div>
   </section>
 
+  <!-- Footer -->
+  <footer class="footer" id="contact" aria-label="Footer">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <!-- Stripe Elements logic -->
   <script>
-    // Publishable key (Elements requires this)
+    // Live publishable key
     const stripe = Stripe('pk_live_51Rv1X3By3HHUeuve2mwl2HJqUYgFuSa2xWM6AwjbcM10Ts6jqdsrtT5RZ9DkK754BEHQ68jqKZ0w0N32zQHLT9Xr007tOweb2G');
 
-    // Backend base and return URL
+    // Backend and return URL
     const API_BASE = 'https://dashboard.uniquitysolutions.com';
     const SUCCESS_URL = 'https://uniquitysolutions.com/success';
 
-    // Form refs
-    const form = document.getElementById('payment-form');
-    const payBtn = document.getElementById('pay-btn');
-    const msg = document.getElementById('msg');
+    // Appearance matches site colors (light on white card)
+    const appearance = {
+      theme: 'stripe',
+      variables: {
+        colorPrimary: '#e94b4b',
+        colorText: '#1f2937',
+        colorTextSecondary: '#4b5563',
+        colorDanger: '#b42318',
+        borderRadius: '10px',
+        fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif'
+      }
+    };
+
+    // Refs
     const amountEl = document.getElementById('amount');
     const descEl = document.getElementById('description');
     const nameEl = document.getElementById('name');
-    const emailEl = document.getElementById('email');
-    const fallbackLink = document.getElementById('fallback-link');
-    const peContainer = document.getElementById('payment-element');
+    const btnText = document.getElementById('btn-text');
+    const totalText = document.getElementById('total-text');
+    const sumDesc = document.getElementById('sum-desc');
+    const sumAmt = document.getElementById('sum-amt');
+    const sumTotal = document.getElementById('sum-total');
+    const msg = document.getElementById('msg');
+    const form = document.getElementById('payment-form');
+
+    const fmt = n => '$' + Number(n).toFixed(2);
+    const validAmount = v => { const n = Number(v); return Number.isFinite(n) && n >= 0.5; };
+    const debounce = (fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};};
 
     let elements = null;
     let clientSecret = null;
-    let creating = false;
+    let currentEmail = '';
 
-    const debounce = (fn, ms) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; };
-    function setLoading(b){ payBtn.disabled=b; payBtn.textContent=b?'Processing…':'Pay Now'; }
-    function validAmount(v){ const n = Number(v); return Number.isFinite(n) && n>=0.5; }
-
-    // Create or refresh a PaymentIntent and mount Elements
-    async function createOrRefreshPI() {
-      if (!validAmount(amountEl.value)) {
-        msg.textContent = 'Enter a valid amount (minimum $0.50).';
-        return;
-      }
-      if (creating) return;
-      creating = true; msg.textContent = '';
-
-      try {
-        const res = await fetch(API_BASE + '/api/create-payment-intent', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            amount: parseFloat(amountEl.value),
-            currency: 'usd',
-            metadata: {
-              description: descEl.value || '',
-              name: nameEl.value || '',
-              email: emailEl.value || ''
-            }
-          })
-        });
-        const data = await res.json();
-        if (!res.ok || !data.clientSecret) throw new Error(data.error || 'Could not initialize payment.');
-
-        clientSecret = data.clientSecret;
-
-        // Rebuild Elements when clientSecret changes
-        peContainer.innerHTML = '';
-        elements = stripe.elements({ clientSecret });
-        const paymentElement = elements.create('payment', { layout: 'tabs' });
-        paymentElement.mount('#payment-element');
-      } catch (e) {
-        console.error(e);
-        msg.textContent = e.message || 'Unable to load payment form.';
-      } finally {
-        creating = false;
-      }
+    function syncSummary(){
+      const amt = validAmount(amountEl.value) ? Number(amountEl.value) : 0;
+      sumDesc.textContent = descEl.value || 'Payment';
+      sumAmt.textContent = fmt(amt);
+      sumTotal.textContent = fmt(amt);
+      totalText.textContent = fmt(amt);
+      btnText.textContent = 'Pay ' + fmt(amt);
     }
 
-    // Keep fallback link (hosted Checkout) in sync
-    function updateFallback() {
-      const amount = validAmount(amountEl.value) ? amountEl.value : '10.00';
-      const desc = descEl.value ? encodeURIComponent(descEl.value) : 'Uniquity%20Payment';
-      fallbackLink.href = API_BASE + '/pay?amount=' + encodeURIComponent(amount) + '&description=' + desc;
-    }
-
-    const refreshPI = debounce(createOrRefreshPI, 500);
-    ['input','change'].forEach(ev => {
-      amountEl.addEventListener(ev, () => { updateFallback(); refreshPI(); });
-      descEl.addEventListener(ev, updateFallback);
-      nameEl.addEventListener(ev, updateFallback);
-      emailEl.addEventListener(ev, updateFallback);
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    async function createOrRefreshPI(){
+      if (!validAmount(amountEl.value)) { msg.textContent = 'Enter a valid amount (minimum $0.50).'; return; }
       msg.textContent = '';
 
-      if (!validAmount(amountEl.value)) {
-        msg.textContent = 'Enter a valid amount (minimum $0.50).';
-        return;
-      }
-      if (!elements || !clientSecret) {
-        await createOrRefreshPI();
-        if (!elements) return;
-      }
+      const res = await fetch(API_BASE + '/api/create-payment-intent', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          amount: parseFloat(amountEl.value),
+          currency: 'usd',
+          metadata: {
+            description: descEl.value || '',
+            name: nameEl.value || '',
+            email: currentEmail || ''
+          }
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.clientSecret) { msg.textContent = data.error || 'Could not initialize payment.'; return; }
+      clientSecret = data.clientSecret;
 
-      setLoading(true);
+      // Build Elements (Link Authentication + Payment)
+      elements && elements.destroy && elements.destroy();
+      elements = stripe.elements({ clientSecret, appearance });
+
+      const linkContainer = document.getElementById('link-auth');
+      linkContainer.innerHTML = '';
+      const linkAuth = elements.create('linkAuthentication', currentEmail ? { defaultValues: { email: currentEmail } } : {});
+      linkAuth.mount('#link-auth');
+      linkAuth.on('change', (e) => { currentEmail = e.value?.email || ''; });
+
+      const paymentContainer = document.getElementById('payment-element');
+      paymentContainer.innerHTML = '';
+      const paymentEl = elements.create('payment', {
+        layout: 'tabs',
+        defaultValues: { billingDetails: { name: nameEl.value || '', email: currentEmail || '' } }
+      });
+      paymentEl.mount('#payment-element');
+    }
+
+    const refreshPI = debounce(()=>{ syncSummary(); createOrRefreshPI(); }, 450);
+    ['input','change'].forEach(ev=>{
+      amountEl.addEventListener(ev, refreshPI);
+      descEl.addEventListener(ev, syncSummary);
+      nameEl.addEventListener(ev, syncSummary);
+    });
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      if (!validAmount(amountEl.value)) { msg.textContent = 'Enter a valid amount (minimum $0.50).'; return; }
+      if (!elements || !clientSecret) { await createOrRefreshPI(); if (!elements) return; }
+
       const { error } = await stripe.confirmPayment({
         elements,
         confirmParams: { return_url: SUCCESS_URL }
       });
-      setLoading(false);
-
-      if (error) {
-        msg.textContent = error.message || 'Payment failed. Please try again.';
-      }
-      // On success, Stripe redirects to SUCCESS_URL
+      if (error) msg.textContent = error.message || 'Payment failed. Please try again.';
     });
 
-    // Initial setup
-    updateFallback();
+    // Init
+    syncSummary();
     createOrRefreshPI();
   </script>
+
+  <script src="main.js?v=8" defer></script>
 </body>
 </html>
