@@ -3,7 +3,7 @@
   const CFG = window.ENV || {};
   const SUPABASE_URL = CFG.SUPABASE_URL;
   const SUPABASE_ANON_KEY = CFG.SUPABASE_ANON_KEY;
-  const DASHBOARD_SSO_URL = (CFG.API_BASE || 'https://dashboard.uniquitysolutions.com') + '/api/create-dashboard-login';
+  const DASHBOARD_LOGIN_URL = (CFG.API_BASE || 'https://dashboard.uniquitysolutions.com') + '/api/create-dashboard-login';
 
   // DOM helpers
   function qs(id) { return document.getElementById(id); }
@@ -66,7 +66,7 @@
   async function ssoToDashboard(user) {
     try {
       const payload = { userId: user.id, email: user.email };
-      const data = await postJSON(DASHBOARD_SSO_URL, payload);
+      const data = await postJSON(DASHBOARD_LOGIN_URL, payload);
       if (data && data.dashboardUrl) {
         window.location.href = data.dashboardUrl;
       } else {
@@ -98,26 +98,29 @@
       }
 
       try {
-        // Backend login is expected to set a session cookie
-        const res = await fetch('/api/login', {
+        // Backend login to establish session (cookie)
+        const resp = await fetch('/api/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
         });
-        if (!res.ok) {
-          const err = await res.json();
+        if (!resp.ok) {
+          const err = await resp.json();
           throw new Error(err.error || 'Login failed');
         }
+
         const user = await (async () => {
-          // Try to fetch the current user from Supabase after login
-          const { data } = await client.auth.getUser();
-          return data?.user;
+          // Try to fetch current user from Supabase after login
+          if (client && client.auth && client.auth.getUser) {
+            const { data } = await client.auth.getUser();
+            return data?.user;
+          }
+          return null;
         })();
 
         if (!user) {
-          // If getUser not available, rely on backend to set session and redirect
-          // You can also just redirect here
-          window.location.href = DASHBOARD_SSO_URL;
+          // Fallback: redirect to dashboard login URL
+          window.location.href = DASHBOARD_LOGIN_URL;
           return;
         }
 
@@ -131,16 +134,18 @@
       }
     });
 
-    // Optional: auto-redirect if already logged in
-    client.auth.getUser().then(({ data, error }) => {
-      if (error || !data || !data.user) return;
-      ssoToDashboard(data.user);
-    });
-
-    client.auth.onAuthStateChange((_event, session) => {
-      const user = session && session.user;
-      if (user) ssoToDashboard(user);
-    });
+    // Optional: auto-redirect if already logged in in this session
+    if (client && client.auth && client.auth.getUser) {
+      client.auth.getUser().then(({ data, error }) => {
+        if (data && data.user) {
+          ssoToDashboard(data.user);
+        }
+      });
+      client.auth.onAuthStateChange((_event, session) => {
+        const user = session && session.user;
+        if (user) ssoToDashboard(user);
+      });
+    }
   }
 
   // Bootstrap
@@ -157,8 +162,3 @@
     }
   })();
 })();
-
-Usage notes
-- This version uses a server-side session via Supabase; the client will call /api/login to establish a session (you need to implement this on the backend).
-- After login, users are redirected to the dashboard (SSO URL) via /api/create-dashboard-login (your backend should return dashboardUrl).
-- If you don’t have /api/login yet, you can implement a simple session-based login or swap to a JWT flow and store in a cookie.
