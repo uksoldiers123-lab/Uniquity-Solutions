@@ -64,7 +64,7 @@
     <a href="login.html">Login Portal</a>
   </div>
 
-  <!-- Hero header to match site -->
+  <!-- Hero header -->
   <header class="hero">
     <div class="container hero-grid">
       <div>
@@ -76,7 +76,7 @@
       </div>
     </div>
 
-    <!-- White content section overlapping the hero (same pattern as index) -->
+    <!-- Content: form + summary -->
     <div class="content-wrap">
       <div class="container content">
         <div class="content-grid">
@@ -128,7 +128,7 @@
             </form>
           </div>
 
-          <!-- Right: simple summary card to match style -->
+          <!-- Right: summary -->
           <aside class="media" aria-label="Payment summary" style="padding:16px; display:grid; align-content:start">
             <div class="partners-title" style="margin-bottom:10px"><span class="dot"></span> Summary</div>
             <div style="display:flex; justify-content:space-between; margin-bottom:8px">
@@ -147,18 +147,19 @@
     </div>
   </header>
 
-  <!-- Partners strip kept for style continuity (optional) -->
+  <!-- Partners strip -->
   <section class="partners" aria-label="Secure checkout">
     <div class="container partners-card">
       <div class="partners-head">
-        <span class="partners-title"><span class="dot"></span> Powered by</span>
+        <span class="partners-title" style="display:flex; align-items:center">
+          <span class="dot" style="margin-right:6px"></span> Powered by Stripe
+        </span>
       </div>
       <div class="logos" role="list">
         <div class="logo" role="listitem">Stripe</div>
         <div class="logo" role="listitem">Visa</div>
         <div class="logo" role="listitem">Mastercard</div>
         <div class="logo" role="listitem">Amex</div>
-        <div class="logo" role="listitem">Discover</div>
         <div class="logo" role="listitem">Link</div>
       </div>
     </div>
@@ -177,18 +178,18 @@
 
   <!-- Stripe Elements logic -->
   <script>
-    // Live publishable key
+    // Live publishable key (as requested)
     const stripe = Stripe('pk_live_51Rv1X3By3HHUeuve2mwl2HJqUYgFuSa2xWM6AwjbcM10Ts6jqdsrtT5RZ9DkK754BEHQ68jqKZ0w0N32zQHLT9Xr007tOweb2G');
 
-    // Backend and return URL
-    const API_BASE = 'https://dashboard.uniquitysolutions.com';
+    // Backend base (adjust if your backend path is different)
+    const API_BASE = 'https://dashboard.uniquitysolutions.com'; // change if needed
     const SUCCESS_URL = 'https://uniquitysolutions.com/success';
 
-    // Appearance matches site colors (light on white card)
+    // Appearance
     const appearance = {
       theme: 'stripe',
       variables: {
-        colorPrimary: '#e94b4b',
+        colorPrimary: '#e84d4d',
         colorText: '#1f2937',
         colorTextSecondary: '#4b5563',
         colorDanger: '#b42318',
@@ -197,7 +198,7 @@
       }
     };
 
-    // Refs
+    // Elements refs
     const amountEl = document.getElementById('amount');
     const descEl = document.getElementById('description');
     const nameEl = document.getElementById('name');
@@ -208,6 +209,9 @@
     const sumTotal = document.getElementById('sum-total');
     const msg = document.getElementById('msg');
     const form = document.getElementById('payment-form');
+
+    const clientDoc = document.getElementById('client-id');
+    const API_CLIENT_ID = clientDoc ? clientDoc.value : ''; // if you have a client selector
 
     const fmt = n => '$' + Number(n).toFixed(2);
     const validAmount = v => { const n = Number(v); return Number.isFinite(n) && n >= 0.5; };
@@ -234,7 +238,7 @@
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
-          amount: parseFloat(amountEl.value),
+          amount: parseFloat(amountEl.value) * 100, // ensure cents
           currency: 'usd',
           metadata: {
             description: descEl.value || '',
@@ -248,22 +252,22 @@
       clientSecret = data.clientSecret;
 
       // Build Elements (Link Authentication + Payment)
-      elements && elements.destroy && elements.destroy();
+      if (elements && elements.destroy) elements.destroy();
       elements = stripe.elements({ clientSecret, appearance });
 
       const linkContainer = document.getElementById('link-auth');
-      linkContainer.innerHTML = '';
+      if (linkContainer) linkContainer.innerHTML = '';
       const linkAuth = elements.create('linkAuthentication', currentEmail ? { defaultValues: { email: currentEmail } } : {});
-      linkAuth.mount('#link-auth');
-      linkAuth.on('change', (e) => { currentEmail = e.value?.email || ''; });
+      if (linkContainer && linkAuth.mount) linkAuth.mount('#link-auth');
+      linkAuth.on && linkAuth.on('change', (e) => { currentEmail = e.value?.email || ''; });
 
       const paymentContainer = document.getElementById('payment-element');
-      paymentContainer.innerHTML = '';
+      if (paymentContainer) paymentContainer.innerHTML = '';
       const paymentEl = elements.create('payment', {
         layout: 'tabs',
         defaultValues: { billingDetails: { name: nameEl.value || '', email: currentEmail || '' } }
       });
-      paymentEl.mount('#payment-element');
+      if (paymentContainer && paymentEl.mount) paymentEl.mount('#payment-element');
     }
 
     const refreshPI = debounce(()=>{ syncSummary(); createOrRefreshPI(); }, 450);
@@ -290,6 +294,7 @@
     createOrRefreshPI();
   </script>
 
+  <!-- Include your existing main.js if needed -->
   <script src="main.js?v=8" defer></script>
 </body>
 </html>
