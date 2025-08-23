@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -121,18 +120,6 @@
     const API_BASE = 'https://dashboard.uniquitysolutions.com';
     const SUCCESS_URL = 'https://uniquitysolutions.com/success';
 
-    const appearance = {
-      theme: 'stripe',
-      variables: {
-        colorPrimary: '#e84d4d',
-        colorText: '#1f2937',
-        colorTextSecondary: '#4b5563',
-        colorDanger: '#b42318',
-        borderRadius: '10px',
-        fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif'
-      }
-    };
-
     const amountEl = document.getElementById('amount');
     const descEl = document.getElementById('description');
     const nameEl = document.getElementById('name');
@@ -143,7 +130,7 @@
     const sumTotal = document.getElementById('sum-total');
     const msg = document.getElementById('msg');
     const form = document.getElementById('payment-form');
-    const clientCode = 'CLI-001'; // replace or wire from your UI
+    const clientCode = 'CLI-001'; // map to your client in Supabase
 
     const fmt = n => '$' + Number(n).toFixed(2);
     const validAmount = v => { const n = Number(v); return Number.isFinite(n) && n >= 0.5; };
@@ -183,7 +170,7 @@
       clientSecret = data.clientSecret;
 
       if (elements && elements.destroy) elements.destroy();
-      elements = stripe.elements({ clientSecret, appearance });
+      elements = stripe.elements({ clientSecret, appearance: {} });
 
       const linkContainer = document.getElementById('link-auth');
       linkContainer && (linkContainer.innerHTML = '');
@@ -193,7 +180,10 @@
 
       const paymentContainer = document.getElementById('payment-element');
       paymentContainer && (paymentContainer.innerHTML = '');
-      const paymentEl = elements.create('payment', { layout: 'tabs', defaultValues: { billingDetails: { name: nameEl.value || '', email: currentEmail || '' } } });
+      const paymentEl = elements.create('payment', {
+        layout: 'tabs',
+        defaultValues: { billingDetails: { name: nameEl.value || '', email: currentEmail || '' } }
+      });
       paymentEl.mount('#payment-element');
     }
 
