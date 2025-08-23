@@ -3,16 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Uniquity Solutions — Create Account</title>
+  <title>Make a Payment — Uniquity Solutions</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=8">
-  <!-- Supabase client -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-  <!-- Navbar and existing content (kept as-is) -->
+  <!-- Navbar (same as index) -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
@@ -24,101 +22,195 @@
         <a href="#partners">Partners</a>
         <a href="#careers">Careers</a>
         <a href="make-payments.html" role="menuitem">Make a Payment</a>
-        <a href="faq.html" role="menuitem">FAQ</a>
-        <a href="pricing.html" role="menuitem">Pricing</a>
       </div>
     </div>
   </nav>
 
-  <!-- Main Create Account content -->
-  <main class="container" role="main" aria-label="Create Account">
-    <section class="card" style="margin-top:32px;">
-      <header class="card-header" style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
-        <h1 class="card-title" style="margin:0; font-size:28px;">Create Account</h1>
-        <p class="card-subtitle" style="color:#6b7280; margin:6px 0 0;">Sign up to get started</p>
-      </header>
-
-      <div class="card-body" style="padding:18px;">
-        <!-- Admin path: create client (visible to admins in your app) -->
-        <section id="admin-create" aria-label="Admin - Create Client" style="margin-bottom:28px;">
-          <h2 style="font-size:20px; margin-bottom:8px;">Admin: Create Client</h2>
-          <form id="admin-create-form" autocomplete="off">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
-              <input id="admin-client-code" placeholder="Client code (e.g., CLI-001)" required />
-              <input id="admin-client-name" placeholder="Client name" required />
-            </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:8px;">
-              <input id="admin-client-email" placeholder="Client email" />
-              <input id="admin-tenant-id" placeholder="Tenant ID (optional)" />
-            </div>
-            <button type="submit" style="margin-top:8px;">Create Client (Admin)</button>
-            <div id="admin-create-status" class="svc-note" aria-live="polite" style="color:#1f2937;"></div>
-          </form>
-        </section>
-
-        <!-- Public sign-up path: client signup (connect on signup page) -->
-        <section id="public-signup" aria-label="Public Sign Up" style="margin-bottom:28px;">
-          <h2 style="font-size:20px; margin-bottom:8px;">Public Sign Up (Client)</h2>
-          <form id="client-signup-form" autocomplete="off">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
-              <input id="signup-name" placeholder="Your company name" required />
-              <input id="signup-email" placeholder="Your email" type="email" required />
-            </div>
-            <button type="submit" style="margin-top:8px;">Create Client Account</button>
-            <div id="signup-status" class="svc-note" aria-live="polite" style="color:#1f2937; margin-top:6px;"></div>
-          </form>
-        </section>
-
-        <!-- Existing user flows go here (optional) -->
+  <!-- Page content (lightweight) -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="section-label"><span class="dot"></span> Make a Payment</p>
+        <h1>Secure checkout with Stripe Elements</h1>
+        <p class="lead">Enter your amount and details below. We support cards and Link for faster checkout. All payments are processed securely by Stripe.</p>
       </div>
-    </section>
-  </main>
+    </div>
 
-  <!-- Make Payment CTA (optional) -->
-  <section class="container" style="margin: 24px 0;">
-    <a href="make-payments.html" class="btn btn-primary">Make a Payment</a>
-  </section>
+    <div class="content-wrap">
+      <div class="container content">
+        <div class="content-grid">
+          <!-- Left: form -->
+          <div>
+            <form id="payment-form" class="form" novalidate>
+              <div class="row">
+                <div class="field">
+                  <label class="label" for="amount">Amount (USD)</label>
+                  <input class="input" id="amount" type="number" inputmode="decimal" step="0.01" min="0.50" placeholder="49.99" value="10.00" required>
+                  <small class="svc-note">Minimum $0.50</small>
+                </div>
+                <div class="field">
+                  <label class="label" for="description">Description</label>
+                  <input class="input" id="description" type="text" maxlength="100" placeholder="Invoice, service, or reference" value="Invoice">
+                </div>
+              </div>
 
-  <!-- Sign-in user flows and Supabase init -->
+              <div class="row">
+                <div class="field">
+                  <label class="label" for="name">Name (optional)</label>
+                  <input class="input" id="name" type="text" autocomplete="name" placeholder="Your name">
+                </div>
+                <div class="field">
+                  <label class="label">Email (for receipt)</label>
+                  <div id="link-auth" class="input" style="padding:0"></div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Payment method</label>
+                <div id="payment-element" class="input" style="padding:0"></div>
+              </div>
+
+              <div class="row">
+                <button id="pay-btn" class="btn btn-primary" type="submit">
+                  <span id="btn-text">Pay $10.00</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h14M13 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div style="align-self:center; font-weight:700" id="total-text">$10.00</div>
+              </div>
+
+              <div id="msg" class="svc-note" role="alert" style="color:#b42318"></div>
+              <div class="svc-note">PCI DSS compliant • 256‑bit TLS</div>
+            </form>
+          </div>
+
+          <!-- Right: summary -->
+          <aside class="media" aria-label="Payment summary" style="padding:16px; display:grid; align-content:start">
+            <div class="partners-title" style="margin-bottom:10px"><span class="dot"></span> Summary</div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px">
+              <span class="svc-note">Item</span><strong id="sum-desc">Invoice</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between">
+              <span class="svc-note">Amount</span><strong id="sum-amt">$10.00</strong>
+            </div>
+            <hr style="border:0; border-top:1px solid #e5e7eb; margin:12px 0">
+            <div style="display:flex; justify-content:space-between; font-weight:800">
+              <span>Total</span><span id="sum-total">$10.00</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact" aria-label="Footer">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span> Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <!-- Stripe Elements logic (live key in production) -->
   <script>
-    // Initialize Supabase client (replace with your project keys)
-    const SUPABASE_URL = 'https://<your-project>.supabase.co';
-    const SUPABASE_ANON_KEY = '<your-public-anon-key>';
-    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const stripe = Stripe('pk_live_51Rv1X3By3HHUeuve2mwl2HJqUYgFuSa2xWM6AwjbcM10Ts6jqdsrtT5RZ9DkK754BEHQ68jqKZ0w0N32zQHLT9Xr007tOweb2G');
+    const API_BASE = 'https://dashboard.uniquitysolutions.com';
+    const SUCCESS_URL = 'https://uniquitysolutions.com/success';
 
-    // Admin create-client
-    document.getElementById('admin-create-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const client_code = document.getElementById('admin-client-code').value;
-      const name = document.getElementById('admin-client-name').value;
-      const email = document.getElementById('admin-client-email').value;
-      const tenant_id = document.getElementById('admin-tenant-id').value;
-      const res = await fetch('/api/admin/create-client', {
+    const amountEl = document.getElementById('amount');
+    const descEl = document.getElementById('description');
+    const nameEl = document.getElementById('name');
+    const btnText = document.getElementById('btn-text');
+    const totalText = document.getElementById('total-text');
+    const sumDesc = document.getElementById('sum-desc');
+    const sumAmt = document.getElementById('sum-amt');
+    const sumTotal = document.getElementById('sum-total');
+    const msg = document.getElementById('msg');
+    const form = document.getElementById('payment-form');
+    const clientCode = 'CLI-001'; // map to your client in Supabase
+
+    const fmt = n => '$' + Number(n).toFixed(2);
+    const validAmount = v => { const n = Number(v); return Number.isFinite(n) && n >= 0.5; };
+    const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+    let elements = null;
+    let clientSecret = null;
+    let currentEmail = '';
+
+    function syncSummary(){
+      const amt = validAmount(amountEl.value) ? Number(amountEl.value) : 0;
+      sumDesc.textContent = descEl.value || 'Invoice';
+      sumAmt.textContent = fmt(amt);
+      sumTotal.textContent = fmt(amt);
+      totalText.textContent = fmt(amt);
+      btnText.textContent = 'Pay ' + fmt(amt);
+    }
+
+    async function createOrRefreshPI(){
+      if (!validAmount(amountEl.value)) { msg.textContent = 'Enter a valid amount (minimum $0.50).'; return; }
+      msg.textContent = '';
+
+      const res = await fetch(API_BASE + '/api/create-payment-intent-for-client', {
         method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({ client_code, name, email, tenant_id })
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          amount: Math.round(parseFloat(amountEl.value) * 100),
+          currency: 'usd',
+          clientCode: clientCode,
+          description: descEl.value || '',
+          receipt_email: currentEmail || ''
+        })
       });
+
       const data = await res.json();
-      const status = document.getElementById('admin-create-status');
-      if (res.ok) status.textContent = 'Client created: ' + (data.client?.client_code || data.client?.name);
-      else status.textContent = 'Error: ' + (data.error || res.statusText);
+      if (!res.ok || !data.clientSecret) { msg.textContent = data.error || 'Could not initialize payment.'; return; }
+      clientSecret = data.clientSecret;
+
+      if (elements && elements.destroy) elements.destroy();
+      elements = stripe.elements({ clientSecret, appearance: {} });
+
+      const linkContainer = document.getElementById('link-auth');
+      linkContainer && (linkContainer.innerHTML = '');
+      const linkAuth = elements.create('linkAuthentication', currentEmail ? { defaultValues: { email: currentEmail } } : {});
+      linkAuth.mount('#link-auth');
+      linkAuth.on && linkAuth.on('change', (e) => { currentEmail = e.value?.email || ''; });
+
+      const paymentContainer = document.getElementById('payment-element');
+      paymentContainer && (paymentContainer.innerHTML = '');
+      const paymentEl = elements.create('payment', {
+        layout: 'tabs',
+        defaultValues: { billingDetails: { name: nameEl.value || '', email: currentEmail || '' } }
+      });
+      paymentEl.mount('#payment-element');
+    }
+
+    const refreshPI = debounce(()=>{ syncSummary(); createOrRefreshPI(); }, 450);
+    ['input','change'].forEach(ev=>{
+      amountEl.addEventListener(ev, refreshPI);
+      descEl.addEventListener(ev, syncSummary);
+      nameEl.addEventListener(ev, syncSummary);
     });
 
-    // Public signup client (basic demonstration)
-    document.getElementById('client-signup-form').addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async (e)=>{
       e.preventDefault();
-      const name = document.getElementById('signup-name').value;
-      const email = document.getElementById('signup-email').value;
-      const res = await fetch('/api/signup-client', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({ client_code: 'CLI-' + Date.now(), name, email, country: 'US' })
+      if (!validAmount(amountEl.value)) { msg.textContent = 'Enter a valid amount (minimum $0.50).'; return; }
+      if (!elements || !clientSecret) { await createOrRefreshPI(); if (!elements) return; }
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: { return_url: SUCCESS_URL }
       });
-      const data = await res.json();
-      const status = document.getElementById('signup-status');
-      if (res.ok) status.textContent = 'Signup success. Onboarding: ' + (data.onboardingLink || 'check email');
-      else status.textContent = 'Error: ' + (data.error || res.statusText);
+      if (error) msg.textContent = error.message || 'Payment failed. Please try again.';
     });
+
+    // Init
+    syncSummary();
+    createOrRefreshPI();
   </script>
+
+  <script src="main.js?v=8" defer></script>
 </body>
 </html>
