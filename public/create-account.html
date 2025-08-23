@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uniquity Solutions — Create Account</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=8">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span> Uniquity Solutions
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#services">Services</a>
+        <a href="#partners">Partners</a>
+        <a href="#careers">Careers</a>
+        <a href="make-payments.html" role="menuitem">Make a Payment</a>
+        <a href="faq.html">FAQ</a>
+        <a href="pricing.html">Pricing</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container" role="main" aria-label="Create Account">
+    <section class="card" style="margin-top:32px;">
+      <header class="card-header" style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+        <h1 class="card-title" style="margin:0; font-size:28px;">Create Account</h1>
+        <p class="card-subtitle" style="margin:6px 0 0; color:#6b7280;">Sign up to get started</p>
+      </header>
+
+      <div class="card-body" style="padding:18px;">
+        <!-- Admin path: create client -->
+        <section id="admin-create" aria-label="Admin - Create Client" style="margin-bottom:28px;">
+          <h2 style="font-size:20px; margin-bottom:8px;">Admin: Create Client</h2>
+          <form id="admin-create-form" autocomplete="off">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
+              <input id="admin-client-code" placeholder="Client code (e.g., CLI-001)" required />
+              <input id="admin-client-name" placeholder="Client name" required />
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:8px;">
+              <input id="admin-client-email" placeholder="Client email" />
+              <input id="admin-tenant-id" placeholder="Tenant ID (optional)" />
+            </div>
+            <button type="submit" style="margin-top:8px;">Create Client (Admin)</button>
+            <div id="admin-create-status" class="svc-note" aria-live="polite" style="color:#1f2937; margin-top:6px;"></div>
+          </form>
+        </section>
+
+        <!-- Public signup path: client signup -->
+        <section id="public-signup" aria-label="Public Sign Up" style="margin-bottom:28px;">
+          <h2 style="font-size:20px; margin-bottom:8px;">Public Sign Up (Client)</h2>
+          <form id="client-signup-form" autocomplete="off">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
+              <input id="signup-name" placeholder="Your company name" required />
+              <input id="signup-email" placeholder="Your email" type="email" required />
+            </div>
+            <button type="submit" style="margin-top:8px;">Create Client Account</button>
+            <div id="signup-status" class="svc-note" aria-live="polite" style="color:#1f2937; margin-top:6px;"></div>
+          </form>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Sign-up scripts -->
+  <script>
+    // Supabase client (replace with your project keys)
+    const SUPABASE_URL = 'https://<your-project>.supabase.co';
+    const SUPABASE_ANON_KEY = '<your-public-anon-key>';
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Admin create client
+    document.getElementById('admin-create-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        client_code: document.getElementById('admin-client-code').value,
+        name: document.getElementById('admin-client-name').value,
+        email: document.getElementById('admin-client-email').value,
+        tenant_id: document.getElementById('admin-tenant-id').value,
+        fee_percent: parseFloat(document.getElementById('admin-fee-percent')?.value || '0.10'),
+        fee_fixed_cents: parseInt(document.getElementById('admin-fee-fixed')?.value || '0', 10)
+      };
+      const res = await fetch('/api/admin/create-client', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      const data = await res.json();
+      const status = document.getElementById('admin-create-status');
+      status.textContent = res.ok ? 'Client created: ' + (data.client?.client_code || data.client?.name) : 'Error: ' + (data.error || res.statusText);
+    });
+
+    // Public signup client (simple)
+    document.getElementById('client-signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const client_code = 'CLI-' + Date.now();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const res = await fetch('/api/signup-client', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({ client_code, name, email, country: 'US' })
+      });
+      const data = await res.json();
+      const status = document.getElementById('signup-status');
+      status.textContent = res.ok ? 'Signup success: onboard link ' + (data.onboardingLink || '') : 'Error: ' + (data.error || res.statusText);
+    });
+  </script>
+</body>
+</html>
