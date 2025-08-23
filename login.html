@@ -4,10 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Uniquity Solutions — Sign In</title>
+
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=9">
-  <!-- No external plugins; pure HTML/JS -->
+
+  <!-- Optional: runtime config BEFORE your app code -->
+  <!-- Ensure env.js is loaded so login.js can read API_BASE etc -->
+  <script src="/env.js"></script>
 </head>
 <body>
   <!-- Navbar -->
@@ -28,6 +32,15 @@
       </div>
     </div>
   </nav>
+
+  <!-- Mobile overlay menu (optional keep if you have a mobile menu) -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation" style="display:none;">
+    <div class="menu-label">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="make-payments.html">Make a Payment</a>
+    <a href="create-account.html">Create Account</a>
+    <a href="login.html" aria-current="page">Login</a>
+  </div>
 
   <!-- Main login panel -->
   <main class="container" role="main" aria-label="Login">
@@ -54,7 +67,7 @@
             <button id="login-button" type="submit" style="padding:12px 16px; font-weight:700; border-radius:8px; background:#1f2937; color:white; border:none;">
               Sign In
             </button>
-            <span id="loading" style="margin-left:12px; color:#6b7280; display:none;">Signing in...</span>
+            <span id="loading" style="margin-left:12px; color:#6b7280; display:none;">Signing in…</span>
           </div>
 
           <div id="login-msg" role="alert" style="margin-top:12px; color:#b42318;"></div>
@@ -67,45 +80,26 @@
         </form>
       </div>
     </section>
+
+    <!-- Optional signup CTA row -->
+    <section class="container" style="margin-top:24px; text-align:center;">
+      <span>Don’t have an account? </span>
+      <a href="create-account.html" class="btn" style="padding:10px 14px; border-radius:6px; background:#111; color:#fff; text-decoration:none;">Sign Up</a>
+    </section>
   </main>
 
-  <script>
-    // Sign-in flow: POST to backend, get session cookie or token, then redirect
-    // If you implement server-side session cookie, your server will set the cookie on login
-    async function loginUser(email, password) {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Login failed');
-      // If server sets a cookie, the browser will store it automatically
-      return data;
-    }
+  <!-- Footer (optional) -->
+  <footer class="footer" id="contact" aria-label="Footer" style="margin-top:40px;">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
 
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const btn = document.getElementById('login-button');
-      const loading = document.getElementById('loading');
-      const msg = document.getElementById('login-msg');
-
-      btn.disabled = true;
-      loading.style.display = 'inline';
-      msg.textContent = '';
-
-      try {
-        await loginUser(email, password);
-        // Redirect to dashboard in backend repo
-        window.location.href = 'https://dashboard.uniquitysolutions.com/app'; // adjust path as needed
-      } catch (err) {
-        msg.textContent = err.message;
-        btn.disabled = false;
-        loading.style.display = 'none';
-      }
-    });
-  </script>
+  <!-- Load login.js (the full, self-contained login flow) -->
+  <script src="js/login.js"></script>
 </body>
 </html>
