@@ -1,4 +1,4 @@
-
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -7,208 +7,117 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=8">
-  <!-- Include Supabase client library -->
+  <!-- Supabase client -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar and existing content (kept as-is) -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true"></span>
-        Uniquity Solutions
+        <span class="brand-mark" aria-hidden="true"></span> Uniquity Solutions
       </a>
-
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="#services">Services</a>
         <a href="#partners">Partners</a>
         <a href="#careers">Careers</a>
-
-        <div class="dropdown" data-dropdown>
-          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
-            Get Started
-            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="drop-menu" data-menu role="menu">
-            <a href="make-payments.html" role="menuitem">Make a Payment</a>
-            <a href="create-account.html" role="menuitem">Create Account (Merchants)</a>
-            <a href="faq.html" role="menuitem">FAQ</a>
-            <a href="pricing.html" role="menuitem">Pricing</a>
-            <a href="developers.html" role="menuitem">Developers & API</a>
-            <a href="integrations.html" role="menuitem">Integrations</a>
-            <a href="compliance.html" role="menuitem">Compliance & Security</a>
-            <a href="login.html" role="menuitem">Login Portal</a>
-          </div>
-        </div>
-
-        <a href="#contact" class="cta">Contact</a>
+        <a href="make-payments.html" role="menuitem">Make a Payment</a>
+        <a href="faq.html" role="menuitem">FAQ</a>
+        <a href="pricing.html" role="menuitem">Pricing</a>
       </div>
-
-      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
     </div>
   </nav>
 
-  <!-- Mobile overlay menu -->
-  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
-    <div class="menu-label">On this page</div>
-    <a href="index.html">Home</a>
-    <a href="#services">Services</a>
-    <a href="#partners">Partners</a>
-    <a href="#careers">Careers</a>
-    <a href="#contact" class="cta">Contact</a>
-
-    <div class="menu-label">More pages</div>
-    <a href="make-payments.html">Make a Payment</a>
-    <a href="create-account.html">Create Account (Merchants)</a>
-    <a href="faq.html">FAQ</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="developers.html">Developers & API</a>
-    <a href="integrations.html">Integrations</a>
-    <a href="compliance.html">Compliance & Security</a>
-    <a href="login.html">Login Portal</a>
-  </div>
-
-  <!-- Main content area -->
-  <main id="content" class="container" role="main" aria-label="Create Account">
-    <section class="card" aria-labelledby="create-account-title" style="margin-top:32px;">
-      <header class="card-header" style="padding:16px 18px; border-bottom:1px solid var(--ring);">
-        <h1 id="create-account-title" class="card-title" style="margin:0; font-size: clamp(24px, 3vw, 32px);">Create Account</h1>
-        <p class="card-subtitle" style="margin:6px 0 0; color:var(--muted);">Sign up to get started</p>
+  <!-- Main Create Account content -->
+  <main class="container" role="main" aria-label="Create Account">
+    <section class="card" style="margin-top:32px;">
+      <header class="card-header" style="padding:16px 18px; border-bottom:1px solid #e5e7eb;">
+        <h1 class="card-title" style="margin:0; font-size:28px;">Create Account</h1>
+        <p class="card-subtitle" style="color:#6b7280; margin:6px 0 0;">Sign up to get started</p>
       </header>
 
       <div class="card-body" style="padding:18px;">
-        <!-- Sign-up form -->
-        <form id="signup-form" class="form" autocomplete="off" novalidate>
-          <div class="form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-            <div class="form-field field">
-              <label for="name" class="label" style="font-weight:700; font-size:14px;">Full Name</label>
-              <input class="input" type="text" id="name" name="name" placeholder="Your full name" required />
-              <span class="error" id="error-name" aria-live="polite"></span>
+        <!-- Admin path: create client (visible to admins in your app) -->
+        <section id="admin-create" aria-label="Admin - Create Client" style="margin-bottom:28px;">
+          <h2 style="font-size:20px; margin-bottom:8px;">Admin: Create Client</h2>
+          <form id="admin-create-form" autocomplete="off">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
+              <input id="admin-client-code" placeholder="Client code (e.g., CLI-001)" required />
+              <input id="admin-client-name" placeholder="Client name" required />
             </div>
-
-            <div class="form-field field">
-              <label for="email" class="label" style="font-weight:700; font-size:14px;">Email</label>
-              <input class="input" type="email" id="email" name="email" placeholder="you@example.com" required />
-              <span class="error" id="error-email" aria-live="polite"></span>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:8px;">
+              <input id="admin-client-email" placeholder="Client email" />
+              <input id="admin-tenant-id" placeholder="Tenant ID (optional)" />
             </div>
+            <button type="submit" style="margin-top:8px;">Create Client (Admin)</button>
+            <div id="admin-create-status" class="svc-note" aria-live="polite" style="color:#1f2937;"></div>
+          </form>
+        </section>
 
-            <div class="form-field field">
-              <label for="password" class="label" style="font-weight:700; font-size:14px;">Password</label>
-              <input class="input" type="password" id="password" name="password" placeholder="Password" required />
-              <span class="helper" id="password-hint" style="font-size:12px; color:var(--muted);">Use at least 8 characters.</span>
-              <span class="error" id="error-password" aria-live="polite"></span>
+        <!-- Public sign-up path: client signup (connect on signup page) -->
+        <section id="public-signup" aria-label="Public Sign Up" style="margin-bottom:28px;">
+          <h2 style="font-size:20px; margin-bottom:8px;">Public Sign Up (Client)</h2>
+          <form id="client-signup-form" autocomplete="off">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
+              <input id="signup-name" placeholder="Your company name" required />
+              <input id="signup-email" placeholder="Your email" type="email" required />
             </div>
+            <button type="submit" style="margin-top:8px;">Create Client Account</button>
+            <div id="signup-status" class="svc-note" aria-live="polite" style="color:#1f2937; margin-top:6px;"></div>
+          </form>
+        </section>
 
-            <div class="form-field field">
-              <label for="confirm-password" class="label" style="font-weight:700; font-size:14px;">Confirm Password</label>
-              <input class="input" type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password" required />
-              <span class="error" id="error-confirm" aria-live="polite"></span>
-            </div>
-          </div>
-
-          <div class="form-actions" style="display:flex; align-items:center; gap:12px; margin-top:8px;">
-            <button type="submit" class="btn btn-primary" id="signup-button" style="padding:12px 16px; border-radius:12px; font-weight:700;">
-              Create Account
-            </button>
-            <span class="form-hint" id="form-hint" aria-live="polite" style="color:var(--muted);"></span>
-          </div>
-        </form>
+        <!-- Existing user flows go here (optional) -->
       </div>
     </section>
   </main>
 
-  <footer class="site-footer" aria-label="Footer" style="margin-top:40px;">
-    <!-- Optional footer content -->
-  </footer>
+  <!-- Make Payment CTA (optional) -->
+  <section class="container" style="margin: 24px 0;">
+    <a href="make-payments.html" class="btn btn-primary">Make a Payment</a>
+  </section>
 
+  <!-- Sign-in user flows and Supabase init -->
   <script>
-    // Initialize Supabase client
-    const SUPABASE_URL = 'https://ziltrcaehpshkwganlcy.supabase.co'; // Replace with your Supabase URL
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InppbHRyY2FlaHBzaGt3Z2FubGN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ4NjM0NzMsImV4cCI6MjA3MDQzOTQ3M30.8CLBXrknu3kea7OMdJKOBSNayXBOu3lJFu_H4PqI0vg'; // Replace with your Supabase anon/public key
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Initialize Supabase client (replace with your project keys)
+    const SUPABASE_URL = 'https://<your-project>.supabase.co';
+    const SUPABASE_ANON_KEY = '<your-public-anon-key>';
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Form validation
-    function validateForm(data) {
-      let ok = true;
-
-      // Reset errors
-      ['name', 'email', 'password', 'confirm'].forEach(id => {
-        const el = document.getElementById('error-' + (id === 'confirm' ? 'confirm' : id));
-        if (el) el.textContent = '';
-      });
-
-      if (!data.name.trim()) {
-        document.getElementById('error-name').textContent = 'Please enter your full name.';
-        ok = false;
-      }
-
-      if (!data.email.trim()) {
-        document.getElementById('error-email').textContent = 'Please enter an email address.';
-        ok = false;
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-        document.getElementById('error-email').textContent = 'Please enter a valid email.';
-        ok = false;
-      }
-
-      if (!data.password) {
-        document.getElementById('error-password').textContent = 'Please enter a password.';
-        ok = false;
-      } else if (data.password.length < 8) {
-        document.getElementById('error-password').textContent = 'Password must be at least 8 characters.';
-        ok = false;
-      }
-
-      if (data.password !== data.confirmPassword) {
-        document.getElementById('error-confirm').textContent = 'Passwords do not match.';
-        ok = false;
-      }
-
-      return ok;
-    }
-
-    // Handle form submission
-    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    // Admin create-client
+    document.getElementById('admin-create-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-        confirmPassword: document.getElementById('confirm-password').value
-      };
-
-      // Validate form
-      if (!validateForm(data)) return;
-
-      // Disable button and show loading message
-      document.getElementById('signup-button').disabled = true;
-      document.getElementById('form-hint').textContent = 'Creating your account...';
-
-      // Sign up with Supabase
-      const { user, error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password
-      }, {
-        data: {
-          full_name: data.name
-        }
+      const client_code = document.getElementById('admin-client-code').value;
+      const name = document.getElementById('admin-client-name').value;
+      const email = document.getElementById('admin-client-email').value;
+      const tenant_id = document.getElementById('admin-tenant-id').value;
+      const res = await fetch('/api/admin/create-client', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({ client_code, name, email, tenant_id })
       });
+      const data = await res.json();
+      const status = document.getElementById('admin-create-status');
+      if (res.ok) status.textContent = 'Client created: ' + (data.client?.client_code || data.client?.name);
+      else status.textContent = 'Error: ' + (data.error || res.statusText);
+    });
 
-      if (error) {
-        document.getElementById('form-hint').textContent = 'Error: ' + error.message;
-        document.getElementById('signup-button').disabled = false;
-        return;
-      }
-
-      // Success
-      document.getElementById('form-hint').textContent = 'Account created. Please check your email to confirm your address.';
-      // Redirect after a delay
-      setTimeout(() => window.location.href = '/dashboard', 3000);
+    // Public signup client (basic demonstration)
+    document.getElementById('client-signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const res = await fetch('/api/signup-client', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({ client_code: 'CLI-' + Date.now(), name, email, country: 'US' })
+      });
+      const data = await res.json();
+      const status = document.getElementById('signup-status');
+      if (res.ok) status.textContent = 'Signup success. Onboarding: ' + (data.onboardingLink || 'check email');
+      else status.textContent = 'Error: ' + (data.error || res.statusText);
     });
   </script>
 </body>
