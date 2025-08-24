@@ -9,11 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=9">
 
-  <!-- Runtime config BEFORE your app code -->
-  <script src="/env.js"></script>
+  <!-- Optional: some pages keep a simple header/footer; the Buy Button renders in place -->
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar (keep as in your site) -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
@@ -37,7 +36,7 @@
     </div>
   </nav>
 
-  <!-- Mobile overlay menu (kept minimal) -->
+  <!-- Mobile menu (unchanged layout) -->
   <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
     <div class="menu-label">On this page</div>
     <a href="index.html">Home</a>
@@ -45,247 +44,61 @@
     <a href="#partners">Partners</a>
     <a href="#careers">Careers</a>
     <a href="#contact" class="cta">Contact</a>
+    <div class="menu-label">More pages</div>
+    <a href="make-payments.html">Make a Payment</a>
+    <a href="create-account.html">Create Account (Merchants)</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
+    <a href="login.html">Login Portal</a>
   </div>
 
+  <!-- Hero / header area (optional branding content) -->
   <header class="hero">
     <div class="container hero-grid">
       <div>
         <p class="section-label"><span class="dot"></span> Make a Payment</p>
-        <h1>Secure checkout with Stripe Card input</h1>
-        <p class="lead">Enter your amount and complete card details. We support Apple Pay / Cash App via Stripe if enabled on your account.</p>
-      </div>
-    </div>
-
-    <div class="content-wrap">
-      <div class="container content">
-        <div class="content-grid">
-          <!-- Left: form (CardElement with full billing details) -->
-          <div>
-            <section id="payment-section" aria-labelledby="make-payment">
-              <h2 id="make-payment" class="sr-only">Make a Payment</h2>
-
-              <form id="payment-form" autocomplete="off" novalidate>
-                <div class="row">
-                  <div class="field">
-                    <label class="label" for="amount">Amount (USD)</label>
-                    <input class="input" id="amount" type="number" step="0.01" min="0.50" placeholder="49.99" value="10.00" required />
-                    <small class="svc-note">Minimum $0.50</small>
-                  </div>
-
-                  <div class="field">
-                    <label class="label" for="description">Description</label>
-                    <input class="input" id="description" type="text" maxlength="100" placeholder="Invoice, service, or reference" value="Invoice">
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="field">
-                    <label class="label" for="name">Name</label>
-                    <input class="input" id="name" type="text" placeholder="Full name on card" autocomplete="name" required />
-                  </div>
-
-                  <div class="field">
-                    <label class="label" for="email">Email (receipt)</label>
-                    <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email" required />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="field" style="flex:1 1 100%;">
-                    <label class="label" for="address-line1">Address</label>
-                    <input class="input" id="address-line1" type="text" placeholder="Address line 1" required />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="field">
-                    <label class="label" for="address-line2">Address 2</label>
-                    <input class="input" id="address-line2" type="text" placeholder="Apt, suite, etc." />
-                  </div>
-                  <div class="field">
-                    <label class="label" for="city">City</label>
-                    <input class="input" id="city" type="text" placeholder="City" required />
-                  </div>
-                  <div class="field">
-                    <label class="label" for="state">State/Region</label>
-                    <input class="input" id="state" type="text" placeholder="State" />
-                  </div>
-                  <div class="field">
-                    <label class="label" for="postal">Postal code</label>
-                    <input class="input" id="postal" type="text" placeholder="ZIP" required />
-                  </div>
-                  <div class="field">
-                    <label class="label" for="country">Country</label>
-                    <input class="input" id="country" type="text" placeholder="US" value="US" required />
-                  </div>
-                </div>
-
-                <div class="field" style="margin-top:8px;">
-                  <label class="label">Card details</label>
-                  <div id="card-element" style="padding:12px; border:1px solid #ccd; border-radius:6px; min-height:48px;"></div>
-                  <div id="card-errors" role="alert" style="color:#d00; min-height:1em; margin-top:8px;"></div>
-                </div>
-
-                <button type="submit" id="submit" class="btn btn-primary" style="margin-top:12px;">
-                  Pay
-                </button>
-
-                <div id="payment-status" style="margin-top:8px; color:#555;"></div>
-              </form>
-            </section>
-          </div>
-
-          <!-- Right: summary -->
-          <aside class="media" aria-label="Payment summary" style="padding:16px; display:grid; align-content:start">
-            <div class="partners-title" style="margin-bottom:10px"><span class="dot"></span> Summary</div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:8px">
-              <span class="svc-note">Item</span><strong id="sum-desc">Invoice</strong>
-            </div>
-            <div style="display:flex; justify-content:space-between">
-              <span class="svc-note">Amount</span><strong id="sum-amt">$10.00</strong>
-            </div>
-            <hr style="border:0; border-top:1px solid #e5e7eb; margin:12px 0">
-            <div style="display:flex; justify-content:space-between; font-weight:800">
-              <span>Total</span><span id="sum-total">$10.00</span>
-            </div>
-          </aside>
-        </div>
+        <h1>Secure checkout with Stripe Buy Button</h1>
+        <p class="lead">Click the button below to pay securely with Stripe. This uses the hosted Buy Button flow.</p>
       </div>
     </div>
   </header>
+
+  <!-- Payment area with Stripe Buy Button embed -->
+  <main class="container" id="content" style="padding: 2rem 1rem;">
+    <section id="payment-section" aria-labelledby="payment-title">
+      <h2 id="payment-title" style="margin-top:0; font-size: 1.25rem;">Pay securely</h2>
+
+      <!-- Stripe Buy Button embed (hosted Checkout) -->
+      <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+
+      <!-- Replace with your actual buy button and publishable key -->
+      <stripe-buy-button
+        buy-button-id="buy_btn_1RzQamBy3HHUeuveh4PAjuKQ"
+        publishable-key="pk_live_51Rv1X3By3HHUeuve2mwl2HJqUYgFuSa2xWM6AwjbcM10Ts6jqdsrtT5RZ9DkK754BEHQ68jqKZ0w0N32zQHLT9Xr007tOweb2G"
+      >
+      </stripe-buy-button>
+
+      <div id="payment-status" role="status" aria-live="polite" style="margin-top: 1rem; font-size: 0.95rem; color:#555;">
+        If you’re testing, use a valid test card after the hosted checkout opens.
+      </div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer class="footer" id="contact" aria-label="Footer">
     <div class="container">
       <div class="brand">
-        <span class="brand-mark" aria-hidden="true"></span> Uniquity Solutions
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
       </div>
       <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
     </div>
   </footer>
 
-  <!-- Stripe Elements logic (CardElement with full billing details) -->
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    // Replace with your live publishable key in production
-    const stripe = Stripe('pk_live_51Rv1X3By3HHUeuve2mwl2HJqUYgFuSa2xWM6AwjbcM10Ts6jqdsrtT5RZ9DkK754BEHQ68jqKZ0w0N32zQHLT9Xr007tOweb2G'); // TODO: replace with real live key
-    const API_BASE = 'https://dashboard.uniquitysolutions.com';
-    const SUCCESS_URL = 'https://uniquitysolutions.com/success';
-
-    let elements;
-    let card;
-    let clientSecret;
-
-    // Build or refresh a PaymentIntent
-    async function createPaymentIntentForClient() {
-      const amount = Math.round(parseFloat(document.getElementById('amount').value) * 100);
-      const description = document.getElementById('description').value || '';
-      const name = document.getElementById('name').value || '';
-      const email = document.getElementById('email').value || '';
-
-      // Address fields
-      const address = {
-        line1: document.getElementById('address-line1').value || '',
-        line2: document.getElementById('address-line2').value || '',
-        city: document.getElementById('city').value || '',
-        state: document.getElementById('state').value || '',
-        postal_code: document.getElementById('postal').value || '',
-        country: document.getElementById('country').value || ''
-      };
-
-      // Ensure required fields
-      if (!amount || amount <= 0) {
-        document.getElementById('payment-status').textContent = 'Please enter a valid amount.';
-        throw new Error('InvalidAmount');
-      }
-      if (!name || !email || !address.line1 || !address.city || !address.postal_code || !address.country) {
-        document.getElementById('payment-status').textContent = 'Please fill in name, email, and full address.';
-        throw new Error('MissingBillingDetails');
-      }
-
-      const res = await fetch(API_BASE + '/api/create-payment-intent-for-client', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount,
-          currency: 'usd',
-          clientCode: 'CLI-001',
-          description,
-          receipt_email: email,
-          // Pass billing details to server for a cleaner PaymentIntent creation (server uses it in billing_details)
-          billing_details: { name, address }
-        })
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.clientSecret) {
-        const err = data.error || 'Could not initialize payment';
-        document.getElementById('payment-status').textContent = err;
-        throw new Error('PaymentInitFailed');
-      }
-
-      clientSecret = data.clientSecret;
-
-      if (elements && elements.destroy) elements.destroy();
-      elements = stripe.elements({ clientSecret });
-
-      card = elements.create('card');
-      card.mount('#card-element');
-      card.on('change', (e) => {
-        if (e.error) {
-          document.getElementById('card-errors').textContent = e.error.message;
-        } else {
-          document.getElementById('card-errors').textContent = '';
-        }
-      });
-
-      // Update summary
-      document.getElementById('sum-desc').textContent = description || 'Invoice';
-      document.getElementById('sum-amt').textContent = '$' + (Number(amount) / 100).toFixed(2);
-      document.getElementById('sum-total').textContent = '$' + (Number(amount) / 100).toFixed(2);
-    }
-
-    document.getElementById('payment-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (!clientSecret) {
-        try { await createPaymentIntentForClient(); } catch { return; }
-      }
-
-      const name = document.getElementById('name').value || '';
-      const email = document.getElementById('email').value || '';
-      const addressLine1 = document.getElementById('address-line1').value || '';
-      const city = document.getElementById('city').value || '';
-      const postal = document.getElementById('postal').value || '';
-      const country = document.getElementById('country').value || '';
-
-      const { error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name,
-            email,
-            address: {
-              line1: addressLine1,
-              line2: document.getElementById('address-line2').value || '',
-              city,
-              state: document.getElementById('state').value || '',
-              postal_code: postal,
-              country
-            }
-          }
-        },
-        return_url: SUCCESS_URL
-      });
-
-      if (error) {
-        document.getElementById('payment-status').textContent = error.message;
-      } else {
-        document.getElementById('payment-status').textContent = 'Payment processing…';
-      }
-    });
-
-    // Init on load
-    (async () => { await createPaymentIntentForClient(); })();
-  </script>
+  <!-- Optional: include site-wide scripts -->
+  <script src="main.js?v=9" defer></script>
 </body>
 </html>
