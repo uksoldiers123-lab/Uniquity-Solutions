@@ -36,79 +36,35 @@
       </header>
 
       <div class="card-body" style="padding:18px;">
-        <!-- Admin path: create client -->
-        <section id="admin-create" aria-label="Admin - Create Client" style="margin-bottom:28px;">
-          <h2 style="font-size:20px; margin-bottom:8px;">Admin: Create Client</h2>
-          <form id="admin-create-form" autocomplete="off">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
-              <input id="admin-client-code" placeholder="Client code (e.g., CLI-001)" required />
-              <input id="admin-client-name" placeholder="Client name" required />
-            </div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-top:8px;">
-              <input id="admin-client-email" placeholder="Client email" />
-              <input id="admin-tenant-id" placeholder="Tenant ID (optional)" />
-            </div>
-            <button type="submit" style="margin-top:8px;">Create Client (Admin)</button>
-            <div id="admin-create-status" class="svc-note" aria-live="polite" style="color:#1f2937; margin-top:6px;"></div>
-          </form>
-        </section>
+        <!-- Removed Admin creation option. Admins will be designated from the dashboard. -->
 
-        <!-- Public signup path: client signup -->
-        <section id="public-signup" aria-label="Public Sign Up" style="margin-bottom:28px;">
-          <h2 style="font-size:20px; margin-bottom:8px;">Public Sign Up (Client)</h2>
-          <form id="client-signup-form" autocomplete="off">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
-              <input id="signup-name" placeholder="Your company name" required />
-              <input id="signup-email" placeholder="Your email" type="email" required />
-            </div>
-            <button type="submit" style="margin-top:8px;">Create Client Account</button>
-            <div id="signup-status" class="svc-note" aria-live="polite" style="color:#1f2937; margin-top:6px;"></div>
-          </form>
-        </section>
+        <!-- You can keep or add your regular user sign-up fields here -->
+        <!-- Example placeholder for form fields (adjust as needed) -->
+        <form id="user-create-form" autocomplete="off">
+          <!-- Your existing user fields go here (name, email, password, etc.) -->
+          <!-- Example fields (adjust to your actual form): -->
+          <div class="form-group" style="margin-bottom:12px;">
+            <label for="name" style="display:block; margin-bottom:6px;">Full Name</label>
+            <input id="name" name="name" type="text" required style="width:100%; padding:10px; border:1px solid #d1d5db; border-radius:6px;">
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label for="email" style="display:block; margin-bottom:6px;">Email</label>
+            <input id="email" name="email" type="email" required style="width:100%; padding:10px; border:1px solid #d1d5db; border-radius:6px;">
+          </div>
+          <div class="form-group" style="margin-bottom:12px;">
+            <label for="password" style="display:block; margin-bottom:6px;">Password</label>
+            <input id="password" name="password" type="password" required style="width:100%; padding:10px; border:1px solid #d1d5db; border-radius:6px;">
+          </div>
+          <button type="submit" style="padding:12px 16px; border:none; border-radius:6px; background:#111; color:#fff; cursor:pointer;">
+            Create Account
+          </button>
+        </form>
 
+        <p style="color:#6b7280; margin-top:14px;">
+          Note: Admin designation is managed from the dashboard. After you sign up, an existing admin will assign admin privileges to you if applicable.
+        </p>
       </div>
     </section>
   </main>
-
-  <!-- Sign-up scripts -->
-  <script>
-    // Supabase client (replace with your project keys)
-    const SUPABASE_URL = 'https://<your-project>.supabase.co';
-    const SUPABASE_ANON_KEY = '<your-public-anon-key>';
-    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // Admin create client
-    document.getElementById('admin-create-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const payload = {
-        client_code: document.getElementById('admin-client-code').value,
-        name: document.getElementById('admin-client-name').value,
-        email: document.getElementById('admin-client-email').value,
-        tenant_id: document.getElementById('admin-tenant-id').value,
-        fee_percent: parseFloat(document.getElementById('admin-fee-percent')?.value || '0.10'),
-        fee_fixed_cents: parseInt(document.getElementById('admin-fee-fixed')?.value || '0', 10)
-      };
-      const res = await fetch('/api/admin/create-client', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-      const data = await res.json();
-      const status = document.getElementById('admin-create-status');
-      status.textContent = res.ok ? 'Client created: ' + (data.client?.client_code || data.client?.name) : 'Error: ' + (data.error || res.statusText);
-    });
-
-    // Public signup client (simple)
-    document.getElementById('client-signup-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const client_code = 'CLI-' + Date.now();
-      const name = document.getElementById('signup-name').value;
-      const email = document.getElementById('signup-email').value;
-      const res = await fetch('/api/signup-client', {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({ client_code, name, email, country: 'US' })
-      });
-      const data = await res.json();
-      const status = document.getElementById('signup-status');
-      status.textContent = res.ok ? 'Signup success: onboard link ' + (data.onboardingLink || '') : 'Error: ' + (data.error || res.statusText);
-    });
-  </script>
 </body>
 </html>
