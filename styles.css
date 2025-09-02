@@ -1,0 +1,63 @@
+: root {
+  --bg: #f6f7f9;
+  --text: #1f2937;
+  --primary: #1d4ed8;
+  --card: #ffffff;
+  --radius: 12px;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color: var(--text); background: var(--bg); }
+
+/* Container + layout helpers */
+.container { width: 100%; max-width: 960px; padding: 0 16px; margin: 0 auto; }
+
+/* Navbar tweaks for mobile */
+.nav { background: #fff; border-bottom: 1px solid #e5e7eb; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; color: #111; }
+.brand-mark { width: 28px; height: 28px; border-radius: 6px; background: linear-gradient(135deg, #fff, #ffd6a3); }
+
+/* Simple mobile-friendly dropdown menu (optional) */
+.dropdown { position: relative; }
+.drop-menu {
+  display: none;
+  position: absolute;
+  top: 100%; right: 0;
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 6px; min-width: 210px; z-index: 50;
+}
+.drop-toggle[aria-expanded="true"] + .drop-menu,
+.drop-menu[data-open="true"] { display: block; }
+
+/* Hero: stack content on mobile, two-column on larger screens */
+.hero { padding: 20px 0; background: #fff; }
+.hero-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 700px) {
+  .hero-grid { grid-template-columns: 1.2fr 0.8fr; align-items: start; }
+}
+.section-label { text-transform: uppercase; font-size: 12px; letter-spacing: .6px; color: #6b7280; margin-bottom: 6px; display: inline-flex; align-items: center; }
+.kpis { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.kpi { background: #fff; padding: 6px 10px; border-radius: 999px; border: 1px solid #e5e7eb; font-size: 12px; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 14px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; font-weight: 700; }
+.btn-primary { background: var(--primary); color: #fff; }
+
+/* Service card */
+.service-card { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--radius); padding: 16px; }
+
+/* Grid/content areas for responsive readability */
+.content-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 700px) { .content-grid { grid-template-columns: 1fr 1fr; } }
+
+/* Utilities & media */
+img { max-width: 100%; height: auto; display: block; }
+.media { position: relative; }
+.media-badge { position: absolute; left: 12px; bottom: 12px; background: rgba(0,0,0,.6); color: #fff; padding: 6px 10px; border-radius: 999px; font-size: 12px; }
+
+/* Footer/partner sections */
+.partners { padding: 16px 0; }
+.footer { padding: 20px 0; text-align: center; color: #6b7280; }
+
+/* Accessibility + touch targets */
+a, button { touch-action: manipulation; }
