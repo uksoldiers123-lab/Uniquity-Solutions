@@ -1,7 +1,7 @@
-// main.js v8
-// Mobile overlay menu + desktop dropdowns, consistent across all pages
+
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Keep nav height in a CSS var for the mobile overlay top offset
+  // Keep nav height for mobile overlay offset
   const nav = document.querySelector('.nav');
   const setNavHeight = () => {
     if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setNavHeight();
   window.addEventListener('resize', setNavHeight);
 
-  // Mobile menu
+  // Mobile overlay menu (top-right hamburger)
   const menuBtn = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
 
@@ -28,23 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
       setNavHeight();
     });
 
-    // Close when selecting a link
+    // Close when a link inside the mobile menu is clicked
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', closeMobile);
     });
 
-    // Close on ESC
+    // ESC to close
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeMobile();
     });
 
-    // Close if resized to desktop
+    // If resizing to desktop, close mobile menu
     window.addEventListener('resize', () => {
       if (window.innerWidth > 980) closeMobile();
     });
   }
 
-  // Desktop dropdowns (Get Started, etc.)
+  // Desktop dropdowns (Get Started etc.)
   const dropdowns = document.querySelectorAll('[data-dropdown]');
 
   function closeAllDropdowns(except = null) {
@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const menu = drop.querySelector('[data-menu]');
     if (!toggle || !menu) return;
 
-    // Toggle on click
     toggle.addEventListener('click', (e) => {
       e.stopPropagation();
       const willOpen = !drop.classList.contains('open');
@@ -69,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
     });
 
-    // Keyboard support: Enter/Space toggles when focused on toggle
+    // Keyboard support
     toggle.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -77,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Prevent inside clicks from closing immediately
+    // Prevent closing when clicking inside
     menu.addEventListener('click', (e) => e.stopPropagation());
   });
 
-  // Click-away to close any open dropdown
+  // Click-away to close dropdowns
   document.addEventListener('click', () => closeAllDropdowns());
 
   // ESC closes dropdowns
