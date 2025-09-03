@@ -1,91 +1,83 @@
-// - Mobile overlay menu (top-right hamburger)
-// - Desktop dropdowns (Get Started, etc.)
-// - Keyboard accessibility and basic focus management
-document.addEventListener('DOMContentLoaded', () => {
-  // Keep nav height for mobile overlay offset
-  const nav = document.querySelector('.nav');
-  const setNavHeight = () => {
-    if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
-  };
-  setNavHeight();
-  window.addEventListener('resize', setNavHeight);
 
-  // Mobile overlay menu
-  const menuBtn = document.getElementById('menuBtn');
-  const mobileMenu = document.getElementById('mobileMenu');
-
-  const closeMobile = () => {
-    if (!mobileMenu) return;
-    mobileMenu.classList.remove('open');
-    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
-    document.body.classList.remove('no-scroll');
+(() => {
+  // Simple data model for demonstration
+  const pageData = {
+    title: document.title || "Untitled",
+    sections: [
+      { id: "services", label: "Services" },
+      { id: "partners", label: "Partners" },
+      { id: "contact", label: "Contact" }
+    ],
   };
+
+  // Utility: safe query
+  const $ = (sel, root = document) => root.querySelector(sel);
+
+  // Mobile menu toggle (overlay)
+  const menuBtn = $("#menuBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const body = document.body;
+
+  function closeMenu() {
+    if (mobileMenu) {
+      mobileMenu.classList.remove("open");
+      body.classList.remove("no-scroll");
+      if (menuBtn) menuBtn.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function openMenu() {
+    if (mobileMenu) {
+      mobileMenu.classList.add("open");
+      body.classList.add("no-scroll");
+      if (menuBtn) menuBtn.setAttribute("aria-expanded", "true");
+    }
+  }
 
   if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      document.body.classList.toggle('no-scroll', open);
-      setNavHeight();
-    });
-
-    // Close when selecting a link inside mobile menu
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', closeMobile);
+    menuBtn.addEventListener("click", () => {
+      const isOpen = mobileMenu.classList.contains("open");
+      isOpen ? closeMenu() : openMenu();
     });
 
     // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMobile();
-    });
-
-    // If resized to desktop, close mobile menu
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 980) closeMobile();
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
     });
   }
 
-  // Desktop dropdowns
-  const dropdowns = document.querySelectorAll('[data-dropdown]');
+  // Simple page outline (for screen readers / debug)
+  function renderOutline() {
+    const outlineContainer = document.createElement("nav");
+    outlineContainer.setAttribute("aria-label", "Page outline");
+    outlineContainer.style.position = "absolute";
+    outlineContainer.style.left = "-9999px";
+    outlineContainer.style.top = "auto";
+    outlineContainer.style.width = "1px";
+    outlineContainer.style.height = "1px";
+    outlineContainer.style.overflow = "hidden";
 
-  function closeAllDropdowns(except = null) {
-    dropdowns.forEach(d => {
-      if (except && d === except) return;
-      d.classList.remove('open');
-      d.querySelector('[data-toggle]')?.setAttribute('aria-expanded', 'false');
+    const ul = document.createElement("ul");
+    pageData.sections.forEach((s) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = `#${s.id}`;
+      a.textContent = s.label;
+      li.appendChild(a);
+      ul.appendChild(li);
     });
+    outlineContainer.appendChild(ul);
+    document.body.appendChild(outlineContainer);
   }
 
-  dropdowns.forEach(drop => {
-    const toggle = drop.querySelector('[data-toggle]');
-    const menu = drop.querySelector('[data-menu]');
-    if (!toggle || !menu) return;
+  // Init
+  document.addEventListener("DOMContentLoaded", () => {
+    // Optional: set document title from data
+    if (pageData.title) document.title = pageData.title;
 
-    toggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const willOpen = !drop.classList.contains('open');
-      closeAllDropdowns(drop);
-      drop.classList.toggle('open', willOpen);
-      toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-    });
+    // Build outline for accessibility
+    renderOutline();
 
-    // Keyboard support
-    toggle.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        toggle.click();
-      }
-    });
-
-    // Prevent inside clicks from closing
-    menu.addEventListener('click', (e) => e.stopPropagation());
+    // You can extend here: read meta tags, sections, etc.
   });
-
-  // Click-away to close dropdowns
-  document.addEventListener('click', () => closeAllDropdowns());
-
-  // ESC closes dropdowns
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAllDropdowns();
-  });
-});
+})();
