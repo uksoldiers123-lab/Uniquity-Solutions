@@ -1,5 +1,6 @@
-
-
+// - Mobile overlay menu (top-right hamburger)
+// - Desktop dropdowns (Get Started, etc.)
+// - Keyboard accessibility and basic focus management
 document.addEventListener('DOMContentLoaded', () => {
   // Keep nav height for mobile overlay offset
   const nav = document.querySelector('.nav');
@@ -9,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setNavHeight();
   window.addEventListener('resize', setNavHeight);
 
-  // Mobile overlay menu (top-right hamburger)
+  // Mobile overlay menu
   const menuBtn = document.getElementById('menuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
 
@@ -28,23 +29,23 @@ document.addEventListener('DOMContentLoaded', () => {
       setNavHeight();
     });
 
-    // Close when a link inside the mobile menu is clicked
+    // Close when selecting a link inside mobile menu
     mobileMenu.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', closeMobile);
     });
 
-    // ESC to close
+    // Close on Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeMobile();
     });
 
-    // If resizing to desktop, close mobile menu
+    // If resized to desktop, close mobile menu
     window.addEventListener('resize', () => {
       if (window.innerWidth > 980) closeMobile();
     });
   }
 
-  // Desktop dropdowns (Get Started etc.)
+  // Desktop dropdowns
   const dropdowns = document.querySelectorAll('[data-dropdown]');
 
   function closeAllDropdowns(except = null) {
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Prevent closing when clicking inside
+    // Prevent inside clicks from closing
     menu.addEventListener('click', (e) => e.stopPropagation());
   });
 
