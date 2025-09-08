@@ -1,170 +1,192 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Sign Up</title>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root { --bg:#f7f7f7; --card:#fff; --text:#111; --primary:#4f46e5; }
-    html, body { margin:0; padding:0; font-family: Arial, sans-serif; background:var(--bg); color:var(--text); min-height:100%; }
-    .container { max-width:420px; margin:0 auto; padding:20px; }
-    .card { background:var(--card); border-radius:12px; padding:20px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
-    h2 { margin:0 0 12px; font-size:1.4rem; text-align:center; }
-    label { display:block; font-size:0.92rem; margin:12px 0 6px; }
-    input { width:100%; padding:12px; font-size:1rem; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
-    button { width:100%; padding:14px; font-size:1rem; border-radius:8px; border:none; color:#fff; background:var(--primary); cursor:pointer; }
-    button:disabled { opacity:0.6; cursor:not-allowed; }
-    .status { margin-top:12px; min-height:1.2em; font-size:0.95rem; color:#333; }
-    .banner { position: fixed; bottom: 8px; left: 8px; right: 8px; z-index:9999; background:#111; color:#fff; padding:8px 12px; border-radius:8px; font-family:monospace; font-size:12px; display:none; }
-  </style>
+  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
 
-  <!-- 1) Supabase CDN (UMD) -->
-  <script src="https://unpkg.com/@supabase/supabase-js/dist/supabase-js.min.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=9">
 
-  <!-- 2) Init script: idempotent, must run before signup logic -->
-  <script>
-    (function initSupabaseGlobal() {
-      const SUPABASE_URL = 'https://gifguoyqccozlijrxgcf.supabase.co';
-      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpZmd1b3lxY2NvemxpanJ4Z2NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2MTg2MzUsImV4cCI6MjA3MjE5NDYzNX0.gwZnr8fKE7qXuLi8B5Merul3cVAXZ1r6SaWEUoAJWX0';
-      // Create client if not yet created
-      if (!window.supabase) {
-        if (typeof supabase === 'undefined' || typeof supabase.createClient !== 'function') {
-          console.error('Supabase JS library not loaded yet. Ensure the CDN script loads before this block.');
-        } else {
-          window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-          console.log('Supabase initialized:', !!window.supabase);
-        }
-      } else {
-        console.log('Supabase already initialized');
-      }
-
-      // Tiny on-page status
-      const banner = document.getElementById('qp-banner');
-      if (banner) banner.textContent = 'Init: ' + (window.supabase ? 'ready' : 'not ready');
-      window.__checkSupabase = function(){ console.log('CHECK: Supabase exists?', !!window.supabase); };
-      if (window.__checkSupabase) window.__checkSupabase();
-    })();
-  </script>
-
-  <!-- 3) Auth logic wrapper (safe wrapper) -->
-  <script>
-    // Robust signUpUser: waits briefly if not yet ready
-    function signUpUser(email, password, options = {}) {
-      if (!window.supabase) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            if (window.supabase) {
-              resolve(window.supabase.auth.signUp({ email, password, ...options }));
-            } else {
-              reject(new Error('Supabase not initialized'));
-            }
-          }, 50);
-        });
-      }
-      return window.supabase.auth.signUp({ email, password, ...options });
-    }
-  </script>
+  <!-- Runtime config BEFORE your app code -->
+  <script src="/env.js"></script>
 </head>
 <body>
+  <!-- Navbar -->
+  <nav class="nav" aria-label="Primary">
+    <div class="container nav-inner">
+      <a class="brand" href="https://www.uniquitysolutions.com/index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </a>
 
-  <!-- In-page status banner (optional) -->
-  <div id="qp-banner" class="banner" style="display:none;"></div>
+      <div class="nav-links">
+        <a href="https://www.uniquitysolutions.com/index.html">Home</a>
+        <a href="https://www.uniquitysolutions.com/services.html">Services</a>
+        <a href="https://www.uniquitysolutions.com/partners.html">Partners</a>
+        <a href="#careers">Careers</a>
 
-  <div class="container">
-    <div class="card" style="text-align:center;">
-      <h2>Create an account</h2>
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
+            Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000" role="menuitem">Make a Payment</a>
+            <a href="https://dashboard.uniquitysolutions.com/?" role="menuitem">Create Account (Merchants)</a>
+            <a href="https://www.uniquitysolutions.com/faq.html" role="menuitem">FAQ</a>
+            <a href="https://www.uniquitysolutions.com/pricing.html" role="menuitem">Pricing</a>
+            <a href="https://www.uniquitysolutions.com/developers.html" role="menuitem">Developers & API</a>
+            <a href="https://www.uniquitysolutions.com/integrations.html" role="menuitem">Integrations</a>
+            <a href="https://www.uniquitysolutions.com/compliance.html" role="menuitem">Compliance & Security</a>
+            <a href="https://dashboard.uniquitysolutions.com/?" role="menuitem">Login Portal</a>
+          </div>
+        </div>
+
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="section-label"><span class="dot"></span> Trusted payments partner</p>
+        <h1>Over <span class="highlight">20</span> years paid on time</h1>
+        <p class="lead">
+          20+ years helping businesses accept credit card, direct debit, and recurring payments with industry-grade uptime,
+          streamlined onboarding, and dedicated advisory support.
+        </p>
+        <div>
+          <a class="btn btn-primary" href="#contact">
+            Get in touch
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="btn btn-ghost" href="#services">View services</a>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><span class="kpi-dot"></span> PCI DSS compliant</div>
+          <div class="kpi"><span class="kpi-dot" style="background:#34d399; box-shadow:0 0 0 4px rgba(52,211,153,.25)"></span> 99.99% uptime</div>
+        </div>
+      </div>
+      <aside class="service-card" id="services" aria-label="Services overview">
+        <h3>Services</h3>
+        <ul class="svc-list">
+          <li class="svc-item">
+            <span class="svc-ico" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M3 7h18M7 7v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7" stroke="#111" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Acquiring & Gateways</strong>
+              <div class="svc-note">Cards, direct debit, recurring</div>
+            </div>
+          </li>
+          <li class="svc-item">
+            <span class="svc-ico" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 6v12M6 12h12" stroke="#111" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Advisory & Risk</strong>
+              <div class="svc-note">Compliance, chargebacks, KYC</div>
+            </div>
+          </li>
+          <li class="svc-item">
+            <span class="svc-ico" aria-hidden="true" style="background:#ffe9ea; border-color:#ffd3d5;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 14l-3 3m3-3l3 3m-3-3V7" stroke="#b42318" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <div>
+              <strong>Support & Settlement</strong>
+              <div class="svc-note">Merchant onboarding, payouts</div>
+            </div>
+          </li>
+        </ul>
+      </aside>
     </div>
 
-    <div class="card" style="margin-top:12px;">
-      <form id="signup-form" autocomplete="on" aria-label="Sign up form">
-        <label for="signup-email">Email</label>
-        <input id="signup-email" type="email" required placeholder="you@example.com" />
-
-        <label for="signup-password">Password</label>
-        <input id="signup-password" type="password" required placeholder="Enter a strong password" />
-
-        <label for="signup-name">Display name (optional)</label>
-        <input id="signup-name" type="text" placeholder="Your name" />
-
-        <button type="submit" id="signup-btn" aria-label="Create account">Create account</button>
-      </form>
-
-      <div id="signup-status" class="status" aria-live="polite"></div>
+    <div class="content-wrap">
+      <div class="container content">
+        <div class="content-grid">
+          <div>
+            <p class="section-label"><span class="dot"></span> Why Uniquity</p>
+            <h2>Business-ready solutions built for scale</h2>
+            <p>
+              Whether you’re launching subscriptions or processing high-volume one-off payments, our Software platform and team
+              help you reduce failed transactions, optimize fees, and stay compliant across regions.
+            </p>
+            <div class="feature-list">
+              <div class="feature">
+                <span class="feat-ico" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12l4 4L19 6" stroke="#7c5b00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Services</strong>
+                  <div class="svc-note">Onboarding, tokenization, retries</div>
+                </div>
+              </div>
+              <div class="feature">
+                <span class="feat-ico" aria-hidden="true" style="background:#e7f8ff; color:#00314d; border-color:#cdeefe">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7h16M7 7v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7" stroke="#00314d" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </span>
+                <div>
+                  <strong>Technical</strong>
+                  <div class="svc-note">REST APIs, webhooks, SDKs</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="media" aria-label="Payment terminal accepting a contactless card">
+            <img alt="Contactless card payment at a POS terminal" src="https://source.unsplash.com/featured/1400x900?pos,payment,credit-card,terminal" />
+            <div class="media-badge">
+              <span class="card-ico" aria-hidden="true"></span>
+              Secure credit & debit processing
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </header>
 
-  <script>
-    // Show a persistent banner message about readiness (and update on actions)
-    (function(){
-      const banner = document.getElementById('qp-banner');
-      function updateBanner(text) {
-        if (banner) {
-          banner.style.display = 'block';
-          banner.textContent = 'Init: ' + text;
-        }
-        console.log('BANNER:', text);
-      }
-      // Initialize banner with current state
-      updateBanner(window.supabase ? 'ready' : 'not ready');
-    })();
-  </script>
+  <!-- Partners -->
+  <section id="partners" class="partners" aria-label="Partners and integrations">
+    <div class="container partners-card">
+      <div class="partners-head">
+        <span class="partners-title"><span class="dot"></span> Trusted by partners</span>
+      </div>
+      <div class="logos" role="list">
+        <div class="logo" role="listitem" aria-label="AcmePay">AcmePay</div>
+        <div class="logo" role="listitem" aria-label="Helios Bank">Helios<span style="font-weight:600">Bank</span></div>
+        <div class="logo" role="listitem" aria-label="OctoCommerce">Octo<span style="font-weight:600">Commerce</span></div>
+        <div class="logo" role="listitem" aria-label="Northline">Northline</div>
+        <div class="logo" role="listitem" aria-label="Vantage">Vantage</div>
+        <div class="logo" role="listitem" aria-label="Redwood">Redwood</div>
+      </div>
+    </div>
+  </section>
 
-  <script>
-    (function () {
-      const form = document.getElementById('signup-form');
-      const status = document.getElementById('signup-status');
-      const btn = document.getElementById('signup-btn');
-      let loading = false;
+  <!-- Footer -->
+  <footer class="footer" id="contact" aria-label="Footer">
+    <div class="container">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
+    </div>
+  </footer>
 
-      function setLoading(v) {
-        loading = v;
-        btn.disabled = v;
-        btn.textContent = v ? 'Creating account...' : 'Create account';
-      }
-
-      form.addEventListener('submit', async function (e) {
-        e.preventDefault();
-        if (loading) return;
-
-        const email = document.getElementById('signup-email').value.trim();
-        const password = document.getElementById('signup-password').value;
-        const name = document.getElementById('signup-name').value.trim();
-
-        if (!email || !password) {
-          status.textContent = 'Please provide email and password.';
-          return;
-        }
-
-        // Update init banner
-        const banner = document.getElementById('qp-banner');
-        if (banner) banner.textContent = 'Init: ' + (window.supabase ? 'ready' : 'not ready');
-
-        setLoading(true);
-        status.textContent = '';
-
-        try {
-          const { user, error } = await signUpUser(email, password, {
-            data: { display_name: name || '' }
-          });
-
-          if (error) {
-            status.textContent = 'Signup error: ' + (error.message || error);
-            if (banner) banner.textContent = 'Signup: error';
-          } else if (user) {
-            status.textContent = 'Signup successful. Check your email to confirm.';
-            if (banner) banner.textContent = 'Signup: success';
-          } else {
-            status.textContent = 'Signup complete. Please verify email.';
-            if (banner) banner.textContent = 'Signup: complete';
-          }
-        } catch (err) {
-          status.textContent = 'Signup failed: ' + (err?.message || err);
-          if (banner) banner.textContent = 'Signup: failed';
-        }
-
-        setLoading(false);
-      });
-    })();
-  </script>
+  <!-- Your app code (reads window.ENV) -->
+  <script src="main.js?v=9" defer></script>
 </body>
-</html>
+  </html>
