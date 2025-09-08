@@ -5,55 +5,61 @@
   <title>Sign Up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg: #f7f7f7;
-      --card: #fff;
-      --text: #111;
-      --primary: #4f46e5;
-    }
-    html, body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100%; }
-    .container { max-width: 420px; margin: 0 auto; padding: 20px; }
-    .card { background: var(--card); border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    h2 { margin: 0 0 12px; font-size: 1.4rem; text-align: center; }
-    label { display: block; font-size: 0.92rem; margin: 12px 0 6px; }
-    input { width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
-    button { width: 100%; padding: 14px; font-size: 1rem; border-radius: 8px; border: none; color: #fff; background: var(--primary); cursor: pointer; }
-    button:disabled { opacity: 0.6; cursor: not-allowed; }
-    .status { margin-top: 12px; min-height: 1.2em; font-size: 0.95rem; color: #333; }
+    :root { --bg:#f7f7f7; --card:#fff; --text:#111; --primary:#4f46e5; }
+    html, body { margin:0; padding:0; font-family: Arial, sans-serif; background:var(--bg); color:var(--text); min-height:100%; }
+    .container { max-width:420px; margin:0 auto; padding:20px; }
+    .card { background:var(--card); border-radius:12px; padding:20px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+    h2 { margin:0 0 12px; font-size:1.4rem; text-align:center; }
+    label { display:block; font-size:0.92rem; margin:12px 0 6px; }
+    input { width:100%; padding:12px; font-size:1rem; border:1px solid #ddd; border-radius:8px; box-sizing:border-box; }
+    button { width:100%; padding:14px; font-size:1rem; border-radius:8px; border:none; color:#fff; background:var(--primary); cursor:pointer; }
+    button:disabled { opacity:0.6; cursor:not-allowed; }
+    .status { margin-top:12px; min-height:1.2em; font-size:0.95rem; color:#333; }
+    .banner { position: fixed; bottom: 8px; left: 8px; right: 8px; z-index:9999; background:#111; color:#fff; padding:8px 12px; border-radius:8px; font-family:monospace; font-size:12px; display:none; }
   </style>
+</head>
+<body>
+
+  <!-- In-page status banner (always visible) -->
+  <div id="qp-banner" class="banner"></div>
 
   <!-- 1) Supabase CDN (UMD) -->
   <script src="https://unpkg.com/@supabase/supabase-js/dist/supabase-js.min.js"></script>
 
-  <!-- 2) Init script: creates window.supabase (must run before signup) -->
+  <!-- 2) Init script: idempotent, must run before signup logic -->
   <script>
     (function initSupabaseGlobal() {
+      // Replace with your real values for production
       const SUPABASE_URL = 'https://gifguoyqccozlijrxgcf.supabase.co';
       const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpZmd1b3lxY2NvemxpanJ4Z2NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2MTg2MzUsImV4cCI6MjA3MjE5NDYzNX0.gwZnr8fKE7qXuLi8B5Merul3cVAXZ1r6SaWEUoAJWX0';
-      // Always create window.supabase if not present
+      // Idempotent: only create once
       if (!window.supabase) {
-        window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('Supabase initialized:', !!window.supabase);
+        // Ensure the library loaded
+        if (typeof supabase === 'undefined' || typeof supabase.createClient !== 'function') {
+          console.error('Supabase JS library not loaded yet. Ensure the CDN script loads before this block.');
+        } else {
+          window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          console.log('Supabase initialized:', !!window.supabase);
+        }
       } else {
         console.log('Supabase already initialized');
       }
-      // A tiny in-page check helper
-      window.__checkSupabase = function() {
-        console.log('CHECK: Supabase exists?', !!window.supabase);
-        console.log('CHECK: window.supabase object:', window.supabase);
-      };
-      // Optional: run a check immediately
-      window.__checkSupabase();
+
+      // Tiny on-page status
+      const banner = document.getElementById('qp-banner');
+      if (banner) banner.textContent = 'Init: ' + (window.supabase ? 'ready' : 'not ready');
+      // Quick check helper (optional)
+      window.__checkSupabase = function(){ console.log('CHECK: Supabase exists?', !!window.supabase); };
+      if (window.__checkSupabase) window.__checkSupabase();
     })();
   </script>
 
   <!-- 3) Auth logic wrapper (safe wrapper) -->
   <script>
+    // Robust signUpUser: waits briefly if not yet ready
     function signUpUser(email, password, options = {}) {
       if (!window.supabase) {
-        // Instead of failing hard, retry briefly
         return new Promise((resolve, reject) => {
-          // small delay then reject if still not ready
           setTimeout(() => {
             if (window.supabase) {
               resolve(window.supabase.auth.signUp({ email, password, ...options }));
@@ -66,8 +72,8 @@
       return window.supabase.auth.signUp({ email, password, ...options });
     }
   </script>
-</head>
-<body>
+
+  <!-- Page content -->
   <div class="container">
     <div class="card" style="text-align:center;">
       <h2>Create an account</h2>
@@ -91,6 +97,7 @@
     </div>
   </div>
 
+  <!-- 4) Signup handler (no-console version) -->
   <script>
     (function () {
       const form = document.getElementById('signup-form');
@@ -117,26 +124,32 @@
           return;
         }
 
-        // Quick sanity log
-        console.log('Trying signup, supabase:', window.supabase);
+        // Update the in-page banner with init state
+        const banner = document.getElementById('qp-banner');
+        if (banner) banner.textContent = 'Init: ' + (window.supabase ? 'ready' : 'not ready');
 
+        // Begin signup
         setLoading(true);
         status.textContent = '';
 
         try {
-          const { user, session, error } = await signUpUser(email, password, {
+          const { user, error } = await signUpUser(email, password, {
             data: { display_name: name || '' }
           });
 
           if (error) {
             status.textContent = 'Signup error: ' + (error.message || error);
+            if (banner) banner.textContent = 'Signup: error';
           } else if (user) {
             status.textContent = 'Signup successful. Check your email to confirm.';
+            if (banner) banner.textContent = 'Signup: success';
           } else {
             status.textContent = 'Signup complete. Please verify email.';
+            if (banner) banner.textContent = 'Signup: complete';
           }
         } catch (err) {
           status.textContent = 'Signup failed: ' + (err?.message || err);
+          if (banner) banner.textContent = 'Signup: failed';
         }
 
         setLoading(false);
