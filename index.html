@@ -17,11 +17,6 @@
     .status { margin-top:12px; min-height:1.2em; font-size:0.95rem; color:#333; }
     .banner { position: fixed; bottom: 8px; left: 8px; right: 8px; z-index:9999; background:#111; color:#fff; padding:8px 12px; border-radius:8px; font-family:monospace; font-size:12px; display:none; }
   </style>
-</head>
-<body>
-
-  <!-- In-page status banner (always visible) -->
-  <div id="qp-banner" class="banner"></div>
 
   <!-- 1) Supabase CDN (UMD) -->
   <script src="https://unpkg.com/@supabase/supabase-js/dist/supabase-js.min.js"></script>
@@ -29,12 +24,10 @@
   <!-- 2) Init script: idempotent, must run before signup logic -->
   <script>
     (function initSupabaseGlobal() {
-      // Replace with your real values for production
       const SUPABASE_URL = 'https://gifguoyqccozlijrxgcf.supabase.co';
-      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpZmd1b3lxY2NvemxpanJ4Z2NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2MTg2MzUsImV4cCI6MjA3MjE5NDYzNX0.gwZnr8fKE7qXuLi8B5Merul3cVAXZ1r6SaWEUoAJWX0';
-      // Idempotent: only create once
+      const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';
+      // Create client if not yet created
       if (!window.supabase) {
-        // Ensure the library loaded
         if (typeof supabase === 'undefined' || typeof supabase.createClient !== 'function') {
           console.error('Supabase JS library not loaded yet. Ensure the CDN script loads before this block.');
         } else {
@@ -48,7 +41,6 @@
       // Tiny on-page status
       const banner = document.getElementById('qp-banner');
       if (banner) banner.textContent = 'Init: ' + (window.supabase ? 'ready' : 'not ready');
-      // Quick check helper (optional)
       window.__checkSupabase = function(){ console.log('CHECK: Supabase exists?', !!window.supabase); };
       if (window.__checkSupabase) window.__checkSupabase();
     })();
@@ -72,8 +64,12 @@
       return window.supabase.auth.signUp({ email, password, ...options });
     }
   </script>
+</head>
+<body>
 
-  <!-- Page content -->
+  <!-- In-page status banner (optional) -->
+  <div id="qp-banner" class="banner" style="display:none;"></div>
+
   <div class="container">
     <div class="card" style="text-align:center;">
       <h2>Create an account</h2>
@@ -97,7 +93,22 @@
     </div>
   </div>
 
-  <!-- 4) Signup handler (no-console version) -->
+  <script>
+    // Show a persistent banner message about readiness (and update on actions)
+    (function(){
+      const banner = document.getElementById('qp-banner');
+      function updateBanner(text) {
+        if (banner) {
+          banner.style.display = 'block';
+          banner.textContent = 'Init: ' + text;
+        }
+        console.log('BANNER:', text);
+      }
+      // Initialize banner with current state
+      updateBanner(window.supabase ? 'ready' : 'not ready');
+    })();
+  </script>
+
   <script>
     (function () {
       const form = document.getElementById('signup-form');
@@ -124,11 +135,10 @@
           return;
         }
 
-        // Update the in-page banner with init state
+        // Update init banner
         const banner = document.getElementById('qp-banner');
         if (banner) banner.textContent = 'Init: ' + (window.supabase ? 'ready' : 'not ready');
 
-        // Begin signup
         setLoading(true);
         status.textContent = '';
 
