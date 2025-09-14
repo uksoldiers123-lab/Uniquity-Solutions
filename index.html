@@ -16,16 +16,15 @@
   <!-- Navbar -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
-      <a class="brand" href="https://www.uniquitysolutions.com/index.html">
+      <a class="brand" href="index.html">
         <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
       </a>
 
-      <!-- Desktop nav (visible on wide screens) -->
-      <div class="nav-links" id="desktopNav">
-        <a href="https://www.uniquitysolutions.com/index.html">Home</a>
-        <a href="https://www.uniquitysolutions.com/services.html">Services</a>
-        <a href="https://www.uniquitysolutions.com/partners.html">Partners</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="#services">Services</a>
+        <a href="#partners">Partners</a>
         <a href="#careers">Careers</a>
 
         <div class="dropdown" data-dropdown>
@@ -37,55 +36,44 @@
           </button>
           <div class="drop-menu" data-menu role="menu">
             <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000" role="menuitem">Make a Payment</a>
-            <a href="https://dashboard.uniquitysolutions.com/?" role="menuitem">Create Account (Merchants)</a>
-            <a href="https://www.uniquitysolutions.com/faq.html" role="menuitem">FAQ</a>
-            <a href="https://www.uniquitysolutions.com/pricing.html" role="menuitem">Pricing</a>
-            <a href="https://www.uniquitysolutions.com/developers.html" role="menuitem">Developers & API</a>
-            <a href="https://www.uniquitysolutions.com/integrations.html" role="menuitem">Integrations</a>
-            <a href="https://www.uniquitysolutions.com/compliance.html" role="menuitem">Compliance & Security</a>
-            <a href="https://dashboard.uniquitysolutions.com/?" role="menuitem">Login Portal</a>
+            <a href="www.dashboard.uniquitysolutions.com/signup.html" role="menuitem">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem">FAQ</a>
+            <a href="pricing.html" role="menuitem">Pricing</a>
+            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="integrations.html" role="menuitem">Integrations</a>
+            <a href="compliance.html" role="menuitem">Compliance & Security</a>
+            <a href="www.dashboard.uniquitysolutions.com" role="menuitem">Login Portal</a>
           </div>
         </div>
+
+        <a href="#contact" class="cta">Contact</a>
       </div>
 
-      <!-- Mobile: right-side drawer toggle button -->
-      <button class="mobile-toggle" id="mobileToggle" aria-label="Open menu" aria-controls="drawer" aria-expanded="false" style="display:none">
-        <span class="hamburger" aria-hidden="true"></span>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   </nav>
 
-  <!-- Right-hand drawer (mobile) -->
-  <aside id="drawer" class="drawer-right" aria-label="Main navigation" hidden aria-hidden="true">
-    <div class="drawer-header">
-      <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
-    </div>
-    <nav class="drawer-nav" aria-label="Mobile navigation">
-      <a href="https://www.uniquitysolutions.com/index.html">Home</a>
-      <a href="https://www.uniquitysolutions.com/services.html">Services</a>
-      <a href="https://www.uniquitysolutions.com/partners.html">Partners</a>
-      <a href="#careers">Careers</a>
+  <!-- Mobile overlay menu -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+    <div class="menu-label">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="#services">Services</a>
+    <a href="#partners">Partners</a>
+    <a href="#careers">Careers</a>
+    <a href="#contact" class="cta">Contact</a>
 
-      <div class="drawer-group">
-        <button class="drawer-group-title" type="button" aria-expanded="false" aria-controls="drawer-submenu">
-          Get Started
-        </button>
-        <div id="drawer-submenu" class="drawer-submenu" hidden>
-          <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000" role="menuitem">Make a Payment</a>
-          <a href="https://dashboard.uniquitysolutions.com/?" role="menuitem">Create Account (Merchants)</a>
-          <a href="https://www.uniquitysolutions.com/faq.html" role="menuitem">FAQ</a>
-          <a href="https://www.uniquitysolutions.com/pricing.html" role="menuitem">Pricing</a>
-          <a href="https://www.uniquitysolutions.com/developers.html" role="menuitem">Developers & API</a>
-          <a href="https://www.uniquitysolutions.com/integrations.html" role="menuitem">Integrations</a>
-          <a href="https://www.uniquitysolutions.com/compliance.html" role="menuitem">Compliance & Security</a>
-          <a href="https://dashboard.uniquitysolutions.com/?" role="menuitem">Login Portal</a>
-        </div>
-      </div>
-    </nav>
-  </aside>
-
-  <!-- Overlay (mobile) -->
-  <div id="overlay" class="overlay" hidden aria-hidden="true"></div>
+    <div class="menu-label">More pages</div>
+    <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a Payment</a>
+    <a href="www.dashboard.uniquitysolutions.com/signup.html">Create Account (Merchants)</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
+    <a href="www.dashboard.uniquitysolutions.com">Login Portal</a>
+  </div>
 
   <!-- Hero -->
   <header class="hero">
@@ -111,6 +99,7 @@
           <div class="kpi"><span class="kpi-dot" style="background:#34d399; box-shadow:0 0 0 4px rgba(52,211,153,.25)"></span> 99.99% uptime</div>
         </div>
       </div>
+
       <aside class="service-card" id="services" aria-label="Services overview">
         <h3>Services</h3>
         <ul class="svc-list">
@@ -186,6 +175,7 @@
               </div>
             </div>
           </div>
+
           <div class="media" aria-label="Payment terminal accepting a contactless card">
             <img alt="Contactless card payment at a POS terminal" src="https://source.unsplash.com/featured/1400x900?pos,payment,credit-card,terminal" />
             <div class="media-badge">
@@ -222,96 +212,11 @@
         <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
       </div>
-      <small>© 2004–2025 Uniquity Solutions. Contact us at support@uniquitysolutions.com All rights reserved.</small>
+      <small>© 2004–2025 Uniquity Solutions. All rights reserved.</small>
     </div>
   </footer>
 
-  <!-- Overlay & Drawer scripts (mobile menu only) -->
-  <div id="overlay" class="overlay" hidden aria-hidden="true"></div>
-
   <!-- Your app code (reads window.ENV) -->
   <script src="main.js?v=9" defer></script>
-
-  <!-- Drawer interaction script (right-side mobile menu) -->
-  <script>
-    (function() {
-      // Elements
-      const toggleBtn = document.getElementById('mobileToggle');
-      const drawer = document.getElementById('drawer');
-      const overlay = document.getElementById('overlay');
-      const closeBtn = document.getElementById('drawerClose');
-      const submenuBtn = document.querySelector('.drawer-group-title');
-      const submenu = document.getElementById('drawer-submenu');
-
-      // Init: show mobile toggle on small screens
-      function updateVisibility() {
-        if (window.matchMedia('(min-width: 901px)').matches) {
-          // Desktop: hide drawer/overlay; show full nav
-          if (drawer) { drawer.hidden = true; drawer.setAttribute('aria-hidden','true'); }
-          if (overlay) { overlay.hidden = true; overlay.setAttribute('aria-hidden','true'); }
-          if (toggleBtn) { toggleBtn.style.display = 'none'; }
-        } else {
-          // Mobile: enable drawer toggle
-          if (toggleBtn) { toggleBtn.style.display = 'inline-flex'; }
-        }
-      }
-
-      function openDrawer() {
-        drawer.hidden = false;
-        overlay.hidden = false;
-        drawer.setAttribute('aria-hidden', 'false');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
-      }
-
-      function closeDrawer() {
-        drawer.hidden = true;
-        overlay.hidden = true;
-        drawer.setAttribute('aria-hidden', 'true');
-        overlay.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
-      }
-
-      // Toggle
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-          const isOpen = drawer.getAttribute('aria-hidden') === 'false';
-          if (isOpen) closeDrawer(); else openDrawer();
-        });
-      }
-
-      // Close actions
-      if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-      if (overlay) overlay.addEventListener('click', closeDrawer);
-
-      // Submenu toggle
-      if (submenuBtn) {
-        submenuBtn.addEventListener('click', () => {
-          const isOpen = submenu && submenu.hasAttribute('hidden');
-          if (isOpen) {
-            submenu.hidden = false;
-            submenuBtn.setAttribute('aria-expanded', 'true');
-          } else {
-            submenu.hidden = true;
-            submenuBtn.setAttribute('aria-expanded', 'false');
-          }
-        });
-      }
-
-      // Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && drawer.getAttribute('aria-hidden') === 'false') {
-          closeDrawer();
-        }
-      });
-
-      // Responsive Init
-      window.addEventListener('resize', updateVisibility, { passive: true });
-      // Initial
-      updateVisibility();
-    })();
-  </script>
 </body>
 </html>
