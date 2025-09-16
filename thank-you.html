@@ -9,20 +9,20 @@
   <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
-  <!-- Navbar (same as index) -->
+    <!-- Navbar -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
         <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
       </a>
+
       <div class="nav-links">
-        <!-- On-page items -->
         <a href="index.html">Home</a>
         <a href="#services">Services</a>
         <a href="#partners">Partners</a>
         <a href="#careers">Careers</a>
-        <!-- Desktop-only dropdown for separate pages -->
+
         <div class="dropdown" data-dropdown>
           <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
             Get Started
@@ -32,7 +32,7 @@
           </button>
           <div class="drop-menu" data-menu role="menu">
             <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000" role="menuitem">Make a Payment</a>
-            <a href="https://www.dashboard.uniquitysolutions.com/login.html" role="menuitem">Create Account (Merchants)</a>
+            <a href="https://www.dashboard.uniquitysolutions.com/presignup.html" role="menuitem">Create Account (Merchants)</a>
             <a href="faq.html" role="menuitem">FAQ</a>
             <a href="pricing.html" role="menuitem">Pricing</a>
             <a href="developers.html" role="menuitem">Developers & API</a>
@@ -41,17 +41,17 @@
             <a href="https://www.dashboard.uniquitysolutions.com/login.html" role="menuitem">Login Portal</a>
           </div>
         </div>
+
         <a href="#contact" class="cta">Contact</a>
       </div>
+
       <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-          <path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
   </nav>
 
-  <!-- Mobile overlay menu OUTSIDE the nav -->
+  <!-- Mobile overlay menu -->
   <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
     <div class="menu-label">On this page</div>
     <a href="index.html">Home</a>
@@ -59,9 +59,10 @@
     <a href="#partners">Partners</a>
     <a href="#careers">Careers</a>
     <a href="#contact" class="cta">Contact</a>
+
     <div class="menu-label">More pages</div>
     <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a Payment</a>
-    <a href="https://www.dashboard.uniquitysolutions.com/signup.html">Create Account (Merchants)</a>
+    <a href="https://www.dashboard.uniquitysolutions.com/presignup.html">Create Account (Merchants)</a>
     <a href="faq.html">FAQ</a>
     <a href="pricing.html">Pricing</a>
     <a href="developers.html">Developers & API</a>
@@ -69,6 +70,8 @@
     <a href="compliance.html">Compliance & Security</a>
     <a href="https://www.dashboard.uniquitysolutions.com/login.html">Login Portal</a>
   </div>
+
+  
 
   <!-- Thank You Hero (fits index style) -->
   <header class="hero">
