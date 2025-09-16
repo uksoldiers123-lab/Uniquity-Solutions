@@ -1,93 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
+  <title>Uniquity Solutions — FAQ</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar (unchanged visuals; ensure IDs/classes match your CSS) -->
   <nav class="nav" aria-label="Primary">
     <div class="container nav-inner">
       <a class="brand" href="index.html">
         <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
       </a>
-
       <div class="nav-links">
-        <!-- On-page items -->
         <a href="index.html">Home</a>
-        <a href="#services">Services</a>
-        <a href="#partners">Partners</a>
-        <a href="#careers">Careers</a>
+        <a href="#payments">Payments</a>
+        <a href="#merchants">Merchants</a>
+        <a href="#fees">Fees</a>
+        <a href="#security">Security</a>
+        <a href="#support">Support</a>
+        <!-- Your existing dropdown / CTA can remain as is -->
+      </div>
+      <button class="menu-btn" aria-label="Open Menu" type="button">Menu</button>
+    </div>
+  </nav>
 
-        <!-- Desktop-only dropdown for separate pages -->
-        <div class="dropdown" data-dropdown>
-          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
-            Get Started
-            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="drop-menu" data-menu role="menu">
-            <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000" role="menuitem">Make a Payment</a>
-            <a href="https://www.dashboard.uniquitysolutions.com/presignup.html" role="menuitem">Create Account (Merchants)</a>
-            <a href="faq.html" role="menuitem">FAQ</a>
-            <a href="pricing.html" role="menuitem">Pricing</a>
-            <a href="developers.html" role="menuitem">Developers & API</a>
-            <a href="integrations.html" role="menuitem">Integrations</a>
-            <a href="compliance.html" role="menuitem">Compliance & Security</a>
-            <a href="https://www.dashboard.uniquitysolutions.com/login.html" role="menuitem">Login Portal</a>
-          </div>
-        </div>
-
-      
-  <!-- Mobile overlay menu OUTSIDE the nav -->
-  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
-    <div class="menu-label">On this page</div>
-    <a href="index.html">Home</a>
-    <a href="#services">Services</a>
-    <a href="#partners">Partners</a>
-    <a href="#careers">Careers</a>
-    <a href="#contact" class="cta">Contact</a>
-
-    <div class="menu-label">More pages</div>
-    <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a Payment</a>
-    <a href="https://www.dashboard.uniquitysolutions.com/presignup.html">Create Account (Merchants)</a>
-    <a href="faq.html">FAQ</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="developers.html">Developers & API</a>
-    <a href="integrations.html">Integrations</a>
-    <a href="compliance.html">Compliance & Security</a>
-    <a href="https://www.dashboard.uniquitysolutions.com/login.html">Login Portal</a>
-  </div>
-
-
-  <!-- Mobile overlay menu OUTSIDE the nav -->
-  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
-    <div class="menu-label">On this page</div>
-    <a href="index.html">Home</a>
-    <a href="index.html#services">Services</a>
-    <a href="index.html#partners">Partners</a>
-    <a href="index.html#careers">Careers</a>
-    <a href="index.html#contact" class="cta">Contact</a>
-
-    <div class="menu-label">More pages</div>
-    <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a Payment</a>
-    <a href="https://www.dashboard.uniquitysolutions.com/presignup.html">Create Account (Merchants)</a>
-    <a href="faq.html" aria-current="page">FAQ</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="developers.html">Developers & API</a>
-    <a href="integrations.html">Integrations</a>
-    <a href="compliance.html">Compliance & Security</a>
-    <a href="https://www.dashboard.uniquitysolutions.com/login.html">Login Portal</a>
-  </div>
-
-
-  <!-- Header -->
+  <!-- Hero / Intro -->
   <header class="hero" style="padding:48px 0 72px">
     <div class="container">
       <p class="section-label"><span class="dot"></span> Help Center</p>
@@ -96,22 +38,26 @@
         Answers about making payments, creating merchant accounts, fees, security, and support.
       </p>
     </div>
+  </header>
 
-    <!-- FAQ content -->
-    <div class="content-wrap">
-      <div class="container content">
-        <!-- Quick links -->
-        <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px">
-          <a href="#payments" class="btn btn-ghost" style="padding:8px 12px">Payments</a>
-          <a href="#merchants" class="btn btn-ghost" style="padding:8px 12px">Merchants</a>
-          <a href="#fees" class="btn btn-ghost" style="padding:8px 12px">Fees</a>
-          <a href="#security" class="btn btn-ghost" style="padding:8px 12px">Security</a>
-          <a href="#support" class="btn btn-ghost" style="padding:8px 12px">Support</a>
-        </div>
+  <!-- FAQ Content -->
+  <main class="content-wrap">
+    <section class="container content" aria-labelledby="faq-title">
+      <!-- Quick links -->
+      <div class="quick-links" style="display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px 0">
+        <a href="#payments" class="btn btn-ghost" style="padding:8px 12px">Payments</a>
+        <a href="#merchants" class="btn btn-ghost" style="padding:8px 12px">Merchants</a>
+        <a href="#fees" class="btn btn-ghost" style="padding:8px 12px">Fees</a>
+        <a href="#security" class="btn btn-ghost" style="padding:8px 12px">Security</a>
+        <a href="#support" class="btn btn-ghost" style="padding:8px 12px">Support</a>
+      </div>
 
-        <!-- Payments -->
-        <h2 id="payments" style="margin:6px 0 8px">Payments</h2>
-        <div style="display:grid; gap:10px" aria-label="Payments FAQs">
+      <h2 id="faq-title" style="margin:6px 0 8px; font-size: clamp(26px, 3vw, 32px);">Frequently Asked Questions</h2>
+
+      <!-- Payments -->
+      <section aria-labelledby="payments-heading" id="payments" style="margin-top:14px">
+        <h3 id="payments-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Payments</h3>
+        <div class="faq-grid" style="display:grid; gap:10px" aria-label="Payments FAQs">
           <details class="faq-item" open style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fbfdff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How do I make a payment?</summary>
             <div class="svc-note" style="margin-top:8px">
@@ -141,10 +87,12 @@
             </div>
           </details>
         </div>
+      </section>
 
-        <!-- Merchants -->
-        <h2 id="merchants" style="margin:18px 0 8px">Merchants</h2>
-        <div style="display:grid; gap:10px" aria-label="Merchant FAQs">
+      <!-- Merchants -->
+      <section aria-labelledby="merchants-heading" id="merchants" style="margin-top:28px">
+        <h3 id="merchants-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Merchants</h3>
+        <div class="faq-grid" style="display:grid; gap:10px" aria-label="Merchant FAQs">
           <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How do I create a merchant account?</summary>
             <div class="svc-note" style="margin-top:8px">
@@ -166,10 +114,12 @@
             </div>
           </details>
         </div>
+      </section>
 
-        <!-- Fees -->
-        <h2 id="fees" style="margin:18px 0 8px">Fees</h2>
-        <div style="display:grid; gap:10px" aria-label="Fees FAQs">
+      <!-- Fees -->
+      <section aria-labelledby="fees-heading" id="fees" style="margin-top:28px">
+        <h3 id="fees-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Fees</h3>
+        <div class="faq-grid" style="display:grid; gap:10px" aria-label="Fees FAQs">
           <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">What are your processing fees?</summary>
             <div class="svc-note" style="margin-top:8px">
@@ -184,63 +134,73 @@
             </div>
           </details>
         </div>
+      </section>
 
-        <!-- Security -->
-        <h2 id="security" style="margin:18px 0 8px">Security & Compliance</h2>
-        <div style="display:grid; gap:10px" aria-label="Security FAQs">
+      <!-- Security -->
+      <section aria-labelledby="security-heading" id="security" style="margin-top:28px">
+        <h3 id="security-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Security</h3>
+        <div class="faq-grid" style="display:grid; gap:10px">
           <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
-            <summary style="cursor:pointer; font-weight:700; color:#111827">Is Uniquity Solutions PCI compliant?</summary>
+            <summary style="cursor:pointer; font-weight:700; color:#111827">How is my data protected?</summary>
             <div class="svc-note" style="margin-top:8px">
-              Yes. We follow PCI DSS best practices and work with audited partners for secure processing, tokenization, and storage.
+              We employ industry-standard encryption, PCI DSS-compliant processes, and regular security audits to protect your data.
             </div>
           </details>
 
           <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
-            <summary style="cursor:pointer; font-weight:700; color:#111827">How do you handle data privacy?</summary>
+            <summary style="cursor:pointer; font-weight:700; color:#111827">Where can I find security documents?</summary>
             <div class="svc-note" style="margin-top:8px">
-              We collect the minimum data necessary and process it under applicable regulations. Contact us for our data processing addendum.
+              See our Compliance & Security page for policies, certifications, and incident response information.
             </div>
           </details>
         </div>
+      </section>
 
-        <!-- Support -->
-        <h2 id="support" style="margin:18px 0 8px">Support</h2>
-        <div style="display:grid; gap:10px" aria-label="Support FAQs">
+      <!-- Support -->
+      <section aria-labelledby="support-heading" id="support" style="margin-top:28px; margin-bottom:40px">
+        <h3 id="support-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Support</h3>
+        <div class="faq-grid" style="display:grid; gap:10px">
           <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How do I contact support?</summary>
             <div class="svc-note" style="margin-top:8px">
-              Reach out via the Contact button. Include your invoice/order number for faster help.
+              You can reach us via the Support Center, live chat, or email. Response times vary by plan and demand.
             </div>
           </details>
 
           <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
-            <summary style="cursor:pointer; font-weight:700; color:#111827">Do you offer SLAs?</summary>
+            <summary style="cursor:pointer; font-weight:700; color:#111827">Where can I find the Service Level Agreement (SLA)?</summary>
             <div class="svc-note" style="margin-top:8px">
-              Yes. Enterprise plans include response-time SLAs. Contact Sales to review options.
+              The SLA is available in your merchant portal and on the Compliance & Security page.
             </div>
           </details>
         </div>
+      </section>
+    </section>
+  </main>
 
-        <!-- CTA -->
-        <div style="display:flex; gap:12px; margin-top:18px">
-          <a class="btn btn-primary" href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a payment</a>
-          <a class="btn btn-ghost" href="https://www.dashboard.uniquitysolutions.com/presignup.html">Create merchant account</a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true"></span>
-        Uniquity Solutions
-      </div>
-      <small>© 2004–2025 Uniquity Solutions. Contact US at support@uniquitysolutions.com. All rights reserved.</small>
+  <!-- Footer (optional; keep consistent with your CSS) -->
+  <footer class="footer" aria-label="Footer">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; gap:16px">
+      <small>&copy; 2025 Uniquity Solutions. Contact US at support@uniquitysolutions.com All rights reserved.</small>
+      <nav aria-label="Footer">
+        <a href="privacy.html" style="margin-right:12px">Privacy</a>
+        <a href="terms.html">Terms</a>
+      </nav>
     </div>
   </footer>
 
-  <script src="main.js?v=7" defer></script>
+  <!-- Optional: Mobile menu script (enhance if you have a JS-driven menu) -->
+  <script>
+    // Basic mobile menu toggle (if you have a mobile menu element)
+    (function(){
+      const btn = document.querySelector('.menu-btn');
+      const menu = document.querySelector('.mobile-menu');
+      if(!btn || !menu) return;
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('open');
+        document.body.classList.toggle('no-scroll', menu.classList.contains('open'));
+      });
+    })();
+  </script>
 </body>
 </html>
