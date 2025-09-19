@@ -4,8 +4,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Uniquity Solutions — Contact Us</title>
+
+  <!-- CDN: Supabase JS (UMD) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+  <!-- Fonts and CSS (reuse login/theme CSS tokens) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=9" />
+
+  <!-- Runtime config BEFORE your app code -->
+  <script src="/env.js" defer></script>
+
   <style>
-    /* Minimal inline styles for a clean look; you can move to a CSS file later */
     :root {
       --bg: #f7f8fb;
       --card: #ffffff;
@@ -14,27 +25,112 @@
       --ring: rgba(0,0,0,.08);
       --radius: 12px;
     }
-    body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); margin:0; }
-    .container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 24px; }
-    .card { background: var(--card); border-radius: var(--radius); padding: 24px; box-shadow: 0 6px 20px rgba(0,0,0,.05); border:1px solid var(--ring);}
-    h1 { margin-top:0; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .field { display: grid; gap: 6px; }
-    label { font-weight: 600; font-size: 14px; }
+    *{box-sizing:border-box}
+    html, body{height:100%}
+    html, body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--text); background: var(--bg); }
+
+    /* Navbar / header (exact look) */
+    .nav{
+      position: sticky; top:0; z-index:1100;
+      background: linear-gradient(to bottom, rgba(23, 23, 23, 0.9), rgba(23,23,23,0.6));
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      height: 56px; max-width:1120px; width:100%; margin:0 auto;
+    }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; text-decoration:none; }
+    .brand-mark {
+      width:28px; height:28px; border-radius:8px;
+      background: linear-gradient(135deg, var(--primary), #f59e0b);
+      box-shadow:0 6px 14px rgba(0,0,0,.15);
+    }
+    .nav-links{ display:flex; gap:26px; align-items:center; }
+    .nav-links a{ color:#eef2f7; font-weight:600; font-size:14.5px; text-decoration:none; }
+
+    /* Hamburger (v8/v6 style) */
+    .menu-btn{ display:inline-flex; border:0; background:transparent; color:#fff; padding:0; cursor:pointer; }
+
+    /* Mobile overlay menu (overlay shown when hamburger clicked) */
+    .mobile-menu{
+      display:none;
+      position:fixed; left:0; right:0; top: var(--nav-h,56px); bottom:0;
+      z-index:9999; background: rgba(17,24,39,.7); backdrop-filter: blur(6px);
+      padding:12px 12px 24px; overflow-y:auto;
+    }
+    .mobile-menu.open{ display:block; }
+
+    /* Card / content styles (contact uses a clean card) */
+    .card{ background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: 0 6px 20px rgba(0,0,0,.05); margin: 20px auto; max-width: 720px; border:1px solid var(--ring); }
+    .label{ font-weight:600; color:#374151; font-size:14px; }
     input, textarea, select { padding: 10px 12px; border:1px solid #e5e7eb; border-radius: 8px; font: inherit; width: 100%; }
-    input:focus, textarea:focus { outline: 2px solid rgba(233,75,75,.4); border-color: #cbd5e1; }
+    input:focus, textarea:focus { outline: 2px solid rgba(233,75,75,.4); border-color:#cbd5e1; }
     .notice { font-size: 12px; color: #6b7280; }
-    .btn { display:inline-flex; align-items:center; gap:8px; padding: 12px 16px; border-radius: 999px; border:0; cursor:pointer; font-weight:700; }
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border-radius:999px; border:0; cursor:pointer; font-weight:700; }
     .btn.primary { background: var(--primary); color:#fff; }
-    .error { color: #b91c1c; font-size: 12px; }
-    .success { color: #047857; font-size: 14px; }
+    .error { color:#b91c1c; font-size:12px; }
+    .success { color:#047857; font-size:14px; }
+
+    /* Layout helpers for form grid if needed later */
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 800px){
+      .row { grid-template-columns: 1fr; }
+    }
+
+    /* Small helpers to resemble your existing site header spacing */
+    main { padding: 24px; }
   </style>
 </head>
 <body>
+  <!-- Navbar: header + hamburger (v8/v6 pattern) -->
+  <header class="nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="brand" href="https://www.uniquitysolutions.com/index.html" aria-label="Uniquity Solutions Home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </a>
+
+      <!-- Hamburger (top-left) -->
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" title="Menu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Desktop header links -->
+      <nav class="nav-links" aria-label="Header actions">
+        <a href="/login.html" aria-current="page">Login</a>
+        <a href="/signup.html">Sign Up</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile overlay menu (accessible via hamburger) -->
+  <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
+    <div class="menu-label">On this page</div>
+    <a href="https://www.uniquitysolutions.com/index.html">Home</a>
+    <a href="https://www.uniquitysolutions.com/index.html#services">Services</a>
+    <a href="https://www.uniquitysolutions.com/index.html#partners">Partners</a>
+    <a href="https://www.uniquitysolutions.com/index.html#careers">Careers</a>
+    <a href="https://www.uniquitysolutions.com/index.html#contact" class="cta">Contact</a>
+    <div class="menu-label">More pages</div>
+    <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a Payment</a>
+    <a href="https://www.dashboard.uniquitysolutions.com/signup.html">Create Account (Merchants)</a>
+    <a href="https://www.uniquitysolutions.com/faq.html">FAQ</a>
+    <a href="https://www.uniquitysolutions.com/pricing.html">Pricing</a>
+    <a href="https://www.uniquitysolutions.com/developers.html">Developers & API</a>
+    <a href="https://www.uniquitysolutions.com/integrations.html">Integrations</a>
+    <a href="https://www.uniquitysolutions.com/compliance.html">Compliance & Security</a>
+    <a href="https://www.dashboard.uniquitysolutions.com/login.html">Login Portal</a>
+  </div>
+</nav>
+
   <main class="container">
     <section class="card" aria-label="Contact Form">
       <h1>Contact Uniquity Solutions</h1>
       <p class="notice">Email: support@uniquitysolutions.com</p>
+
       <form id="contactForm" autocomplete="on" aria-label="Contact form">
         <div class="row">
           <div class="field">
@@ -79,12 +175,11 @@
     </section>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
   <script>
     // Initialize Supabase - replace with your actual keys
     // Create a new project on supabase.io and replace these with your values.
-    const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
-    const SUPABASE_ANON_KEY = 'YOUR-ANON-KEY';
+    const SUPABASE_URL = 'https://gifguoyqccozlijrxgcf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpZmd1b3lxY2NvemxpanJ4Z2NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2MTg2MzUsImV4cCI6MjA3MjE5NDYzNX0.gwZnr8fKE7qXuLi8B5Merul3cVAXZ1r6SaWEUoAJWX0';
     const supabase = Supabase.createClient ? Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
                                              : window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -138,7 +233,6 @@
         if (error) throw error;
 
         // Optional: trigger email notification via a Supabase function or external webhook
-        // Example: call an edge function or REST webhook to send email to support@uniquitysolutions.com
         // You would implement this part in your backend (not shown here)
 
         showStatus('Thank you! Your message has been sent.');
@@ -151,6 +245,16 @@
         btn.textContent = 'Send Message';
       }
     });
+
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
   </script>
 </body>
 </html>
