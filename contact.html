@@ -18,36 +18,45 @@
 
   <style>
     :root {
-      --bg: #f7f8fb;
+      --bg: #96A3B1;           /* grayish blue */
+      --text: #1f2937;         /* slate */
+      --muted: #4b5563;        /* muted text */
       --card: #ffffff;
-      --text: #1f2937;
-      --primary: #e94b4b;
+      --primary: #e94b4b;      /* red highlight */
+      --primary-700: #d13f3f;
+      --accent: #fbbf24;       /* yellow highlight */
       --ring: rgba(0,0,0,.08);
-      --radius: 12px;
+      --shadow: 0 10px 30px rgba(2,6,23,.15);
+      --radius: 18px;
+      --nav-h: 56px;             /* default nav height (updated via JS) */
     }
     *{box-sizing:border-box}
     html, body{height:100%}
-    html, body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--text); background: var(--bg); }
+    html, body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--text); background: var(--bg); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
 
-    /* Navbar / header (exact look) */
+    /* Navbar (exact look) */
     .nav{
       position: sticky; top:0; z-index:1100;
-      background: linear-gradient(to bottom, rgba(23, 23, 23, 0.9), rgba(23,23,23,0.6));
-      padding: 0 16px;
-      border-bottom: 1px solid rgba(255,255,255,.15);
+      background: linear-gradient(to bottom, rgba(150,163,177,0.9), rgba(150,163,177,0.6));
+      backdrop-filter: blur(8px);
+      border-bottom:1px solid rgba(255,255,255,.15);
     }
     .nav-inner{
-      display:flex; align-items:center; justify-content:space-between;
-      height: 56px; max-width:1120px; width:100%; margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between; padding:14px 0;
+      width:100%; max-width:1120px; margin:0 auto;
     }
-    .brand{ display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; text-decoration:none; }
-    .brand-mark {
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; color:#fff; text-decoration:none; letter-spacing:.2px;
+    }
+    .brand-mark{
       width:28px; height:28px; border-radius:8px;
-      background: linear-gradient(135deg, var(--primary), #f59e0b);
+      background: linear-gradient(135deg, var(--accent), var(--primary));
       box-shadow:0 6px 14px rgba(0,0,0,.15);
     }
     .nav-links{ display:flex; gap:26px; align-items:center; }
-    .nav-links a{ color:#eef2f7; font-weight:600; font-size:14.5px; text-decoration:none; }
+    .nav-links a{
+      color:#eef2f7; opacity:.9; font-weight:600; font-size:14.5px; text-decoration:none;
+    }
 
     /* Hamburger (v8/v6 style) */
     .menu-btn{ display:inline-flex; border:0; background:transparent; color:#fff; padding:0; cursor:pointer; }
@@ -61,32 +70,38 @@
     }
     .mobile-menu.open{ display:block; }
 
-    /* Card / content styles (contact uses a clean card) */
-    .card{ background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: 0 6px 20px rgba(0,0,0,.05); margin: 20px auto; max-width: 720px; border:1px solid var(--ring); }
+    /* Card / content styles (signup uses a clean card) */
+    .card{ background: var(--card); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin: 20px auto; max-width: 720px; border:1px solid var(--ring); }
     .label{ font-weight:600; color:#374151; font-size:14px; }
-    input, textarea, select { padding: 10px 12px; border:1px solid #e5e7eb; border-radius: 8px; font: inherit; width: 100%; }
-    input:focus, textarea:focus { outline: 2px solid rgba(233,75,75,.4); border-color:#cbd5e1; }
+    input, textarea, select { padding: 10px 12px; border:1px solid #e5e7eb; border-radius:8px; font:inherit; width:100%; }
+    input:focus, textarea:focus { outline: 2px solid rgba(233,75,75,.4); border-color: #cbd5e1; }
     .notice { font-size: 12px; color: #6b7280; }
     .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 16px; border-radius:999px; border:0; cursor:pointer; font-weight:700; }
     .btn.primary { background: var(--primary); color:#fff; }
-    .error { color:#b91c1c; font-size:12px; }
-    .success { color:#047857; font-size:14px; }
+    .error { color: #b91c1c; font-size: 12px; }
+    .success { color: #047857; font-size: 14px; }
 
-    /* Layout helpers for form grid if needed later */
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 800px){
-      .row { grid-template-columns: 1fr; }
-    }
+    /* Footer styling */
+    .footer{ color:#e7edf5; opacity:.9; padding:28px 0 44px; }
+    .footer .container{ display:flex; justify-content:space-between; gap:16px; align-items:center }
+    .footer small{ opacity:.85; }
 
-    /* Small helpers to resemble your existing site header spacing */
+    /* Contact info in footer */
+    .footer-contact { font-size:14px; color:#e7edf5; }
+
+    /* Content spacing */
     main { padding: 24px; }
+
+    @media (max-width: 860px){
+      .nav-links{ display:none; } /* hide on small screens to show hamburger */
+    }
   </style>
 </head>
 <body>
-  <!-- Navbar: header + hamburger (v8/v6 pattern) -->
-  <header class="nav" aria-label="Main navigation">
+  <!-- Navbar: header + hamburger (v8/v6 style) -->
+  <header class="nav" aria-label="Primary">
     <div class="nav-inner">
-      <a class="brand" href="https://www.uniquitysolutions.com/index.html" aria-label="Uniquity Solutions Home">
+      <a class="brand" href="index.html" aria-label="Uniquity Solutions Home">
         <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
       </a>
@@ -98,61 +113,82 @@
         </svg>
       </button>
 
-      <!-- Desktop header links -->
+      <!-- Desktop header links (include Get Started dropdown if desired) -->
       <nav class="nav-links" aria-label="Header actions">
-        <a href="/login.html" aria-current="page">Login</a>
-        <a href="/signup.html">Sign Up</a>
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="#services">Services</a>
+        <a href="#partners">Partners</a>
+        <a href="#careers">Careers</a>
+        <div class="dropdown" data-dropdown>
+          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
+            Get Started
+            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="drop-menu" data-menu role="menu">
+            <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000" role="menuitem">Make a Payment</a>
+            <a href="https://www.dashboard.uniquitysolutions.com/signup.html" role="menuitem">Create Account (Merchants)</a>
+            <a href="faq.html" role="menuitem">FAQ</a>
+            <a href="pricing.html" role="menuitem">Pricing</a>
+            <a href="developers.html" role="menuitem">Developers & API</a>
+            <a href="integrations.html" role="menuitem">Integrations</a>
+            <a href="compliance.html" role="menuitem">Compliance & Security</a>
+            <a href="https://www.dashboard.uniquitysolutions.com/login.html" role="menuitem">Login Portal</a>
+          </div>
+        </div>
+        <a href="#contact" class="cta" role="button" aria-label="Contact">Contact</a>
       </nav>
     </div>
   </header>
 
-  <!-- Mobile overlay menu (accessible via hamburger) -->
+  <!-- Mobile overlay menu (v8/v6 style) -->
   <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
-    <div class="menu-label">On this page</div>
-    <a href="https://www.uniquitysolutions.com/index.html">Home</a>
-    <a href="https://www.uniquitysolutions.com/index.html#services">Services</a>
-    <a href="https://www.uniquitysolutions.com/index.html#partners">Partners</a>
-    <a href="https://www.uniquitysolutions.com/index.html#careers">Careers</a>
-    <a href="https://www.uniquitysolutions.com/index.html#contact" class="cta">Contact</a>
-    <div class="menu-label">More pages</div>
+    <div class="menu-label" style="color:#fff; font-weight:700; margin-bottom:8px;">On this page</div>
+    <a href="index.html">Home</a>
+    <a href="#services">Services</a>
+    <a href="#partners">Partners</a>
+    <a href="#careers">Careers</a>
+    <a href="#contact" class="cta">Contact</a>
+    <div class="menu-label" style="color:#fff; margin-top:12px;">More pages</div>
     <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a Payment</a>
     <a href="https://www.dashboard.uniquitysolutions.com/signup.html">Create Account (Merchants)</a>
-    <a href="https://www.uniquitysolutions.com/faq.html">FAQ</a>
-    <a href="https://www.uniquitysolutions.com/pricing.html">Pricing</a>
-    <a href="https://www.uniquitysolutions.com/developers.html">Developers & API</a>
-    <a href="https://www.uniquitysolutions.com/integrations.html">Integrations</a>
-    <a href="https://www.uniquitysolutions.com/compliance.html">Compliance & Security</a>
+    <a href="faq.html">FAQ</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="developers.html">Developers & API</a>
+    <a href="integrations.html">Integrations</a>
+    <a href="compliance.html">Compliance & Security</a>
     <a href="https://www.dashboard.uniquitysolutions.com/login.html">Login Portal</a>
   </div>
-</nav>
 
-  <main class="container">
+  <!-- Main content area (contact section with footer email) -->
+  <main class="container" id="contact">
     <section class="card" aria-label="Contact Form">
       <h1>Contact Uniquity Solutions</h1>
-      <p class="notice">Email: support@uniquitysolutions.com</p>
+      <p class="notice" style="margin-top:6px;">Email: support@uniquitysolutions.com</p>
 
       <form id="contactForm" autocomplete="on" aria-label="Contact form">
         <div class="row">
           <div class="field">
-            <label for="name">Your Name</label>
+            <label for="name" class="label">Your Name</label>
             <input type="text" id="name" name="name" required placeholder="Jane Doe" />
           </div>
           <div class="field">
-            <label for="email">Your Email</label>
+            <label for="email" class="label">Your Email</label>
             <input type="email" id="email" name="email" required placeholder="you@example.com" />
           </div>
         </div>
 
         <div class="row">
           <div class="field" style="grid-column: span 2;">
-            <label for="message">Message</label>
+            <label for="message" class="label">Message</label>
             <textarea id="message" name="message" rows="6" required placeholder="How can we help?"></textarea>
           </div>
         </div>
 
         <div class="row" style="align-items:center;">
           <div class="field" style="grid-column: span 1;">
-            <label for="topic">Topic (optional)</label>
+            <label for="topic" class="label">Topic (optional)</label>
             <select id="topic" name="topic">
               <option value="">General inquiry</option>
               <option value="payments">Payments & gateway setup</option>
@@ -175,86 +211,77 @@
     </section>
   </main>
 
+  <!-- Footer with contact email as requested -->
+  <footer class="footer" id="footer" aria-label="Footer">
+    <div class="container">
+      <div class="brand" aria-label="Brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Uniquity Solutions
+      </div>
+      <small>© 2004–2025 Uniquity Solutions. Contact Us at <strong>support@uniquitysolutions.com</strong> All rights reserved.</small>
+    </div>
+  </footer>
+
   <script>
-    // Initialize Supabase - replace with your actual keys
-    // Create a new project on supabase.io and replace these with your values.
+    // Initialize Supabase (optional, placeholders)
     const SUPABASE_URL = 'https://gifguoyqccozlijrxgcf.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdpZmd1b3lxY2NvemxpanJ4Z2NmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2MTg2MzUsImV4cCI6MjA3MjE5NDYzNX0.gwZnr8fKE7qXuLi8B5Merul3cVAXZ1r6SaWEUoAJWX0';
-    const supabase = Supabase.createClient ? Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-                                             : window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabase = window.Supabase?.createClient
+      ? window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
 
-    // Helper to display messages
-    function showStatus(text, isError=false) {
-      const status = document.getElementById('formStatus');
-      const err = document.getElementById('formError');
-      if (isError) {
-        err.textContent = text;
-        err.style.display = 'block';
-        status.style.display = 'none';
-      } else {
-        status.textContent = text;
-        status.style.display = 'block';
-        err.style.display = 'none';
-      }
-    }
+    // Simple mobile menu toggle for v8/v6 style
+    (function(){
+      const btn = document.getElementById('menuBtn');
+      const menu = document.getElementById('mobileMenu');
+      if (!btn || !menu) return;
+      btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    })();
 
+    // Contact form submission (optional: wire to a Supabase table)
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const topic = document.getElementById('topic').value;
       const message = document.getElementById('message').value.trim();
+      const btn = document.getElementById('submitBtn');
+      const status = document.getElementById('formStatus');
+      const error = document.getElementById('formError');
+      status.style.display = 'none';
+      error.style.display = 'none';
 
-      // Basic validation
       if (!name || !email || !message) {
-        showStatus('Please complete all required fields.', true);
+        error.textContent = 'Please complete all required fields.';
+        error.style.display = 'block';
         return;
       }
 
-      // Disable button to prevent multi-submit
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.textContent = 'Sending...';
-
-      // Write to Supabase table: "contacts" (you need to create this table)
-      // Example schema:
-      // create table contacts (
-      //   id uuid default gen_random_uuid() primary key,
-      //   name text,
-      //   email text,
-      //   topic text,
-      //   message text,
-      //   created_at timestamp with time zone default now()
-      // );
-      try {
-        const { data, error } = await supabase.from('contacts').insert([
-          { name, email, topic, message }
-        ]);
-        if (error) throw error;
-
-        // Optional: trigger email notification via a Supabase function or external webhook
-        // You would implement this part in your backend (not shown here)
-
-        showStatus('Thank you! Your message has been sent.');
-        document.getElementById('contactForm').reset();
-      } catch (err) {
-        console.error(err);
-        showStatus('There was an error submitting your message. Please try again later.', true);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Send Message';
+      // Optional: write to a "contacts" table if you have one
+      if (supabase) {
+        try {
+          const { error } = await supabase.from('contacts').insert([
+            { name, email, topic, message, created_at: new Date().toISOString() }
+          ]);
+          if (error) throw error;
+          status.textContent = 'Thank you! Your message has been sent.';
+          status.style.display = 'block';
+          document.getElementById('contactForm').reset();
+        } catch (err) {
+          error.textContent = 'Something went wrong. Please try again later.';
+          error.style.display = 'block';
+        }
+      } else {
+        status.textContent = 'Supabase not configured on this page. Form not submitted to DB.';
+        status.style.display = 'block';
       }
-    });
 
-    // Mobile menu toggle
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (menuBtn && mobileMenu) {
-      menuBtn.addEventListener('click', () => {
-        const open = mobileMenu.classList.toggle('open');
-        menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    }
+      btn.disabled = false;
+      btn.textContent = 'Send Message';
+    });
   </script>
 </body>
 </html>
