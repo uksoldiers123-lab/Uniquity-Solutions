@@ -1,16 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Uniquity Solutions — Trusted Payments for 20+ Years</title>
-
+  <title>Uniquity Solutions — FAQ</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=9">
-
-  <!-- Runtime config BEFORE your app code -->
-  <script src="/env.js"></script>
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
   <!-- Navbar -->
@@ -20,37 +16,18 @@
         <span class="brand-mark" aria-hidden="true"></span>
         Uniquity Solutions
       </a>
-
       <div class="nav-links">
         <a href="index.html">Home</a>
-        <a href="#services">Services</a>
-        <a href="#partners">Partners</a>
-        <a href="#careers">Careers</a>
-
-        <div class="dropdown" data-dropdown>
-          <button class="drop-toggle" type="button" data-toggle aria-haspopup="true" aria-expanded="false">
-            Get Started
-            <svg class="drop-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="drop-menu" data-menu role="menu">
-            <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000" role="menuitem">Make a Payment</a>
-            <a href="https://www.dashboard.uniquitysolutions.com/presignup.html" role="menuitem">Create Account (Merchants)</a>
-            <a href="faq.html" role="menuitem">FAQ</a>
-            <a href="pricing.html" role="menuitem">Pricing</a>
-            <a href="developers.html" role="menuitem">Developers & API</a>
-            <a href="integrations.html" role="menuitem">Integrations</a>
-            <a href="compliance.html" role="menuitem">Compliance & Security</a>
-            <a href="https://www.dashboard.uniquitysolutions.com/login.html" role="menuitem">Login Portal</a>
-          </div>
-        </div>
-
-        <a href="https://www.uniquitysolutions.com/contact.html" class="cta">Contact</a>
+        <a href="#payments">Payments</a>
+        <a href="#merchants">Merchants</a>
+        <a href="#fees">Fees</a>
+        <a href="#security">Security</a>
+        <a href="#support">Support</a>
       </div>
-
-      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+      <button class="menu-btn" aria-label="Open Menu" type="button" id="menuBtn">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
       </button>
     </div>
   </nav>
@@ -59,14 +36,14 @@
   <div id="mobileMenu" class="mobile-menu" role="dialog" aria-label="Mobile Navigation">
     <div class="menu-label">On this page</div>
     <a href="index.html">Home</a>
-    <a href="#services">Services</a>
-    <a href="#partners">Partners</a>
-    <a href="#careers">Careers</a>
-    <a href="https://www.uniquitysolutions.com/contact.html" class="cta">Contact</a>
-
+    <a href="#payments">Payments</a>
+    <a href="#merchants">Merchants</a>
+    <a href="#fees">Fees</a>
+    <a href="#security">Security</a>
+    <a href="#support" class="cta">Support</a>
     <div class="menu-label">More pages</div>
     <a href="https://buy.stripe.com/7sYeVcakW9dRbrObHsgw000">Make a Payment</a>
-    <a href="https://www.dashboard.uniquitysolutions.com/presignup.html">Create Account (Merchants)</a>
+    <a href="https://www.dashboard.uniquitysolutions.com/signup.html">Create Account (Merchants)</a>
     <a href="faq.html">FAQ</a>
     <a href="pricing.html">Pricing</a>
     <a href="developers.html">Developers & API</a>
@@ -76,11 +53,11 @@
   </div>
 
   <!-- Hero / Intro -->
-  <header class="hero" style="padding:48px 0 72px">
+  <header class="hero" style="padding:48px 0 72px; background-image: url('https://source.unsplash.com/1600x900/?business,faq'); background-size: cover; background-position: center;">
     <div class="container">
       <p class="section-label"><span class="dot"></span> Help Center</p>
       <h1 style="color:#fff; margin:10px 0 12px">Frequently Asked Questions</h1>
-      <p class="lead" style="max-width:60ch">
+      <p class="lead" style="max-width:60ch; color: #f0f0f0;">
         Answers about making payments, creating merchant accounts, fees, security, and support.
       </p>
     </div>
@@ -89,6 +66,7 @@
   <!-- FAQ Content -->
   <main class="content-wrap">
     <section class="container content" aria-labelledby="faq-title">
+      <!-- Quick links -->
       <div class="quick-links" style="display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px 0">
         <a href="#payments" class="btn btn-ghost" style="padding:8px 12px">Payments</a>
         <a href="#merchants" class="btn btn-ghost" style="padding:8px 12px">Merchants</a>
@@ -101,27 +79,26 @@
       <!-- Payments -->
       <section aria-labelledby="payments-heading" id="payments" style="margin-top:14px">
         <h3 id="payments-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Payments</h3>
-        <div class="faq-grid" style="display:grid; gap:10px" aria-label="Payments FAQs">
-          <details class="faq-item" open style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fbfdff">
+        <div class="faq-grid" style="display:grid; gap:20px" aria-label="Payments FAQs">
+          <details class="faq-item" open style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fbfdff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How do I make a payment?</summary>
             <div class="svc-note" style="margin-top:8px">
-              Go to Make a Payment, enter your details and amount, then choose PayPal, card (Stripe), or bank transfer.
-              You’ll receive a confirmation after completion.
+              Go to Make a Payment, enter your details and amount, then choose PayPal, card (Stripe), or bank transfer. You’ll receive a confirmation after completion.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">What payment methods are accepted?</summary>
             <div class="svc-note" style="margin-top:8px">
               We currently support PayPal, major cards via Stripe Payment Links, and manual bank transfers. If you need a different method, contact us.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">When will my payment show as complete?</summary>
             <div class="svc-note" style="margin-top:8px">
               PayPal and card payments typically confirm within minutes. Bank transfers can take 1–3 business days depending on your bank.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">Do I get a receipt?</summary>
             <div class="svc-note" style="margin-top:8px">
               Yes, a receipt is emailed to the address you provide during checkout. For copies, contact our Support Center with your invoice/order number.
@@ -133,20 +110,20 @@
       <!-- Merchants -->
       <section aria-labelledby="merchants-heading" id="merchants" style="margin-top:28px">
         <h3 id="merchants-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Merchants</h3>
-        <div class="faq-grid" style="display:grid; gap:10px" aria-label="Merchant FAQs">
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+        <div class="faq-grid" style="display:grid; gap:20px" aria-label="Merchant FAQs">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How do I create a merchant account?</summary>
             <div class="svc-note" style="margin-top:8px">
               Use Create Account (Merchants) to submit your company details and KYC documents. Our team will guide you through onboarding and compliance.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How long does onboarding take?</summary>
             <div class="svc-note" style="margin-top:8px">
               Typical onboarding completes in 2–5 business days, depending on industry and documentation completeness.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">When are funds settled to merchants?</summary>
             <div class="svc-note" style="margin-top:8px">
               Standard settlement cycles are T+2 to T+5 business days. Custom schedules are available for eligible merchants.
@@ -158,14 +135,14 @@
       <!-- Fees -->
       <section aria-labelledby="fees-heading" id="fees" style="margin-top:28px">
         <h3 id="fees-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Fees</h3>
-        <div class="faq-grid" style="display:grid; gap:10px" aria-label="Fees FAQs">
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+        <div class="faq-grid" style="display:grid; gap:20px" aria-label="Fees FAQs">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">What are your processing fees?</summary>
             <div class="svc-note" style="margin-top:8px">
               Fees vary by payment method, volume, and risk profile. See our Pricing page or contact Sales for a tailored quote.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">Are there chargeback fees?</summary>
             <div class="svc-note" style="margin-top:8px">
               Chargebacks may incur a fee per dispute, as outlined in your merchant agreement. Our team assists with representment.
@@ -177,14 +154,14 @@
       <!-- Security -->
       <section aria-labelledby="security-heading" id="security" style="margin-top:28px">
         <h3 id="security-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Security</h3>
-        <div class="faq-grid" style="display:grid; gap:10px">
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+        <div class="faq-grid" style="display:grid; gap:20px">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How is my data protected?</summary>
             <div class="svc-note" style="margin-top:8px">
               We employ industry-standard encryption, PCI DSS-compliant processes, and regular security audits to protect your data.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">Where can I find security documents?</summary>
             <div class="svc-note" style="margin-top:8px">
               See our Compliance & Security page for policies, certifications, and incident response information.
@@ -196,14 +173,14 @@
       <!-- Support -->
       <section aria-labelledby="support-heading" id="support" style="margin-top:28px; margin-bottom:40px">
         <h3 id="support-heading" style="margin:6px 0 8px; font-size: clamp(22px, 2.6vw, 28px)">Support</h3>
-        <div class="faq-grid" style="display:grid; gap:10px">
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+        <div class="faq-grid" style="display:grid; gap:20px">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">How do I contact support?</summary>
             <div class="svc-note" style="margin-top:8px">
               You can reach us via the Support Center, live chat, or email. Response times vary by plan and demand.
             </div>
           </details>
-          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:12px; background:#fff">
+          <details class="faq-item" style="border:1px solid #e5e7eb; border-radius:12px; padding:20px; background:#fff">
             <summary style="cursor:pointer; font-weight:700; color:#111827">Where can I find the Service Level Agreement (SLA)?</summary>
             <div class="svc-note" style="margin-top:8px">
               The SLA is available on our website under the Terms and Conditions section. If you have specific questions, please reach out to support.
